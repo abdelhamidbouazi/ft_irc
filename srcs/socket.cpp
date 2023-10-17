@@ -9,8 +9,8 @@ HDE::SocketHde::SocketHde(int domain, int service, int protocol, int port, unsig
 	sock = socket(domain, service, protocol);
 	test_connection(sock);
 
-	connection = connect_network(sock, address);
-	test_connection(connection);
+	// connection = connect_network(sock, address);
+	// test_connection(connection);
 }
 
 void HDE::SocketHde::test_connection(int item_to_test)
@@ -35,4 +35,9 @@ int HDE::SocketHde::get_sock()
 int HDE::SocketHde::get_connection()
 {
 	return connection;
+}
+
+void HDE::SocketHde::set_connection(int connection)
+{
+	this->connection = connection;
 }
