@@ -1,5 +1,5 @@
-#include "BindignSocket.hpp"
- 
+#include "../includes/BindingSocket.hpp"
+#include "../includes/socket.hpp" 
 
 int HDE::BindingSocket::connect_to_network(int sock, struct sockaddr_in address)
 {
@@ -14,3 +14,7 @@ HDE::BindingSocket::BindingSocket(int domain, int service, int protocol, int por
     // test_connection(connection);
 }
 
+HDE::BindingSocket::~BindingSocket()
+{
+    // close(get_sock());
+}
