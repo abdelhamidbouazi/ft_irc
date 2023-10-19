@@ -8,13 +8,14 @@
 # include <arpa/inet.h>
 # include <unistd.h>
 
-#include "../includes/socket.hpp"
+#include "socket.hpp"
 #include "BindingSocket.hpp"
 
 
-namespace HDE {
-
-    class ConnectingSocket {
+namespace HDE 
+{
+    class ConnectingSocket : public SocketHde 
+    {
         public:
             ConnectingSocket(int domain, int service, int protocol, int port, u_long interface);
             int connect_to_network(int sock, struct sockaddr_in address);
