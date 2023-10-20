@@ -2,18 +2,17 @@ NAME = ircserv
 
 CC = c++
 
-Header =  includes/socket.hpp
- 
+Header =  includes/Args.hpp
+
 VERSION = -std=c++98  -Wall -Wextra -Werror
 
-SRC =	srcs/main.cpp \
-		srcs/socket.cpp \
+SRC =	srcs/main.cpp srcs/Args.cpp
 
-OBJECTS = $(SRC:.cpp=.opp)
+OBJECTS = $(SRC:.cpp=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJECTS) 
+$(NAME): $(OBJECTS)
 	$(CC) $(VERSION) $(OBJECTS) -o $(NAME)
 
 %.opp : %.cpp $(Header)
