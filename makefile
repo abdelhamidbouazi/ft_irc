@@ -11,8 +11,8 @@ Header =	./includes/socket.hpp \
 		# ./includes/hdelibc-socket.hpp \
 		# ./includes/hdelibc-networking.hpp \
 
-# VERSION = -std=c++98 -Wall -Wextra -Werror
-VERSION = -std=c++98 
+VERSION = -std=c++98 -Wall -Wextra -Werror
+# VERSION = -std=c++98 
 
 SRC =	./srcs/main.cpp \
 		./srcs/socket.cpp \

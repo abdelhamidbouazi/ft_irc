@@ -1,6 +1,6 @@
 #include "../includes/TestServer.hpp"
 
-HDE::TestServer::TestServer() : SimpleServer(AF_INET, SOCK_STREAM, 0, 80, INADDR_ANY, 10)
+HDE::TestServer::TestServer() : SimpleServer(AF_INET, SOCK_STREAM, 0, 90, INADDR_ANY, 10)
 {
     std::cout << "Starting server..." << std::endl;
    launch();
@@ -34,6 +34,6 @@ void HDE::TestServer::launch()
         accepter();
         handler();
         responder();
-        std::cout << "====== Done =======" << std::endl;
+        std::cout << "====== Done =======" << std::endl <<std::endl;
     }
 }
