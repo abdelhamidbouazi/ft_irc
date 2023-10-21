@@ -1,19 +1,6 @@
 #ifndef SOCKET_HPP
 #define SOCKET_HPP
 
-// #include <sys/socket.h>
-// #include <iostream>
-// #include <netinet/in.h>
-// #include <stdio.h>
-// #include <stdlib.h>
-// #include <sys/ioctl.h>
-// #include <sys/poll.h>
-// #include <sys/time.h>
-// #include <netinet/in.h>
-// #include <errno.h>
-
-
-
 #include <string>
 #include <string.h>
 #include <cstring>
@@ -46,11 +33,18 @@ namespace HDE
 			int sock;
 			int connection;
 			struct sockaddr_in address;
+			struct pollfd fds[200];
+			int timeout;
+			int rc;
+			int on;
+			int end_server;
+			int nfds;
 		public:
 			SocketHde(int domain, int service, int protocol, int port, unsigned long interface);
 			virtual int connect_network( int sock, struct sockaddr_in address) = 0;
 			void test_connection(int item_to_test);
 			void test_connection_for_setsockopt(int item_to_test);
+			void start_polling();
 			struct sockaddr_in get_address();
 			int get_sock();
 			int get_connection();
