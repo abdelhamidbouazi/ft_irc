@@ -3,7 +3,7 @@
 HDE::TestServer::TestServer() : SimpleServer(AF_INET, SOCK_STREAM, 0, 90, INADDR_ANY, 10)
 {
     std::cout << "Starting server..." << std::endl;
-   launch();
+    launch();
 }
 
 void HDE::TestServer::accepter()
@@ -21,8 +21,8 @@ void HDE::TestServer::handler()
 
 void HDE::TestServer::responder()
 {
-    char hello[] = "Hello from server";
-    send(new_socket, hello, strlen(hello), 0);
+    char str[] = "Hello from server";
+    send(new_socket, str, strlen(str), 0);
     close(new_socket);
 }
 
