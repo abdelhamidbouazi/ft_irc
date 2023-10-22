@@ -6,6 +6,17 @@
 #include <sstream>
 #include<string>
 
+
+#include <cstdlib>
+#include <cstring>
+#include <cerrno>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+
+int Server(int Port, std::string Password);
+
 class Args
 {
 	private:

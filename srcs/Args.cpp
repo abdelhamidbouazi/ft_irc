@@ -12,7 +12,6 @@ Args::Args(std::string port, std::string password)
 	if (portValue < 0 || portValue > 65535)
 		throw std::out_of_range("Invalid Port");
 	this->Port = portValue;
-	std::cout << this->Port;
 	if (password.length() < 8)
 		throw std::length_error("Password length error");
 	else

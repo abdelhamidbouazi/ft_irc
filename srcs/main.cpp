@@ -8,6 +8,8 @@ int main(int ac, char **av){
 	}
 	try {
 		Args	a(av[1], av[2]);
+
+		Server(a.getPort(), a.getPassword());
 	}
 	catch (std::exception &e) {
 		std::cout << "Error: " << e.what() << std::endl;
