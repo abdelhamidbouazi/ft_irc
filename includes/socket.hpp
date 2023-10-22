@@ -39,6 +39,7 @@ namespace HDE
 			int on;
 			int end_server;
 			int nfds;
+			std::string localhost;
 		public:
 			SocketHde(int domain, int service, int protocol, int port, unsigned long interface);
 			virtual int connect_network( int sock, struct sockaddr_in address) = 0;
@@ -49,6 +50,8 @@ namespace HDE
 			int get_sock();
 			int get_connection();
 			void set_connection(int connection);
+			std::string ClientIp(int sock);
+			std::string getHostAdresse();
 	};
 }
 

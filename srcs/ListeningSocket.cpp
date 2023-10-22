@@ -10,6 +10,8 @@ HDE::ListeningSocket::ListeningSocket(int domain, int service, int protocol, int
     // }
     // std::cout << "Listening on port " << port << std::endl;
     start_listening();
+    start_polling();
+
     // std::cout << "Listening socket 3" << std::endl;
     test_connection(listening);
 }
