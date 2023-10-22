@@ -38,7 +38,6 @@ int CheckPASS(std::string message, Client	&c, std::string Pass){
 			Replies::WRONGPASSWORD(c);
 			return 0;
 		}
-
 		return 1;
 	}
 	return 0;
