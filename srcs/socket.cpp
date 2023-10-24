@@ -98,6 +98,96 @@ void HDE::SocketHde::start_polling()
 	}
 }
 
+void HDE::SocketHde::start_polling()
+{
+	memset (fds, 0 , sizeof(fds));
+	fds[0].fd = sock;
+	fds[0].events = POLLIN | POLLOUT;
+	fds[0].revents = 0;
+	timeout = (3 * 60 * 1000);
+	end_server = false;
+	nfds = 1;
+	int current_size = 0;
+	int close_conn, len;
+	char buffer[80];
+	int compress_array = false;
+	int new_sd = -1;
+
+	while(!end_server)
+	{
+		std::cout << "Waiting for poll() ..." << std::endl;
+		rc = poll(&fds[0], nfds, -1);
+
+		if(rc == -1)
+		{
+			perror("  poll() failed");
+			close(sock);
+			break;
+		}
+		for(int i = 0; i < current_size; i++)
+		{
+			if(fds[i].revents & POLLIN)
+			{
+				if(fds[i].fd == sock)
+				{
+					struct sockaddr_in clientAddress;
+					socklen_t addrLen = sizeof(clientAddress);
+					new_sd = accept(sock, (struct sockaddr*)&clientAddress, &addrLen);
+					if(new_sd == -1)
+					{
+						perror("  accept() failed");
+						exit(EXIT_FAILURE);
+					}
+				}
+				else
+				{
+					std::memset(&buffer, 0, sizeof(buffer));
+					int bytes = recv(fds[i].fd, buffer, sizeof(buffer), 0);
+					if(bytes == -1)
+					{
+						perror("  recv() failed");
+					}
+					else if(bytes == 0)
+					{
+						close_conn = true;
+						close(fds[i].fd);
+						std::cout << "  Connection closed" << std::endl;
+					}
+					else
+					{
+						
+					}	
+				}
+				
+			}
+		}
+		if(compress_array)
+		{
+			compress_array = false;
+			for(int i = 0; i < nfds; i++)
+			{
+				if(fds[i].fd == -1)
+				{
+					for(int j = i; j < nfds; j++)
+					{
+						fds[j].fd = fds[j+1].fd;
+					}
+					i--;
+					nfds--;
+				}
+			}
+		}
+
+	}
+
+
+	for(int i = 0; i < nfds; i++)
+	{
+		if(fds[i].fd >= 0)
+			close(fds[i].fd);
+	}
+}
+
 
 
 void HDE::SocketHde::test_connection(int item_to_test)
@@ -118,6 +208,40 @@ void HDE::SocketHde::test_connection_for_setsockopt(int item_to_test)
 		exit(EXIT_FAILURE);
 	}
 }
+
+std::string HDE::SocketHde::getHostAdresse(){
+	std::system( "ifconfig | grep 'inet ' | awk 'NR==2 {print $2}' > .log" );
+	std::stringstream ss;
+	ss << std::ifstream( ".log" ).rdbuf();
+	std::system( "rm -f .log" );
+	return (ss.str().substr( 0, ss.str().find( '\n' ) ));
+}
+
+
+std::string HDE::SocketHde::ClientIp(int socket) {
+	char buffer[INET_ADDRSTRLEN];
+	struct sockaddr_in clientAddress;
+	socklen_t addrLen = sizeof(clientAddress);
+
+	if (socket >= 0 && getpeername(socket, (struct sockaddr*)&clientAddress, &addrLen) == 0) {
+		if (inet_ntop(AF_INET, &clientAddress.sin_addr, buffer, INET_ADDRSTRLEN)) {
+			this->localhost = buffer;
+			if (this->localhost == "127.0.0.1")
+				this->localhost = getHostAdresse();
+			return localhost;
+		}
+		else {
+			perror("inet_ntop() failed");
+			return NULL;
+		}
+	}
+	else {
+		perror("getpeername() failed");
+		return NULL;
+	}
+	return NULL;
+}
+
 
 struct sockaddr_in HDE::SocketHde::get_address()
 {
