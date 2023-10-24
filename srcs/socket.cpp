@@ -46,115 +46,48 @@ void HDE::SocketHde::start_polling()
 		std::cout << "Waiting for poll() ..." << std::endl;
 		rc = poll(&fds[0], nfds, -1);
 
-		if(rc < 0)
+		if(rc == -1)
 		{
 			perror("  poll() failed");
+			close(sock);
 			break;
 		}
-		else if(rc == 0)
-		{
-			perror("  poll() timed out.  End program.");
-			break;
-		}
-		else if(fds[0].revents == POLLIN)
-		{
-			new_sd = accept(sock, NULL, NULL);
-			if(new_sd < 0)
-			{
-				if(errno != EWOULDBLOCK)
-				{
-					perror("  accept() failed");
-					end_server = true;
-				}
-				break;
-			}
-			std::string clientip = ClientIp(new_sd);
-			std::cout << " New incoming connection - " << new_sd << " from " << clientip << std::endl;
-
-			// set the client class here
-			fds[nfds].fd = new_sd;
-			fds[nfds].events = POLLIN ;
-			nfds++;
-		}
-		current_size = nfds;
 		for(int i = 0; i < current_size; i++)
 		{
-			if(fds[i].revents == 0)
-				continue;
-			if (fds[i].revents != POLLIN)
+			if(fds[i].revents & POLLIN)
 			{
-				perror("  Error! revents = ");
-				end_server = true;
-				break;
-			}
-			if(fds[i].fd == sock)
-			{
-				// std::cout << " Listening socket is readable" << std::endl;
-				// do
-				// {
-				// 	connection = accept(sock, NULL, NULL);
-				// 	if(connection < 0)
-				// 	{
-				// 		if(errno != EWOULDBLOCK)
-				// 		{
-				// 			perror("  accept() failed");
-				// 			end_server = true;
-				// 		}
-				// 		break;
-				// 	}
-				// 	std::cout << " New incoming connection - " << connection << std::endl;
-				// 	fds[nfds].fd = connection;
-				// 	fds[nfds].events = POLLIN;
-				// 	nfds++;
-				// }while(connection != -1);
-			}
-			else
-			{
-				close_conn = false;
-				// std::cout << " Descriptor " << fds[i].fd << " is readable" << std::endl;
-
-				while(true)
+				if(fds[i].fd == sock)
 				{
-					rc = recv(fds[i].fd, buffer, sizeof(buffer), 0);
-					if(rc == -1)
+					struct sockaddr_in clientAddress;
+					socklen_t addrLen = sizeof(clientAddress);
+					new_sd = accept(sock, (struct sockaddr*)&clientAddress, &addrLen);
+					if(new_sd == -1)
 					{
-						if(errno != EWOULDBLOCK)
-						{
-							perror("  recv() failed");
-							close_conn = true;
-						}
-						break;
+						perror("  accept() failed");
+						exit(EXIT_FAILURE);
 					}
-					if(rc == 0)
+				}
+				else
+				{
+					std::memset(&buffer, 0, sizeof(buffer));
+					int bytes = recv(fds[i].fd, buffer, sizeof(buffer), 0);
+					if(bytes == -1)
 					{
-						std::cout << "  Connection closed" << std::endl;
+						perror("  recv() failed");
+					}
+					else if(bytes == 0)
+					{
 						close_conn = true;
 						close(fds[i].fd);
-						break;
+						std::cout << "  Connection closed" << std::endl;
 					}
 					else
 					{
-						std::cout<< "buffer " << buffer <<std::endl;
-					}
-					// len = rc;
-					// std::cout << "  " << len << " bytes received" << std::endl;
-					// rc = send(fds[i].fd, buffer, len, 0);
-					// if(rc < 0)
-					// {
-					// 	perror("  send() failed");
-					// 	close_conn = true;
-					// 	break;
-					// }
+						
+					}	
 				}
-
-				if(close_conn)
-				{
-					close(fds[i].fd);
-					fds[i].fd = -1;
-					compress_array = true;
-				}
+				
 			}
-			
 		}
 		if(compress_array)
 		{
