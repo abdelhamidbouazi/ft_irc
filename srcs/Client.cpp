@@ -4,6 +4,7 @@
 std::vector<std::string> Client::users;
 std::vector<std::string> Client::nicknames;
 
+
 Client::Client(int clientId)
 {
 	isIn = false;

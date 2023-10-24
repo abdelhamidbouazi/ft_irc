@@ -1,6 +1,7 @@
 #include "../includes/Replies.hpp"
 #include "../includes/Replies.hpp"
 
+
 std::string getHostName()
 {
     char hostname[256]; // Assuming the hostname won't be longer than 255 characters
