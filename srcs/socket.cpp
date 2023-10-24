@@ -111,12 +111,12 @@ void HDE::SocketHde::start_polling()
 			else
 			{
 				close_conn = false;
-				std::cout << " Descriptor " << fds[i].fd << " is readable" << std::endl;
+				// std::cout << " Descriptor " << fds[i].fd << " is readable" << std::endl;
 
-				do
+				while(true)
 				{
 					rc = recv(fds[i].fd, buffer, sizeof(buffer), 0);
-					if(rc < 0)
+					if(rc == -1)
 					{
 						if(errno != EWOULDBLOCK)
 						{
@@ -129,18 +129,23 @@ void HDE::SocketHde::start_polling()
 					{
 						std::cout << "  Connection closed" << std::endl;
 						close_conn = true;
+						close(fds[i].fd);
 						break;
 					}
-					len = rc;
-					std::cout << "  " << len << " bytes received" << std::endl;
-					rc = send(fds[i].fd, buffer, len, 0);
-					if(rc < 0)
+					else
 					{
-						perror("  send() failed");
-						close_conn = true;
-						break;
+						std::cout<< "buffer " << buffer <<std::endl;
 					}
-				}while(true);
+					// len = rc;
+					// std::cout << "  " << len << " bytes received" << std::endl;
+					// rc = send(fds[i].fd, buffer, len, 0);
+					// if(rc < 0)
+					// {
+					// 	perror("  send() failed");
+					// 	close_conn = true;
+					// 	break;
+					// }
+				}
 
 				if(close_conn)
 				{
