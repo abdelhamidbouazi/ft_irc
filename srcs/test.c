@@ -56,8 +56,7 @@ int main (int argc, char *argv[])
   {
     perror("socket() failed");
     exit(-1);
-  }
-
+  
   rc = setsockopt(listen_sd, SOL_SOCKET,  SO_REUSEADDR,
                   (char *)&on, sizeof(on));
   if (rc < 0)
