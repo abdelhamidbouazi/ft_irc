@@ -77,6 +77,7 @@ void HDE::SocketHde::start_polling()
 		else
 		{
 			current_size = nfds;
+			Commande obj;
 			for(int i = 0; i < current_size; i++)
 			{
 				if(fds[i].revents & POLLIN )
@@ -102,7 +103,9 @@ void HDE::SocketHde::start_polling()
 					}
 					else
 					{
-						std::cout << "receiv data " << buffer <<std::endl;
+						std::cout << "receiv data ==== " << buffer;
+						std::string msg(buffer);
+						obj.start_parssing(msg);
 					}
 					
 				}

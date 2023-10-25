@@ -1,8 +1,12 @@
 #include "../includes/Commande.hpp"
 
 
-void HDE::Commande::start_parssing(std::string& msg)
+HDE::Commande::Commande()
+{
+}
 
+
+void HDE::Commande::start_parssing(std::string& msg)
 {
 	std::string dl = " " ;
 	size_t pos = msg.find(dl);
@@ -11,9 +15,16 @@ void HDE::Commande::start_parssing(std::string& msg)
 	{
 		std::string cmd = msg.substr(0, pos);
 		std::transform(cmd.begin(), cmd.end(), cmd.begin(), ::toupper);
-		msg.erase(0, pos + dl.length());
-		if(cmd == "PASS" || cmd == "NICK")
-			request.push_back(msg.substr(0, msg.length()));
+		// msg.erase(0, pos + dl.length());
+		// if(cmd == "PASS" || cmd == "NICK")
+			// request.push_back(msg.substr(0, msg.length()));
+
+		request.push_back(msg.substr(0, pos));
+		request.push_back(msg.substr(pos + 1, msg.length()));
+		
+		// std::cout << msg.substr(0, msg.length()) << std::endl;
+		for (int i = 0; i< request.size(); i++)
+			std::cout << "request[" << i << "] ===> "<< request[i] << std::endl;
 		// else if(cmd == "USER" || cmd == "PRIVMSG"
 		// 	|| cmd == "TOPIC" || cmd == "PART"
 		// 	|| cmd == "QUIT" || cmd == "NOTICE"
@@ -36,4 +47,6 @@ void HDE::Commande::start_parssing(std::string& msg)
 		// this->cmd = msg;
 		std::transform(msg.begin(), msg.end(), msg.begin(), ::toupper);
 	}
+
+
 }

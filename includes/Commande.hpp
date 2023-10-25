@@ -2,6 +2,8 @@
 #define COMMANDE_HPP
 
 #include "socket.hpp"
+#include <vector>
+
 
 namespace HDE
 {
@@ -12,7 +14,6 @@ namespace HDE
             
         public:
             Commande();
-            ~Commande();
             void	start_parssing(std::string& msg);
     };
 }
