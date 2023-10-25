@@ -104,7 +104,6 @@ int main (int argc, char *argv[])
   {
     printf("Waiting on poll()...\n");
     rc = poll(fds, nfds, timeout);
-    printf("11111111\n");
     if (rc < 0)
     {
       perror("  poll() failed");
