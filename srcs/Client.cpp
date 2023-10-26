@@ -50,7 +50,7 @@ std::vector<std::string> Client::getUsers()
 }
 std::vector<std::string> Client::getAllUsers()
 {
-	for (int i = 0; i < users.size(); i++){
+	for (size_t i = 0; i < users.size(); i++){
 		std::cout << users[i] << " " << std::endl;
 	}
 	return this->users;

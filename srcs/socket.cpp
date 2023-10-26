@@ -28,8 +28,7 @@ HDE::SocketHde::SocketHde(int domain, int service, int protocol, int port, unsig
 
 }
 
-	start_polling();
-}
+	// start_polling();
 
 // void HDE::SocketHde::start_polling()
 // {
@@ -95,7 +94,7 @@ HDE::SocketHde::SocketHde(int domain, int service, int protocol, int port, unsig
 // 				fds[i].fd = -1;
 // 				end_server = true;
 // 			}
-			
+
 // 		}
 
 
@@ -187,15 +186,15 @@ void HDE::SocketHde::start_polling()
 
 						std::cout << "receiv data ==== " << buffer;
 						std::string msg(buffer);
-						obj.start_parssing(msg);
-					
-					
-						size_t pos = buffer.find_first_of("\r\n");
+						// obj.start_parssing(msg);
 
-						
-					}	
+
+						// size_t pos = buffer.find_first_of("\r\n");
+
+
+					}
 				}
-				
+
 			}
 		}
 		if(compress_array)
@@ -215,8 +214,7 @@ void HDE::SocketHde::start_polling()
 			}
 		}
 
-		
-	}
+
 	}
 }
 
