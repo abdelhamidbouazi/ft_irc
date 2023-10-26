@@ -3,7 +3,6 @@
 
 #include "Client.hpp"
 
-
 class Replies
 {
 	public:
