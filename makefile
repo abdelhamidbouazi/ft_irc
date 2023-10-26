@@ -2,6 +2,14 @@ NAME = ircserv
 
 CC = c++
 
+<<<<<<< HEAD
+Header =  includes/Args.hpp includes/Client.hpp includes/Replies.hpp
+
+VERSION = -std=c++98  -Wall -Wextra -Werror
+
+SRC =	srcs/main2.cpp srcs/Args.cpp srcs/Server.cpp srcs/Client.cpp srcs/Auth.cpp \
+			srcs/Replies.cpp
+=======
 Header =	./includes/socket.hpp \
 		./includes/connectingSocket.hpp \
 		./includes/BindingSocket.hpp \
@@ -25,6 +33,7 @@ SRC =	./srcs/main.cpp \
 		./srcs/Commande.cpp \
 		# ./src/hdelibc-socket.cpp \
 		# ./src/hdelibc-networking.cpp \
+>>>>>>> 95cc382a4f98bfe5f2635eca99a1b30a3a4cbd5d
 
 OBJECTS = $(SRC:.cpp=.o)
 
