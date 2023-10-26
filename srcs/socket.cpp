@@ -106,13 +106,14 @@ void HDE::SocketHde::start_polling()
 						std::cout << "receiv data ==== " << buffer;
 						std::string msg(buffer);
 						obj.start_parssing(msg);
-					}
+					
 					
 				}
 			}
 		}
 
 		
+	}
 	}
 }
 
@@ -121,7 +122,7 @@ void HDE::SocketHde::test_connection(int item_to_test)
 {
 	if(item_to_test < 0)
 	{
-		perror("Failled to connect...");
+		perror("Failed to connect...");
 		exit(EXIT_FAILURE);
 	}
 }

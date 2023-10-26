@@ -14,7 +14,7 @@ namespace HDE
             
         public:
             Commande();
-            void	start_parssing(std::string& msg);
+            void	start_parssing(std::string& msg, int i);
     };
 }
 
