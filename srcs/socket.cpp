@@ -1,4 +1,5 @@
 #include "../includes/socket.hpp"
+#include "../includes/Commande.hpp"
 #include <string.h>
 #include <stdio.h>
 
@@ -24,6 +25,9 @@ HDE::SocketHde::SocketHde(int domain, int service, int protocol, int port, unsig
 		close(sock);
 		exit(EXIT_FAILURE);
 	}
+
+}
+
 	start_polling();
 }
 
@@ -109,53 +113,83 @@ void HDE::SocketHde::start_polling()
 	nfds = 1;
 	int current_size = 0;
 	int close_conn, len;
-	char buffer[80];
+	char buffer[800];
 	int compress_array = false;
 	int new_sd = -1;
 
 	while(!end_server)
 	{
-		std::cout << "Waiting for poll() ..." << std::endl;
-		rc = poll(&fds[0], nfds, -1);
+		rc = poll(fds, nfds, -1);
 
-		if(rc == -1)
+		if(rc < 0)
 		{
 			perror("  poll() failed");
 			close(sock);
 			break;
 		}
-		for(int i = 0; i < current_size; i++)
+		if(fds[0].revents & POLLIN)
 		{
-			if(fds[i].revents & POLLIN)
+			std::cout << " Listening socket is readable" << std::endl;
+
+			connection = accept(sock, NULL, NULL);
+			if(connection < 0)
 			{
-				if(fds[i].fd == sock)
+				if(errno != EWOULDBLOCK)
 				{
-					struct sockaddr_in clientAddress;
-					socklen_t addrLen = sizeof(clientAddress);
-					new_sd = accept(sock, (struct sockaddr*)&clientAddress, &addrLen);
-					if(new_sd == -1)
-					{
-						perror("  accept() failed");
-						exit(EXIT_FAILURE);
-					}
+					perror("  accept() failed");
+					end_server = true;
 				}
-				else
+				break;
+			}
+			else
+			{
+				std::cout << " New incoming connection - " << connection << std::endl;
+				fds[nfds].fd = connection;
+				fds[nfds].events = POLLIN;
+				nfds++;
+			}
+		}
+		else
+		{
+			current_size = nfds;
+			Commande obj;
+			for(int i = 0; i < current_size; i++)
+			{
+				if(fds[i].revents & POLLIN )
 				{
+
+					memset(buffer, 0, sizeof(buffer));
+					rc = recv(fds[i].fd, buffer, sizeof(buffer), 0);
+					if(rc == -1)
+
 					std::string message(buffer);
 					std::memset(&buffer, 0, sizeof(buffer));
 					int bytes = recv(fds[i].fd, buffer, sizeof(buffer), 0);
 					if(bytes == -1)
 					{
-						perror("  recv() failed");
+						if(errno != EWOULDBLOCK)
+						{
+							perror("  recv() failed");
+							close_conn = true;
+							close(fds[i].fd);
+						}
+						break;
 					}
-					else if(bytes == 0)
+					if(rc == 0)
 					{
+						std::cout << "  Connection closed" << std::endl;
 						close_conn = true;
 						close(fds[i].fd);
-						std::cout << "  Connection closed" << std::endl;
+						break;
 					}
 					else
 					{
+
+						std::cout << "receiv data ==== " << buffer;
+						std::string msg(buffer);
+						obj.start_parssing(msg);
+					
+					
 						size_t pos = buffer.find_first_of("\r\n");
 
 						
@@ -181,23 +215,17 @@ void HDE::SocketHde::start_polling()
 			}
 		}
 
+		
 	}
-
-
-	for(int i = 0; i < nfds; i++)
-	{
-		if(fds[i].fd >= 0)
-			close(fds[i].fd);
 	}
 }
-
 
 
 void HDE::SocketHde::test_connection(int item_to_test)
 {
 	if(item_to_test < 0)
 	{
-		perror("Failled to connect...");
+		perror("Failed to connect...");
 		exit(EXIT_FAILURE);
 	}
 }

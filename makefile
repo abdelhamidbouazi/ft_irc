@@ -8,6 +8,7 @@ Header =	./includes/socket.hpp \
 		./includes/ListeningSocket.hpp \
 		./includes/TestServer.hpp \
 		./includes/SimpleServer.hpp \
+		./includes/Commande.hpp \
 		# ./includes/hdelibc-socket.hpp \
 		# ./includes/hdelibc-networking.hpp \
 
@@ -21,6 +22,7 @@ SRC =	./srcs/main.cpp \
 		./srcs/ListeningSocket.cpp \
 		./srcs/TestServer.cpp \
 		./srcs/SimpleServer.cpp \
+		./srcs/Commande.cpp \
 		# ./src/hdelibc-socket.cpp \
 		# ./src/hdelibc-networking.cpp \
 

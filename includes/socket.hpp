@@ -25,6 +25,8 @@
 #include <chrono>
 #include <vector>
 
+#include "../includes/Commande.hpp"
+
 namespace HDE 
 {
 	class SocketHde 
