@@ -28,80 +28,6 @@ HDE::SocketHde::SocketHde(int domain, int service, int protocol, int port, unsig
 
 }
 
-	start_polling();
-}
-
-// void HDE::SocketHde::start_polling()
-// {
-// 	memset (fds, 0 , sizeof(fds));
-// 	fds[0].fd = sock;
-// 	fds[0].events = POLLIN;
-// 	timeout = (3 * 60 * 1000);
-// 	end_server = false;
-// 	nfds = 1;
-// 	int current_size = 0;
-
-// 	while(end_server == false)
-// 	{
-// 		std::cout << "Waiting for poll() ..." << std::endl;
-// 		rc = poll(fds, nfds, timeout);
-
-// 		if(rc < 0)
-// 		{
-// 			perror("  poll() failed");
-// 			break;
-// 		}
-// 		else if(rc == 0)
-// 		{
-// 			perror("  poll() timed out.  End program.");
-// 			break;
-// 		}
-// 		current_size = nfds;
-// 		for(int i = 0; i < current_size; i++)
-// 		{
-// 			if(fds[i].revents == 0)
-// 				continue;
-// 			if (fds[i].revents != POLLIN)
-// 			{
-// 				// perror("  Error! revents = " , fds[i].revents);
-// 				end_server = true;
-// 				break;
-// 			}
-// 			if(fds[i].fd == sock)
-// 			{
-// 				std::cout << " Listening socket is readable" << std::endl;
-// 				do
-// 				{
-// 					connection = accept(sock, NULL, NULL);
-// 					if(connection < 0)
-// 					{
-// 						if(errno != EWOULDBLOCK)
-// 						{
-// 							perror("  accept() failed");
-// 							end_server = true;
-// 						}
-// 						break;
-// 					}
-// 					std::cout << " New incoming connection - " << connection << std::endl;
-// 					fds[nfds].fd = connection;
-// 					fds[nfds].events = POLLIN;
-// 					nfds++;
-// 				}while(connection != -1);
-// 			}
-// 			else
-// 			{
-// 				std::cout << " Descriptor " << fds[i].fd << " is readable" << std::endl;
-// 				close(fds[i].fd);
-// 				fds[i].fd = -1;
-// 				end_server = true;
-// 			}
-			
-// 		}
-
-
-// 	}
-// }
-
 void HDE::SocketHde::start_polling()
 {
 	memset (fds, 0 , sizeof(fds));
@@ -157,15 +83,9 @@ void HDE::SocketHde::start_polling()
 			{
 				if(fds[i].revents & POLLIN )
 				{
-
 					memset(buffer, 0, sizeof(buffer));
 					rc = recv(fds[i].fd, buffer, sizeof(buffer), 0);
 					if(rc == -1)
-
-					std::string message(buffer);
-					std::memset(&buffer, 0, sizeof(buffer));
-					int bytes = recv(fds[i].fd, buffer, sizeof(buffer), 0);
-					if(bytes == -1)
 					{
 						if(errno != EWOULDBLOCK)
 						{
@@ -184,39 +104,16 @@ void HDE::SocketHde::start_polling()
 					}
 					else
 					{
-
 						std::cout << "receiv data ==== " << buffer;
 						std::string msg(buffer);
-						obj.start_parssing(msg);
-					
-					
-						size_t pos = buffer.find_first_of("\r\n");
-
-						
-					}	
-				}
-				
-			}
-		}
-		if(compress_array)
-		{
-			compress_array = false;
-			for(int i = 0; i < nfds; i++)
-			{
-				if(fds[i].fd == -1)
-				{
-					for(int j = i; j < nfds; j++)
-					{
-						fds[j].fd = fds[j+1].fd;
+						obj.start_parssing(msg,i);
 					}
-					i--;
-					nfds--;
+					
 				}
 			}
 		}
 
 		
-	}
 	}
 }
 

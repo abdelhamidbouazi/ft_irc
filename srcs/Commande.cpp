@@ -66,7 +66,7 @@ void HDE::Commande::start_parssing(std::string& msg, int i)
 			request.push_back(msg.substr(pos + 1, msg.length()));
 		}
 
-		else if(cmd == )
+		// else if(cmd == )
 		for (int i = 0; i< request.size(); i++)
 			std::cout << "request[" << i << "] ===> "<< request[i] << std::endl;
 		// else if(cmd == "USER" || cmd == "PRIVMSG"
@@ -98,50 +98,50 @@ void HDE::Commande::start_parssing(std::string& msg, int i)
 
 
 
-void server::parseDataAndRespond(size_t pos) {
-    std::vector<std::string>    cmdVec;
-    std::string                 msg(_buff);
-    size_t                      msgEnd;
-    char                        str[512];
+// void server::parseDataAndRespond(size_t pos) {
+//     std::vector<std::string>    cmdVec;
+//     std::string                 msg(_buff);
+//     size_t                      msgEnd;
+//     char                        str[512];
 
-    std::string     str1;
-    std::string     cm;
+//     std::string     str1;
+//     std::string     cm;
 
-    msgEnd = msg.find_first_of("\r\n");
-    if (msgEnd == std::string::npos)
-        _connectedClients.at(_fdsVec.at(pos).fd).clientBuff += msg;
-    else {
-        _connectedClients.at(_fdsVec.at(pos).fd).clientBuff += msg.substr(0, msgEnd);
-        std::strcpy(str, _connectedClients.at(_fdsVec.at(pos).fd).clientBuff.c_str());
+//     msgEnd = msg.find_first_of("\r\n");
+//     if (msgEnd == std::string::npos)
+//         _connectedClients.at(_fdsVec.at(pos).fd).clientBuff += msg;
+//     else {
+//         _connectedClients.at(_fdsVec.at(pos).fd).clientBuff += msg.substr(0, msgEnd);
+//         std::strcpy(str, _connectedClients.at(_fdsVec.at(pos).fd).clientBuff.c_str());
 
-        str1 = _connectedClients.at(_fdsVec.at(pos).fd).clientBuff;
+//         str1 = _connectedClients.at(_fdsVec.at(pos).fd).clientBuff;
 
-        int i = 0;
-        int j = 0;
-        while (i < (int)str1.size())
-        {
-            if (str1[i] == ' ')
-                i++;
-            if (str1[i] == ':')
-            {
-                j = 0;
-                i++;
-                while (str1[i] && j < (int)str1.size())
-                    str[j++] = str1[i++];
-                str[j] = '\0';
-                cmdVec.push_back(str);
-                break;
-            }
-            j = 0;
-            while (str1[i] && (str1[i] != ' '))
-                str[j++] = str1[i++];
-            str[j] = '\0';
-            cmdVec.push_back(str);
-            i++;
-        }
-        if (!cmdVec.empty())
-            std::transform(cmdVec[0].begin(), cmdVec[0].end(), cmdVec[0].begin(), ::tolower);
-        _connectedClients.at(_fdsVec.at(pos).fd).clientBuff.clear();
-        respondToClient(cmdVec, _connectedClients.find(_fdsVec.at(pos).fd));
-    }
-}
+//         int i = 0;
+//         int j = 0;
+//         while (i < (int)str1.size())
+//         {
+//             if (str1[i] == ' ')
+//                 i++;
+//             if (str1[i] == ':')
+//             {
+//                 j = 0;
+//                 i++;
+//                 while (str1[i] && j < (int)str1.size())
+//                     str[j++] = str1[i++];
+//                 str[j] = '\0';
+//                 cmdVec.push_back(str);
+//                 break;
+//             }
+//             j = 0;
+//             while (str1[i] && (str1[i] != ' '))
+//                 str[j++] = str1[i++];
+//             str[j] = '\0';
+//             cmdVec.push_back(str);
+//             i++;
+//         }
+//         if (!cmdVec.empty())
+//             std::transform(cmdVec[0].begin(), cmdVec[0].end(), cmdVec[0].begin(), ::tolower);
+//         _connectedClients.at(_fdsVec.at(pos).fd).clientBuff.clear();
+//         respondToClient(cmdVec, _connectedClients.find(_fdsVec.at(pos).fd));
+//     }
+// }
