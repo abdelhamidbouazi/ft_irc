@@ -19,6 +19,9 @@ class Client
 		static std::vector<std::string> users;
 		static std::vector<std::string> nicknames;
 
+		// i add this 
+		std::string commande_str;
+
 	public:
 		Client(int clientId);
 		~Client();
@@ -33,6 +36,10 @@ class Client
 		int getClientId();
 		int getCounter();
 
+		// i add this
+		std::string getCommande_str();
+		void setCommande_str(std::string commande_str);
+
 		void setIsIn(bool isIn);
 		void setIsSignedIn(bool isSignedIn);
 		void setNickname(std::string nickname);
@@ -40,6 +47,7 @@ class Client
 		void addUser(std::string username, Client &c);
 		void setClientId(int clientId);
 		void incrementCounter();
+
 };
 
 // Define the static vector of strings outside the class definition

@@ -2,7 +2,7 @@
 #define COMMANDE_HPP
 
 #include "socket.hpp"
-#include <vector>
+#include "Client.hpp"
 
 
 namespace HDE
@@ -11,13 +11,15 @@ namespace HDE
     {
         private:
             std::vector<std::string> request;
+            std::string cmd;
             
         public:
             Commande();
-            void	start_parssing(std::string& msg, int i);
+            void	start_parssing(std::string& msg);
             void	join_strings_after_colon(std::vector<std::string>& line);
-            std::vector<std::string> split_commande(std::string& line, std::string& delim);
 
+            std::string getCmd();
+            void setCmd(std::string cmd);
     };
 }
 

@@ -26,6 +26,7 @@
 #include <vector>
 
 #include "../includes/Commande.hpp"
+#include "../includes/Client.hpp"
 
 namespace HDE 
 {
@@ -43,6 +44,7 @@ namespace HDE
 			int nfds;
 			std::string localhost;
 		public:
+			std::map<int, Client> clt;
 			SocketHde(int domain, int service, int protocol, int port, unsigned long interface);
 			virtual int connect_network( int sock, struct sockaddr_in address) = 0;
 			void test_connection(int item_to_test);

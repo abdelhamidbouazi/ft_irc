@@ -66,6 +66,18 @@ int Client::getCounter()
 }
 
 
+// i add this
+std::string Client::getCommande_str()
+{
+    return std::string();
+}
+
+void Client::setCommande_str(std::string commande_str)
+{
+	this->commande_str = commande_str;
+}
+
+
 void Client::setIsIn(bool isIn)
 {
 	this->isIn = isIn;

@@ -1,5 +1,6 @@
 #include "../includes/socket.hpp"
 #include "../includes/Commande.hpp"
+#include "../includes/Client.hpp"
 #include <string.h>
 #include <stdio.h>
 
@@ -78,7 +79,6 @@ void HDE::SocketHde::start_polling()
 		else
 		{
 			current_size = nfds;
-			Commande obj;
 			for(int i = 0; i < current_size; i++)
 			{
 				if(fds[i].revents & POLLIN )
@@ -104,9 +104,19 @@ void HDE::SocketHde::start_polling()
 					}
 					else
 					{
-						std::cout << "receiv data ==== " << buffer;
+						Commande obj;
+						std::string tmp_message;
 						std::string msg(buffer);
-						obj.start_parssing(msg,i);
+						clt.at(fds[i].fd).setCommande_str(msg);
+						size_t pos = clt.at(fds[i].fd).getCommande_str().find("\r\n");
+
+						while(pos != std::string::npos)
+						{
+							tmp_message = clt.at(fds[i].fd).getCommande_str().substr(0, pos);
+							obj.start_parssing(tmp_message);
+
+						}
+
 					}
 					
 				}
