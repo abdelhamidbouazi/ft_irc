@@ -16,7 +16,7 @@ Header =	./includes/socket.hpp \
 VERSION = -std=c++98 -Wall -Wextra -Werror
 # VERSION = -std=c++98
 
-SRC =	./srcs/main.cpp \
+SRC =	./srcs/main2.cpp \
 		./srcs/socket.cpp \
 		./srcs/ConnectingSocket.cpp \
 		./srcs/BindingSocket.cpp \
@@ -28,7 +28,7 @@ SRC =	./srcs/main.cpp \
 		./srcs/Args.cpp \
 		./srcs/Auth.cpp \
 		./srcs/Replies.cpp \
-		# ./srcs/main2.cpp \
+		# ./srcs/main.cpp \
 
 
 OBJECTS = $(SRC:.cpp=.o)

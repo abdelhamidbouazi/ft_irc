@@ -15,6 +15,7 @@ namespace HDE
             void responder();
         public:
             TestServer();
+            TestServer(int port);
             void launch();
     };
 }

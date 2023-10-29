@@ -68,13 +68,7 @@ void HDE::SocketHde::start_polling()
 				}
 				break;
 			}
-			else
-			{
-				std::cout << " New incoming connection - " << connection << std::endl;
-				fds[nfds].fd = connection;
-				fds[nfds].events = POLLIN;
-				nfds++;
-			}
+			clt.insert(std::pair<int, Client>(connection, Client(connection)));
 		}
 		else
 		{
@@ -107,14 +101,16 @@ void HDE::SocketHde::start_polling()
 						Commande obj;
 						std::string tmp_message;
 						std::string msg(buffer);
-						clt.at(fds[i].fd).setCommande_str(msg);
-						size_t pos = clt.at(fds[i].fd).getCommande_str().find("\r\n");
+						clt.at(fds[i].fd).commande_str += msg;
+						size_t pos = clt.at(fds[i].fd).commande_str.find_first_of("\r\n");
 
+							std::cout << "im here\n";
 						while(pos != std::string::npos)
 						{
-							tmp_message = clt.at(fds[i].fd).getCommande_str().substr(0, pos);
+							tmp_message = clt.at(fds[i].fd).commande_str.substr(0, pos);
 							obj.start_parssing(tmp_message);
 
+							pos = clt.at(fds[i].fd).commande_str.find_first_of("\r\n");
 						}
 
 					}

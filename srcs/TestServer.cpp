@@ -1,4 +1,6 @@
 #include "../includes/TestServer.hpp"
+#include "../includes/Client.hpp"
+#include "../includes/Args.hpp"
 
 HDE::TestServer::TestServer() : SimpleServer(AF_INET, SOCK_STREAM, 0, 9080, INADDR_ANY, 10)
 {
@@ -6,6 +8,12 @@ HDE::TestServer::TestServer() : SimpleServer(AF_INET, SOCK_STREAM, 0, 9080, INAD
     launch();
 }
 
+HDE::TestServer::TestServer(int port) : SimpleServer(AF_INET, SOCK_STREAM, 0, port, INADDR_ANY, 10)
+{
+    std::cout << "Starting server..." << std::endl;
+    launch();
+
+}
 void HDE::TestServer::accepter()
 {
     struct sockaddr_in address = get_socket()->get_address();
