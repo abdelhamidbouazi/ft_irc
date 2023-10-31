@@ -65,10 +65,18 @@ int Server(int Port, std::string Password) {
     }
     // Accept and handle incoming connections
     std::string message;
+    std::vector<std::string> USER;
+        USER.push_back("USER");
+        USER.push_back("abouazi");
+        USER.push_back("1");
+        USER.push_back("*");
+        USER.push_back("Abdelhamid");
+        USER.push_back("Bouazi");
     while (true) {
 		message = receive(clientSocket);
 		// std::cout << message << std::endl;
-        Auth(message, c, Password);
+
+        Auth(USER, c, Password);
     }
     // Close the server socket (this will not be reached in this example)
     close(serverSocket);

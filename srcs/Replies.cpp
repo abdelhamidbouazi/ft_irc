@@ -66,9 +66,3 @@ void Replies::ERR_ALREADYREGISTRED(Client c)
 //     std::string message =   ":" + getMachineHostName() + " 436 " + c.get_nickname() + " :" + "Nickname collision KILL from" + "\r\n";
 //     send(c.get_fd(),message.c_str(),message.length(),0);
 // }
-
-// void Replies::ERR_PASSWDMISMATCH(Client c)
-// {
-//     std::string message =   ":" + getMachineHostName() + " 464 " + c.get_nickname() + " :" + "Password incorrect" + "\r\n";
-//     send(c.get_fd(),message.c_str(),message.length(),0);
-// }

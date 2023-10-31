@@ -13,7 +13,7 @@ int main(int ac, char **av){
 		Args	a(av[1], av[2]);
 		Client	c(5);
 
-		c.addUser("abdelhamidb1", c);
+		c.addUser("abouazi", c);
 
 		Server(a.getPort(), a.getPassword());
 	}
