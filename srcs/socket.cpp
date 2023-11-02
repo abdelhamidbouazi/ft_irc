@@ -103,46 +103,21 @@ void HDE::SocketHde::start_polling()
                 }
                 else
                 {
-                    // Commande obj;
-                    // std::string tmp_message;
-                    // std::string msg(buffer);
-                    // clt.at(fds[i].fd).commande_str += msg;
-                    // size_t pos = clt.at(fds[i].fd).commande_str.find_first_of("\r\n");
-                    // while (pos != std::string::npos)
-                    // {
-					// 	std::cout << "Message received: " << clt.at(fds[i].fd).commande_str.substr(0, pos) << std::endl;
-                    //     tmp_message = clt.at(fds[i].fd).commande_str.substr(0, pos);
-                    //     obj.start_parssing(tmp_message);
-                    //     tmp_message = clt.at(fds[i].fd).commande_str.substr(pos + 2);
-                    //     pos = clt.at(fds[i].fd).commande_str.find_first_of("\r\n");
-                    // }
-					Commande obj;
-					std::string tmp_message;
-					std::string msg(buffer);
-					clt.at(fds[i].fd).commande_str += msg;
+                    Commande obj;
+                    std::string tmp_message;
+                    std::string msg(buffer);
+                    clt.at(fds[i].fd).commande_str += msg;
+                    size_t pos = clt.at(fds[i].fd).commande_str.find_first_of("\r\n");
+                    while (pos != std::string::npos)
+                    {
+                        tmp_message = clt.at(fds[i].fd).commande_str.substr(0, pos);
+                        obj.start_parssing(tmp_message);
 
-					size_t pos = clt.at(fds[i].fd).commande_str.find_first_of("\r\n");
-					while (pos != std::string::npos)
-					{
-						if (pos < clt.at(fds[i].fd).commande_str.length())
-						{
-							std::cout << "Message received: " << clt.at(fds[i].fd).commande_str.substr(0, pos) << std::endl;
-							tmp_message = clt.at(fds[i].fd).commande_str.substr(0, pos);
-							obj.start_parssing(tmp_message);
-							if (pos + 2 < clt.at(fds[i].fd).commande_str.length())
-							{
-								clt.at(fds[i].fd).commande_str = clt.at(fds[i].fd).commande_str.substr(pos + 2);
-							}
-							else
-							{
-								clt.at(fds[i].fd).commande_str.clear();
-							}
-						}
-						else
-							clt.at(fds[i].fd).commande_str.clear();
-						pos = clt.at(fds[i].fd).commande_str.find_first_of("\r\n");
-					}
-
+						// if(obj.get_command() == "QUIT")
+						
+                        tmp_message = clt.at(fds[i].fd).commande_str.erase(0, pos + 2);
+                        pos = clt.at(fds[i].fd).commande_str.find_first_of("\r\n");
+                    }
                 }
             }
         }

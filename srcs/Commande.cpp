@@ -5,51 +5,6 @@ HDE::Commande::Commande()
 {
 }
 
-// void HDE::Commande::start_parssing(std::string& msg, int i)
-// {
-// 	std::string dl = " " ;
-// 	size_t pos = msg.find(dl);
-
-// 	if(pos != std::string::npos)
-// 	{
-// 		std::string cmd = msg.substr(0, pos);
-// 		std::transform(cmd.begin(), cmd.end(), cmd.begin(), ::toupper);
-// 		// msg.erase(0, pos + dl.length());
-// 		if(cmd == "PASS" || cmd == "NICK")
-// 		{
-// 			request.push_back(msg.substr(0, pos));
-// 			request.push_back(msg.substr(pos + 1, msg.length()));
-// 		}
-
-// 		else if(cmd == )
-// 		for (int i = 0; i< request.size(); i++)
-// 			std::cout << "request[" << i << "] ===> "<< request[i] << std::endl;
-// 		// else if(cmd == "USER" || cmd == "PRIVMSG"
-// 		// 	|| cmd == "TOPIC" || cmd == "PART"
-// 		// 	|| cmd == "QUIT" || cmd == "NOTICE"
-// 		// 	|| cmd == "OPER" || cmd == "KICK")
-//         // {
-// 		// 	// this->request = _split(msg, dl);
-// 		// 	// join_strings(this->request);
-// 		// }
-// 		// else if(cmd == "INVITE" || cmd == "MODE"
-// 		// 	|| cmd == "LIST" || cmd == "NAMES")
-// 		// 	// this->request = _split(msg, dl);
-// 		// else if(cmd == "JOIN")
-//         // {
-// 		// 	std::string dl = ",";
-// 		// 	// this->_request = _splitJOIN(msg, dl);
-// 	    // }
-//     }
-// 	else 
-// 	{
-// 		// this->cmd = msg;
-// 		std::transform(msg.begin(), msg.end(), msg.begin(), ::toupper);
-// 	}
-// }
-
-
-
 void HDE::Commande::start_parssing(std::string& msg)
 {
 	std::string dl = " " ;
@@ -59,10 +14,10 @@ void HDE::Commande::start_parssing(std::string& msg)
 	{
 		this->cmd = msg.substr(0, pos);
 		std::transform(this->cmd.begin(), this->cmd.end(), this->cmd.begin(), ::toupper);
+
 		if(this->cmd == "USER" || this->cmd == "PRIVMSG"
 			|| this->cmd == "TOPIC" || this->cmd == "PART" || this->cmd == "KICK")
         {
-			std::cout << "im in the part part" << std::endl;
             size_t pos ;
             while (true)
             {
@@ -88,8 +43,8 @@ void HDE::Commande::start_parssing(std::string& msg)
                     break;
             }
         }
-		for (int i = 0; i< request.size(); i++)
-			std::cout << "request[" << i << "] ===> "<< request[i] << std::endl;
+		// for (int i = 0; i< request.size(); i++)
+		// 	std::cout << "request[" << i << "] ===> "<< request[i] << std::endl;
 		// else if(this->cmd == "JOIN")
         // {
 	    // }
@@ -99,8 +54,6 @@ void HDE::Commande::start_parssing(std::string& msg)
         this->cmd = msg;
 		std::transform(msg.begin(), msg.end(), msg.begin(), ::toupper);
 	}
-
-
 }
 
 
@@ -125,7 +78,7 @@ void	HDE::Commande::join_strings_after_colon(std::vector<std::string>& line){
 
 std::string HDE::Commande::getCmd()
 {
-    return std::string();
+    return this->cmd;
 }
 
 

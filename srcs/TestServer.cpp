@@ -38,10 +38,8 @@ void HDE::TestServer::launch()
 {
     while (1)
     {
-        std::cout << "======= Waiting for connection... =======" << std::endl;
         accepter();
         handler();
         responder();
-        std::cout << "====== Done =======" << std::endl <<std::endl;
     }
 }
