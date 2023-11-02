@@ -20,6 +20,7 @@ namespace HDE
 
             std::string getCmd();
             void setCmd(std::string cmd);
+            std::vector<std::string>	getRequest(void) const;
     };
 }
 

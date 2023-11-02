@@ -21,6 +21,7 @@ class Args
 		int			Port;
 		std::string	Password;
 	public:
+		Args();
 		Args(std::string port, std::string password);
 		~Args();
 

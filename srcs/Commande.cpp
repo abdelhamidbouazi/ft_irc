@@ -86,3 +86,7 @@ void HDE::Commande::setCmd(std::string cmd)
 {
     this->cmd = cmd;
 }
+std::vector<std::string> HDE::Commande::getRequest(void) const
+{
+    return this->request;
+}

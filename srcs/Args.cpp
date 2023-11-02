@@ -1,5 +1,8 @@
 #include "../includes/Args.hpp"
 
+Args::Args()
+{
+}
 Args::Args(std::string port, std::string password)
 {
 	if (port.length() > 6 || port.length() < 2)

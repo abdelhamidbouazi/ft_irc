@@ -56,6 +56,8 @@ namespace HDE
 			void set_connection(int connection);
 			std::string ClientIp(int sock);
 			std::string getHostAdresse();
+
+			void	PASS(std::vector<std::string> request, Client &client);
 	};
 }
 
