@@ -62,6 +62,7 @@ void HDE::Commande::start_parssing(std::string& msg)
 		if(this->cmd == "USER" || this->cmd == "PRIVMSG"
 			|| this->cmd == "TOPIC" || this->cmd == "PART" || this->cmd == "KICK")
         {
+			std::cout << "im in the part part" << std::endl;
             size_t pos ;
             while (true)
             {
