@@ -10,7 +10,7 @@ namespace HDE
     class BindingSocket: public SocketHde
     {
         public:
-            BindingSocket(int domain, int service, int protocol, int port, u_long interface);
+            BindingSocket(int domain, int service, int protocol, int port, u_long interface, std::string password);
             int connect_network(int sock, struct sockaddr_in address);
             ~BindingSocket();
     };

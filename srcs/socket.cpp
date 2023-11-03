@@ -4,11 +4,15 @@
 #include <string.h>
 #include <stdio.h>
 
-HDE::SocketHde::SocketHde(int domain, int service, int protocol, int port, unsigned long interface)
+HDE::SocketHde::SocketHde(int domain, int service, int protocol, int port, unsigned long interface, std::string password)
 {
 	address.sin_family = domain;
 	address.sin_port = htons(port);
 	address.sin_addr.s_addr = htonl(interface);
+
+    setPort(port);
+    setPassword(password);
+    
 	sock = socket(domain, service, protocol);
 	test_connection(sock);
 
@@ -103,46 +107,23 @@ void HDE::SocketHde::start_polling()
                 }
                 else
                 {
-                    // Commande obj;
-                    // std::string tmp_message;
-                    // std::string msg(buffer);
-                    // clt.at(fds[i].fd).commande_str += msg;
-                    // size_t pos = clt.at(fds[i].fd).commande_str.find_first_of("\r\n");
-                    // while (pos != std::string::npos)
-                    // {
-					// 	std::cout << "Message received: " << clt.at(fds[i].fd).commande_str.substr(0, pos) << std::endl;
-                    //     tmp_message = clt.at(fds[i].fd).commande_str.substr(0, pos);
-                    //     obj.start_parssing(tmp_message);
-                    //     tmp_message = clt.at(fds[i].fd).commande_str.substr(pos + 2);
-                    //     pos = clt.at(fds[i].fd).commande_str.find_first_of("\r\n");
-                    // }
-					Commande obj;
-					std::string tmp_message;
-					std::string msg(buffer);
-					clt.at(fds[i].fd).commande_str += msg;
+                    Commande obj;
+                    std::string tmp_message;
+                    std::string msg(buffer);
+                    clt.at(fds[i].fd).commande_str += msg;
+                    size_t pos = clt.at(fds[i].fd).commande_str.find_first_of("\r\n");
+                    while (pos != std::string::npos)
+                    {
+						std::cout << "Message received: " << clt.at(fds[i].fd).commande_str.substr(0, pos) << std::endl;
+                        tmp_message = clt.at(fds[i].fd).commande_str.substr(0, pos);
+                        obj.start_parssing(tmp_message);
+						// if(obj.getCmd() == "PASS")
 
-					size_t pos = clt.at(fds[i].fd).commande_str.find_first_of("\r\n");
-					while (pos != std::string::npos)
-					{
-						if (pos < clt.at(fds[i].fd).commande_str.length())
-						{
-							std::cout << "Message received: " << clt.at(fds[i].fd).commande_str.substr(0, pos) << std::endl;
-							tmp_message = clt.at(fds[i].fd).commande_str.substr(0, pos);
-							obj.start_parssing(tmp_message);
-							if (pos + 2 < clt.at(fds[i].fd).commande_str.length())
-							{
-								clt.at(fds[i].fd).commande_str = clt.at(fds[i].fd).commande_str.substr(pos + 2);
-							}
-							else
-							{
-								clt.at(fds[i].fd).commande_str.clear();
-							}
-						}
-						else
-							clt.at(fds[i].fd).commande_str.clear();
-						pos = clt.at(fds[i].fd).commande_str.find_first_of("\r\n");
-					}
+                        std::cout << getPort() << "*****" << getPassword() << std::endl;
 
+                        tmp_message = clt.at(fds[i].fd).commande_str.erase(0, pos + 2);
+                        pos = clt.at(fds[i].fd).commande_str.find_first_of("\r\n");
+                    }
                 }
             }
         }
@@ -220,4 +201,25 @@ int HDE::SocketHde::get_connection()
 void HDE::SocketHde::set_connection(int connection)
 {
 	this->connection = connection;
+}
+
+
+void HDE::SocketHde::setPort(int port)
+{
+    this->port = port;
+}
+
+void HDE::SocketHde::setPassword(std::string password)
+{
+    this->password = password;
+}
+
+int HDE::SocketHde::getPort()
+{
+    return port;
+}
+
+std::string HDE::SocketHde::getPassword()
+{
+    return password;
 }

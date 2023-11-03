@@ -43,21 +43,30 @@ namespace HDE
 			int end_server;
 			int nfds;
 			std::string localhost;
+
+			int port;
+			std::string password;
 		public:
 			std::map<int, Client> clt;
-			SocketHde(int domain, int service, int protocol, int port, unsigned long interface);
+			SocketHde(int domain, int service, int protocol, int port, unsigned long interface, std::string password);
 			virtual int connect_network( int sock, struct sockaddr_in address) = 0;
 			void test_connection(int item_to_test);
 			void test_connection_for_setsockopt(int item_to_test);
 			void start_polling();
+
 			struct sockaddr_in get_address();
 			int get_sock();
 			int get_connection();
-			void set_connection(int connection);
-			std::string ClientIp(int sock);
 			std::string getHostAdresse();
+			int getPort();
+			std::string getPassword();
+
+			void setPort(int port);
+			void setPassword(std::string password);
+			void set_connection(int connection);
+	
+			std::string ClientIp(int sock);
 	};
 }
-
 
 #endif

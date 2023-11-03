@@ -97,7 +97,7 @@ void Client::addUser(std::string username, Client &c)
 		std::cout << "Username is less than 2\n";
 	}
 }
-void Client::setClientId(int )
+void Client::setClientId(int clientId)
 {
 	this->clientId = clientId;
 }

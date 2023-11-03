@@ -14,8 +14,8 @@ namespace HDE
             void handler();
             void responder();
         public:
-            TestServer();
-            TestServer(int port);
+            // TestServer();
+            TestServer(int port, std::string password);
             void launch();
     };
 }
