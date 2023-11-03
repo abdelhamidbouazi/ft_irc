@@ -5,6 +5,7 @@ int HDE::BindingSocket::connect_network(int sock, struct sockaddr_in address)
 {
     return bind(sock, (struct sockaddr *)&address, sizeof(address)); 
 }
+// add the password 
 
 HDE::BindingSocket::BindingSocket(int domain, int service, int protocol, int port, u_long interface) : HDE::SocketHde(domain, service, protocol, port, interface)
 {

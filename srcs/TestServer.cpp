@@ -8,7 +8,7 @@ HDE::TestServer::TestServer() : SimpleServer(AF_INET, SOCK_STREAM, 0, 9080, INAD
     launch();
 }
 
-HDE::TestServer::TestServer(int port) : SimpleServer(AF_INET, SOCK_STREAM, 0, port, INADDR_ANY, 10)
+HDE::TestServer::TestServer(int port, std::string  password) : SimpleServer(AF_INET, SOCK_STREAM, 0, port, INADDR_ANY, 10)
 {
     std::cout << "Starting server..." << std::endl;
     launch();

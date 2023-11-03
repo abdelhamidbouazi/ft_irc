@@ -18,30 +18,14 @@ void HDE::Commande::start_parssing(std::string& msg)
 		if(this->cmd == "USER" || this->cmd == "PRIVMSG"
 			|| this->cmd == "TOPIC" || this->cmd == "PART" || this->cmd == "KICK")
         {
-            size_t pos ;
-            while (true)
-            {
-                pos = msg.find(dl);
-                request.push_back(msg.substr(0, pos));
-                msg.erase(0, pos + dl.length());
-                if(pos == std::string::npos)
-                    break;
-            }
+            push_to_vector(this->request, msg, dl);
 			join_strings_after_colon(this->request);
 		}
 
 		else if(this->cmd == "INVITE" || this->cmd == "MODE"
                 || this->cmd == "PASS" || this->cmd == "NICK")
         {
-            size_t pos ;
-            while (true)
-            {
-                pos = msg.find(dl);
-                this->request.push_back(msg.substr(0, pos));
-                msg.erase(0, pos + dl.length());
-                if(pos == std::string::npos)
-                    break;
-            }
+            push_to_vector(this->request, msg, dl);
         }
 		// for (int i = 0; i< request.size(); i++)
 		// 	std::cout << "request[" << i << "] ===> "<< request[i] << std::endl;
@@ -53,6 +37,18 @@ void HDE::Commande::start_parssing(std::string& msg)
 	{
         this->cmd = msg;
 		std::transform(msg.begin(), msg.end(), msg.begin(), ::toupper);
+	}
+}
+
+void push_to_vector(std::vector<std::string>& line, std::string& msg, std::string& dl){
+	size_t pos = msg.find(dl);
+	while (true)
+	{
+		pos = msg.find(dl);
+		line.push_back(msg.substr(0, pos));
+		msg.erase(0, pos + dl.length());
+		if(pos == std::string::npos)
+			break;
 	}
 }
 
