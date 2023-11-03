@@ -13,6 +13,9 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
+
+#include "Client.hpp"
+
 int Server(int Port, std::string Password);
 
 class Args

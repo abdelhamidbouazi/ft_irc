@@ -77,11 +77,11 @@ void HDE::SocketHde::start_polling()
         }
 
 
-		std::map<int, Client>::iterator it = clt.begin(); 
-		while (it != clt.end()) {
-			std::cout << it->first << " :: " << it->second.getClientId() << std::endl;
-			it++; 
-		} 
+		// std::map<int, Client>::iterator it = clt.begin(); 
+		// while (it != clt.end()) {
+		// 	std::cout << it->first << " :: " << it->second.getClientId() << std::endl;
+		// 	it++; 
+		// } 
 
 
         current_size = nfds;
@@ -118,7 +118,10 @@ void HDE::SocketHde::start_polling()
                         obj.start_parssing(tmp_message);
 
 						// if(obj.getCmd() == "PASS")
-						// 	PASS(obj.getRequest(), clt.at(fds[i].fd));
+						// 	int i = CheckPASS(obj.getCmd (), clt.at(fds[i].fd), "123123");
+
+
+							PASS(obj.getRequest(), clt.at(fds[i].fd));
 						
                         tmp_message = clt.at(fds[i].fd).commande_str.erase(0, pos + 2);
                         pos = clt.at(fds[i].fd).commande_str.find_first_of("\r\n");

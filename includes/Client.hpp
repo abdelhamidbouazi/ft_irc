@@ -52,5 +52,6 @@ class Client
 
 
 bool Auth(std::string message, Client &client, std::string Password);
+int CheckPASS(std::string message, Client	&c, std::string Pass);
 
 #endif
