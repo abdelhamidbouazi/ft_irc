@@ -118,7 +118,7 @@ void HDE::SocketHde::start_polling()
                         tmp_message = clt.at(fds[i].fd).commande_str.substr(0, pos);
                         obj.start_parssing(tmp_message);
 
-
+						
                         tmp_message = clt.at(fds[i].fd).commande_str.erase(0, pos + 2);
                         pos = clt.at(fds[i].fd).commande_str.find_first_of("\r\n");
                     }
