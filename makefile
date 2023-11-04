@@ -9,14 +9,14 @@ Header =	./includes/socket.hpp \
 		./includes/TestServer.hpp \
 		./includes/SimpleServer.hpp \
 		./includes/Commande.hpp \
-		# ./includes/Args.hpp \
-		# ./includes/Client.hpp \
-		# ./includes/Replies.hpp
+		./includes/Client.hpp \
+		./includes/Args.hpp \
+		./includes/Replies.hpp
 
 VERSION = -std=c++98 -Wall -Wextra -Werror
 # VERSION = -std=c++98
 
-SRC =	./srcs/main.cpp \
+SRC =	./srcs/main2.cpp \
 		./srcs/socket.cpp \
 		./srcs/ConnectingSocket.cpp \
 		./srcs/BindingSocket.cpp \
@@ -24,11 +24,11 @@ SRC =	./srcs/main.cpp \
 		./srcs/TestServer.cpp \
 		./srcs/SimpleServer.cpp \
 		./srcs/Commande.cpp \
-		# ./srcs/Args.cpp \
-		# ./srcs/Auth.cpp \
-		# ./srcs/main2.cpp \
-		# ./srcs/Client.cpp \
-		# ./srcs/Replies.cpp \
+		./srcs/Client.cpp \
+		./srcs/Args.cpp \
+		./srcs/Auth.cpp \
+		./srcs/Replies.cpp \
+		# ./srcs/main.cpp \
 
 
 OBJECTS = $(SRC:.cpp=.o)

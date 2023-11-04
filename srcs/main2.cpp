@@ -1,5 +1,6 @@
 #include "../includes/Args.hpp"
 #include "../includes/Client.hpp"
+#include "../includes/TestServer.hpp"
 
 
 int main(int ac, char **av){
@@ -13,9 +14,10 @@ int main(int ac, char **av){
 		Args	a(av[1], av[2]);
 		Client	c(5);
 
-		c.addUser("abdelhamidb1", c);
+		c.addUser("abouazi", c);
 
-		Server(a.getPort(), a.getPassword());
+		// Server(a.getPort(), a.getPassword());
+		HDE::TestServer ts(a.getPort(), a.getPassword());
 	}
 	catch (std::exception &e) {
 		std::cout << "Error: " << e.what() << std::endl;

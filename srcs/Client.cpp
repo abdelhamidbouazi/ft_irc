@@ -8,12 +8,14 @@ std::vector<std::string> Client::nicknames;
 Client::Client(int clientId)
 {
 	isIn = false;
-	isSignedIn = false;
+	mode = false;
+	isSignedIn = true;
+	settingsSetted = false;
 	nickname = "";
 	fullName = "";
 	username = "";
 	this->clientId = clientId;
-	counter = 0;
+	// counter = 0;
 }
 
 Client::~Client()
@@ -24,10 +26,18 @@ bool Client::getIsIn()
 {
 	return isIn;
 }
+bool Client::getMode()
+{
+	return mode;
+}
 
 bool Client::getIsSignedIn()
 {
 	return isSignedIn;
+}
+bool Client::isSettingsSetted()
+{
+	return this->settingsSetted;
 }
 
 std::string Client::getNickname()
@@ -50,7 +60,7 @@ std::vector<std::string> Client::getUsers()
 }
 std::vector<std::string> Client::getAllUsers()
 {
-	for (int i = 0; i < users.size(); i++){
+	for (size_t i = 0; i < users.size(); i++){
 		std::cout << users[i] << " " << std::endl;
 	}
 	return this->users;
@@ -60,20 +70,27 @@ int Client::getClientId()
 	return clientId;
 }
 
-int Client::getCounter()
-{
-	return counter;
-}
-
+// int Client::getCounter()
+// {
+// 	return counter;
+// }
 
 void Client::setIsIn(bool isIn)
 {
 	this->isIn = isIn;
 }
+void Client::setMode(bool mode)
+{
+	this->mode = mode;
+}
 
 void Client::setIsSignedIn(bool isSignedIn)
 {
 	this->isSignedIn = isSignedIn;
+}
+void Client::setIsSettingsSetted(bool settingsSetted)
+{
+	this->isSignedIn = settingsSetted;
 }
 
 void Client::setNickname(std::string nickname)
@@ -103,7 +120,7 @@ void Client::setClientId(int clientId)
 	this->clientId = clientId;
 }
 
-void Client::incrementCounter()
-{
-	this->counter++;
-}
+// void Client::incrementCounter()
+// {
+// 	this->counter++;
+// }
