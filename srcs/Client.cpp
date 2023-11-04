@@ -9,7 +9,7 @@ Client::Client(int clientId)
 {
 	isIn = false;
 	mode = false;
-	isSignedIn = true;
+	isSignedIn = false;
 	settingsSetted = false;
 	nickname = "";
 	fullName = "";
@@ -58,6 +58,12 @@ std::vector<std::string> Client::getUsers()
 {
 	return this->users;
 }
+
+std::vector<std::string> Client::getNicknames()
+{
+	return this->nicknames;
+}
+
 std::vector<std::string> Client::getAllUsers()
 {
 	for (size_t i = 0; i < users.size(); i++){
@@ -65,6 +71,7 @@ std::vector<std::string> Client::getAllUsers()
 	}
 	return this->users;
 }
+
 int Client::getClientId()
 {
 	return clientId;

@@ -37,6 +37,7 @@ class Client
 		std::string getUsername();
 		std::string getFullName();
 		std::vector<std::string> getUsers();
+		std::vector<std::string> getNicknames();
 		std::vector<std::string> getAllUsers();
 		int getClientId();
 		// int getCounter();

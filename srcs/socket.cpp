@@ -118,7 +118,17 @@ void HDE::SocketHde::start_polling()
                         tmp_message = clt.at(fds[i].fd).commande_str.substr(0, pos);
                         obj.start_parssing(tmp_message);
 
-						
+						std::cout << "**** The Client ID is : " << clt.at(fds[i].fd).getClientId() << std::endl;
+						if(!Auth(obj.getRequest(), clt.at(fds[i].fd), getPassword())) {
+							std::cout << "error " << std::endl;
+						}
+
+						std::vector<std::string > v = obj.getRequest();
+						std::cout << v.size() << std::endl;
+						// for (size_t i = 0; i < v.size(); i++){
+						// 	std::cout << "The message recieved in the auth is : **" << v[i]<< "**" << "\n";
+						// }
+
                         tmp_message = clt.at(fds[i].fd).commande_str.erase(0, pos + 2);
                         pos = clt.at(fds[i].fd).commande_str.find_first_of("\r\n");
                     }

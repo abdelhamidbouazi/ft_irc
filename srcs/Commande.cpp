@@ -34,10 +34,11 @@ void HDE::Commande::start_parssing(std::string& msg)
     }
 	else
 	{
-		std::transform(msg.begin(), msg.end(), msg.begin(), ::toupper);
         this->cmd = msg;
+		std::transform(msg.begin(), msg.end(), msg.begin(), ::toupper);
 	}
 }
+
 
 void pushToVector(std::vector<std::string> &vec, std::string str)
 {
@@ -69,7 +70,8 @@ void	HDE::Commande::join_strings_after_colon(std::vector<std::string>& line){
 	if (saver != line.end()) {
 		line.erase(saver, line.end());
 	}
-	line.push_back(temp);
+	if(flag)
+		line.push_back(temp);
 }
 
 std::string HDE::Commande::getCmd()
