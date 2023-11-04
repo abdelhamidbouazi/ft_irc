@@ -21,9 +21,13 @@ class Client
 		static std::vector<std::string> users;
 		static std::vector<std::string> nicknames;
 
+
 	public:
 		Client(int clientId);
 		~Client();
+
+		// i add this
+		std::string commande_str;
 
 		bool getIsIn();
 		bool getMode();
@@ -36,6 +40,7 @@ class Client
 		std::vector<std::string> getAllUsers();
 		int getClientId();
 		// int getCounter();
+
 
 		void setIsIn(bool isIn);
 		void setMode(bool mode);

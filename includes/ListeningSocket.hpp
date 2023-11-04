@@ -13,7 +13,7 @@ namespace HDE
             int backlog;
             int listening;
         public:
-            ListeningSocket(int domain, int service, int protocol, int port, u_long interface, int bklg);
+            ListeningSocket(int domain, int service, int protocol, int port, u_long interface, int bklg, std::string password);
             void start_listening();
             int get_listening();
             int get_backlog();

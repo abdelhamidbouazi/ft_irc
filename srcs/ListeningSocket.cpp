@@ -1,6 +1,6 @@
 #include "../includes/ListeningSocket.hpp"
 
-HDE::ListeningSocket::ListeningSocket(int domain, int service, int protocol, int port, u_long interface, int bklg) : BindingSocket(domain, service, protocol, port, interface)
+HDE::ListeningSocket::ListeningSocket(int domain, int service, int protocol, int port, u_long interface, int bklg, std::string password) : BindingSocket(domain, service, protocol, port, interface, password)
 {
     this->backlog = bklg;
     // if (listen(this->get_sock(), this->backlog) < 0)

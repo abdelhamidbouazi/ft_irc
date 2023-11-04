@@ -17,7 +17,7 @@ namespace HDE
     class ConnectingSocket : public SocketHde 
     {
         public:
-            ConnectingSocket(int domain, int service, int protocol, int port, u_long interface);
+            ConnectingSocket(int domain, int service, int protocol, int port, u_long interface, std::string password);
             int connect_to_network(int sock, struct sockaddr_in address);
     };
 }

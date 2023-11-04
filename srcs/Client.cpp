@@ -75,7 +75,6 @@ int Client::getClientId()
 // 	return counter;
 // }
 
-
 void Client::setIsIn(bool isIn)
 {
 	this->isIn = isIn;

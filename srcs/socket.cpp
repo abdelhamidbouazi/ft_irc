@@ -1,13 +1,18 @@
 #include "../includes/socket.hpp"
 #include "../includes/Commande.hpp"
+#include "../includes/Client.hpp"
 #include <string.h>
 #include <stdio.h>
 
-HDE::SocketHde::SocketHde(int domain, int service, int protocol, int port, unsigned long interface)
+HDE::SocketHde::SocketHde(int domain, int service, int protocol, int port, unsigned long interface, std::string password)
 {
 	address.sin_family = domain;
 	address.sin_port = htons(port);
 	address.sin_addr.s_addr = htonl(interface);
+
+    setPort(port);
+    setPassword(password);
+
 	sock = socket(domain, service, protocol);
 	test_connection(sock);
 
@@ -28,196 +33,102 @@ HDE::SocketHde::SocketHde(int domain, int service, int protocol, int port, unsig
 
 }
 
-	// start_polling();
-
-// void HDE::SocketHde::start_polling()
-// {
-// 	memset (fds, 0 , sizeof(fds));
-// 	fds[0].fd = sock;
-// 	fds[0].events = POLLIN;
-// 	timeout = (3 * 60 * 1000);
-// 	end_server = false;
-// 	nfds = 1;
-// 	int current_size = 0;
-
-// 	while(end_server == false)
-// 	{
-// 		std::cout << "Waiting for poll() ..." << std::endl;
-// 		rc = poll(fds, nfds, timeout);
-
-// 		if(rc < 0)
-// 		{
-// 			perror("  poll() failed");
-// 			break;
-// 		}
-// 		else if(rc == 0)
-// 		{
-// 			perror("  poll() timed out.  End program.");
-// 			break;
-// 		}
-// 		current_size = nfds;
-// 		for(int i = 0; i < current_size; i++)
-// 		{
-// 			if(fds[i].revents == 0)
-// 				continue;
-// 			if (fds[i].revents != POLLIN)
-// 			{
-// 				// perror("  Error! revents = " , fds[i].revents);
-// 				end_server = true;
-// 				break;
-// 			}
-// 			if(fds[i].fd == sock)
-// 			{
-// 				std::cout << " Listening socket is readable" << std::endl;
-// 				do
-// 				{
-// 					connection = accept(sock, NULL, NULL);
-// 					if(connection < 0)
-// 					{
-// 						if(errno != EWOULDBLOCK)
-// 						{
-// 							perror("  accept() failed");
-// 							end_server = true;
-// 						}
-// 						break;
-// 					}
-// 					std::cout << " New incoming connection - " << connection << std::endl;
-// 					fds[nfds].fd = connection;
-// 					fds[nfds].events = POLLIN;
-// 					nfds++;
-// 				}while(connection != -1);
-// 			}
-// 			else
-// 			{
-// 				std::cout << " Descriptor " << fds[i].fd << " is readable" << std::endl;
-// 				close(fds[i].fd);
-// 				fds[i].fd = -1;
-// 				end_server = true;
-// 			}
-
-// 		}
-
-
-// 	}
-// }
 
 void HDE::SocketHde::start_polling()
 {
-	memset (fds, 0 , sizeof(fds));
-	fds[0].fd = sock;
-	fds[0].events = POLLIN | POLLOUT;
-	fds[0].revents = 0;
-	timeout = (3 * 60 * 1000);
-	end_server = false;
-	nfds = 1;
-	int current_size = 0;
-	int close_conn, len;
-	char buffer[800];
-	int compress_array = false;
-	int new_sd = -1;
+    memset(fds, 0, sizeof(fds));
+    fds[0].fd = sock;
+    fds[0].events = POLLIN;
+    timeout = (3 * 60 * 1000);
+    end_server = false;
+    nfds = 1;
+    int current_size = 0;
+    char buffer[800];
+    int new_sd = -1;
 
-	while(!end_server)
-	{
-		rc = poll(fds, nfds, -1);
+    while (!end_server)
+    {
+        int rc = poll(fds, nfds, timeout);
 
-		if(rc < 0)
-		{
-			perror("  poll() failed");
-			close(sock);
-			break;
-		}
-		if(fds[0].revents & POLLIN)
-		{
-			std::cout << " Listening socket is readable" << std::endl;
+        if (rc < 0)
+        {
+            perror("poll() failed");
+            close(sock);
+            break;
+        }
+        else if (rc == 0)
+        {
+            std::cout << "poll() timed out. End program." << std::endl;
+            break;
+        }
+        else if (fds[0].revents & POLLIN)
+        {
+            std::cout << "Listening socket is readable" << std::endl;
 
-			connection = accept(sock, NULL, NULL);
-			if(connection < 0)
-			{
-				if(errno != EWOULDBLOCK)
-				{
-					perror("  accept() failed");
-					end_server = true;
-				}
-				break;
-			}
-			else
-			{
-				std::cout << " New incoming connection - " << connection << std::endl;
-				fds[nfds].fd = connection;
-				fds[nfds].events = POLLIN;
-				nfds++;
-			}
-		}
-		else
-		{
-			current_size = nfds;
-			Commande obj;
-			for(int i = 0; i < current_size; i++)
-			{
-				if(fds[i].revents & POLLIN )
-				{
+            int connection = accept(sock, NULL, NULL);
+            if (connection < 0)
+            {
+                if (errno != EWOULDBLOCK)
+                {
+                    perror("accept() failed");
+                    close(sock);
+                    end_server = true;
+                }
+            }
+            else
+            {
+                clt.insert(std::pair<int, Client>(connection, Client(connection)));
+                fds[nfds].fd = connection;
+                fds[nfds].events = POLLIN;
+                nfds++;
+            }
+        }
 
-					memset(buffer, 0, sizeof(buffer));
-					rc = recv(fds[i].fd, buffer, sizeof(buffer), 0);
-					if(rc == -1)
+        current_size = nfds;
+        for (int i = 1; i < current_size; i++) // Start from 1, skipping the listening socket
+        {
+            if (fds[i].revents & POLLIN)
+            {
+                memset(buffer, 0, sizeof(buffer));
+                int rc = recv(fds[i].fd, buffer, sizeof(buffer), 0);
+                if (rc <= 0)
+                {
+                    if (rc == 0)
+                    {
+                        std::cout << "Connection closed" << std::endl;
+                    }
+                    else if (errno != EWOULDBLOCK)
+                    {
+                        perror("recv() failed");
+                    }
 
-					std::string message(buffer);
-					std::memset(&buffer, 0, sizeof(buffer));
-					int bytes = recv(fds[i].fd, buffer, sizeof(buffer), 0);
-					if(bytes == -1)
-					{
-						if(errno != EWOULDBLOCK)
-						{
-							perror("  recv() failed");
-							close_conn = true;
-							close(fds[i].fd);
-						}
-						break;
-					}
-					if(rc == 0)
-					{
-						std::cout << "  Connection closed" << std::endl;
-						close_conn = true;
-						close(fds[i].fd);
-						break;
-					}
-					else
-					{
+                    close(fds[i].fd);
+                    fds[i].fd = -1;
+                }
+                else
+                {
+                    Commande obj;
+                    std::string tmp_message;
+                    std::string msg(buffer);
+                    clt.at(fds[i].fd).commande_str += msg;
+                    size_t pos = clt.at(fds[i].fd).commande_str.find_first_of("\r\n");
+                    while (pos != std::string::npos)
+                    {
+						std::cout << "Message received: " << clt.at(fds[i].fd).commande_str.substr(0, pos) << std::endl;
+                        tmp_message = clt.at(fds[i].fd).commande_str.substr(0, pos);
+                        obj.start_parssing(tmp_message);
+						// if(obj.getCmd() == "PASS")
 
-						std::cout << "receiv data ==== " << buffer;
-						std::string msg(buffer);
-						// obj.start_parssing(msg);
+                        std::cout << getPort() << "*****" << getPassword() << std::endl;
 
-
-						// size_t pos = buffer.find_first_of("\r\n");
-
-
-					}
-				}
-
-			}
-		}
-		if(compress_array)
-		{
-			compress_array = false;
-			for(int i = 0; i < nfds; i++)
-			{
-				if(fds[i].fd == -1)
-				{
-					for(int j = i; j < nfds; j++)
-					{
-						fds[j].fd = fds[j+1].fd;
-					}
-					i--;
-					nfds--;
-				}
-			}
-		}
-
-
-	}
+                        tmp_message = clt.at(fds[i].fd).commande_str.erase(0, pos + 2);
+                        pos = clt.at(fds[i].fd).commande_str.find_first_of("\r\n");
+                    }
+                }
+            }
+        }
+    }
 }
-
 
 void HDE::SocketHde::test_connection(int item_to_test)
 {
@@ -290,4 +201,25 @@ int HDE::SocketHde::get_connection()
 void HDE::SocketHde::set_connection(int connection)
 {
 	this->connection = connection;
+}
+
+
+void HDE::SocketHde::setPort(int port)
+{
+    this->port = port;
+}
+
+void HDE::SocketHde::setPassword(std::string password)
+{
+    this->password = password;
+}
+
+int HDE::SocketHde::getPort()
+{
+    return port;
+}
+
+std::string HDE::SocketHde::getPassword()
+{
+    return password;
 }
