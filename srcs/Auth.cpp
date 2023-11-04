@@ -3,6 +3,7 @@
 #include <vector>
 #include "../includes/Replies.hpp"
 #include <algorithm>
+#include <cctype>
 
 // void splitString(const std::string& input, std::vector<std::string>& tokens) {
 //     std::istringstream iss(input);
@@ -25,8 +26,12 @@
 // }
 
 int CheckPASS(std::vector <std::string> message, Client	&c, std::string Pass){
-
-	if (message[0] != "PASS" || message.size() != 2)
+	std::string commandPass = "PASS";
+	for (int i = 0; i < message.size(); i++) {
+		std::cout << message[i] << "*" << std::endl;
+	}
+	// Pass = "PASS";
+	if (message[0] != commandPass || message.size() != 2)
 	{
 		Replies::NOTENOUGHPARAMS(c);
 		return 0;
@@ -42,8 +47,8 @@ int CheckPASS(std::vector <std::string> message, Client	&c, std::string Pass){
 int CheckUSER(std::vector <std::string> message, Client	&c){
 	std::vector<std::string>::iterator  it;
 
-	it = find(message.begin(), message.end(), message[1]); // checking the user if already exist;
-	if (message.size() != 6)
+	it = find(c.getUsers().begin(), c.getUsers().end(), message[1]); // checking the user if already exist;
+	if (message.size() !=  5)
 	{
 		Replies::NOTENOUGHPARAMS(c);
 		return 0;
@@ -57,7 +62,7 @@ int CheckUSER(std::vector <std::string> message, Client	&c){
 	if (message[2] != "0")
 		c.setMode(true);
 
-	if (it != message.end()) {
+	if (it == message.end()) {
 		Replies::ERR_ALREADYREGISTRED(c);
 		return 0;
 	}
@@ -70,12 +75,7 @@ int CheckUSER(std::vector <std::string> message, Client	&c){
 }
 
 // int CheckNICK(std::string message, Client &c){
-// 	std::vector<std::string> newM;
-// 	splitString(message, newM);
-// 	std::vector<std::string>::iterator  it;
 
-// 	it = find(newM.begin(), newM.end(), newM[1]);
-// 	newM[1] = clearSpaces(newM[1]);
 // 	if (newM.size() != 2)
 // 	{
 // 		Replies::NOTENOUGHPARAMS(c);
@@ -106,8 +106,21 @@ bool commands(std::vector<std::string> message, Client &c) {
 
 bool	Auth(std::vector<std::string> message, Client &c, std::string Password){
 
+	if (message.size() > 1) {
+        std::string& secondElement = message[0];
+        if (!secondElement.empty()) {
+            std::transform(secondElement.begin(), secondElement.end(), secondElement.begin(), ::toupper);
+        }
+    }
+	std::vector<std::string> authC;
+	authC.push_back("USER");
+	authC.push_back("NICK");
+
+	if (message.size() < 2)
+		return false;
 	if (c.getIsSignedIn() == false) {
 		if (CheckPASS(message, c, Password)){
+			std::cout << "Command Pass Passed With Success" << std::endl;
 			c.setIsSignedIn(true);
 			return true;
 		}
@@ -115,13 +128,13 @@ bool	Auth(std::vector<std::string> message, Client &c, std::string Password){
 	}
 	else if (c.getIsSignedIn() == true) {
 		if (c.isSettingsSetted() == false) {
-			if (message[0] == "USER"){
+			if (message[0] == authC.at(0)){
 				if (CheckUSER(message, c)) {
 					std::cout << "username is: " << c.getUsername() << "\nfullname is: " << c.getFullName() << std::endl;
 					return true;
 				}
 			}
-			else if (message[0] == "NICK") {
+			else if (message[0] == authC.at(1)) {
 				// CheckNICK(message, c);
 			}
 			else {

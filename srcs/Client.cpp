@@ -9,7 +9,7 @@ Client::Client(int clientId)
 {
 	isIn = false;
 	mode = false;
-	isSignedIn = true;
+	isSignedIn = false;
 	settingsSetted = false;
 	nickname = "";
 	fullName = "";
