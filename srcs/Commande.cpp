@@ -32,10 +32,10 @@ void HDE::Commande::start_parssing(std::string& msg)
         // {
 	    // }
     }
-	else 
+	else
 	{
-        this->cmd = msg;
 		std::transform(msg.begin(), msg.end(), msg.begin(), ::toupper);
+        this->cmd = msg;
 	}
 }
 
@@ -74,7 +74,7 @@ void	HDE::Commande::join_strings_after_colon(std::vector<std::string>& line){
 
 std::string HDE::Commande::getCmd()
 {
-    return std::string();
+    return this->cmd;
 }
 
 
@@ -85,7 +85,7 @@ void HDE::Commande::setCmd(std::string cmd)
 
 std::vector<std::string> HDE::Commande::getRequest()
 {
-	return std::vector<std::string>();
+	return this->request;
 }
 
 void HDE::Commande::setRequest(std::vector<std::string> request)
