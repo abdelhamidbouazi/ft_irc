@@ -16,10 +16,6 @@ bool isFound(const std::vector<std::string>& vec, const std::string& str) {
 
 int CheckPASS(std::vector <std::string> message, Client	&c, std::string Pass){
 	std::string commandPass = "PASS";
-	for (int i = 0; i < message.size(); i++) {
-		std::cout << message[i] << "*" << std::endl;
-	}
-	// Pass = "PASS";
 	if (message[0] != commandPass || message.size() != 2)
 	{
 		std::cout << "Enter Password First\n";
@@ -46,13 +42,19 @@ int CheckUSER(std::vector <std::string> message, Client	&c){
 		return 0;
 	}
 
-	if (message[1].length() > 9) {
+	if (message[1].length() == 0) {
 		// Username length error
 		return 0;
 	}
 
 	if (message[2] != "0")
 		c.setMode(true);
+	else if (message[2] == "0") {
+		c.setMode(false);
+	}
+	// else if (isdigit(message)) {
+		// check if its digit or not
+	// }
 
 	// if (it == message.end()) {
 	// 	Replies::ERR_ALREADYREGISTRED(c);
@@ -73,8 +75,9 @@ int CheckUSER(std::vector <std::string> message, Client	&c){
 int CheckNICK(std::vector <std::string> message, Client	&c){
 	bool registred = false;
 
-	if (isFound(c.getNicknames(), message[1]))
+	if (isFound(c.getNicknames(), message[1])){
 		registred = true;
+	}
 	if (message.size() != 2)
 	{
 		Replies::NOTENOUGHPARAMS(c);
@@ -82,10 +85,12 @@ int CheckNICK(std::vector <std::string> message, Client	&c){
 	}
 	if (registred == true){
 		Replies::ERR_ALREADYREGISTRED(c);
+		return 0;
 	}
 	else if (isdigit(message[1][0]))
 	{
 		Replies::NOTENOUGHPARAMS(c);
+		return 0;
 	}
 	else {
 		c.setNickname(message[1]);
@@ -95,6 +100,7 @@ int CheckNICK(std::vector <std::string> message, Client	&c){
 }
 
 bool commands(std::vector<std::string> message, Client &c) {
+	std::cout << "wsel l commandes" << std::endl;
 	(void)c;
 	(void)message;
 	return false;
@@ -132,9 +138,10 @@ bool	Auth(std::vector<std::string> message, Client &c, std::string Password){
 				}
 			}
 			else if (message[0] == authC.at(1)) {
-				CheckNICK(message, c);
-				std::cout << "Nickname is : " << c.getNickname() << std::endl;
-				return true;
+				if (CheckNICK(message, c)) {
+					std::cout << "Nickname is : " << c.getNickname() << std::endl;
+					return true;
+				}
 			}
 			// else {
 			// 	std::cout << "Please enter a valid command" << std::endl;
@@ -151,6 +158,6 @@ bool	Auth(std::vector<std::string> message, Client &c, std::string Password){
 	// if (c.getCounter() == 3){
 	// 	send(c.getClientId(),welcomeMessage.c_str(),welcomeMessage.length(),0);
 	// 	c.incrementCounter();
-	// }
+	// }2
 	return true;
 }

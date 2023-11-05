@@ -102,6 +102,7 @@ void Client::setIsSettingsSetted(bool settingsSetted)
 
 void Client::setNickname(std::string nickname)
 {
+	this->nicknames.push_back(nickname);
 	this->nickname = nickname;
 }
 
@@ -114,7 +115,7 @@ void Client::addUser(std::string username, Client &c)
 {
 	if (username.length() == 0)
 		Replies::ERR_ALREADYREGISTRED(c);
-	if (username.length() > 2) {
+	if (username.length() > 1) {
 		this->username = username;
 		users.push_back(username);
 	}
