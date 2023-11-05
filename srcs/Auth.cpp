@@ -33,6 +33,7 @@ int CheckPASS(std::vector <std::string> message, Client	&c, std::string Pass){
 		return 1;
 }
 
+
 int CheckUSER(std::vector <std::string> message, Client	&c){
 	// std::vector<std::string>::iterator  it;
 	bool registred = false;
