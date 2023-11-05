@@ -20,6 +20,8 @@ class Client
 		// Declare the static vector of strings as a private static member
 		static std::vector<std::string> users;
 		static std::vector<std::string> nicknames;
+		bool	UFlag;
+		bool	NFlag;
 
 
 	public:
@@ -40,6 +42,8 @@ class Client
 		std::vector<std::string> getNicknames();
 		std::vector<std::string> getAllUsers();
 		int getClientId();
+		bool getUFlag();
+		bool getNFlag();
 		// int getCounter();
 
 
@@ -52,6 +56,8 @@ class Client
 		void addUser(std::string username, Client &c);
 		void setClientId(int clientId);
 		// void incrementCounter();
+		void setUFlag();
+		void setNFlag();
 };
 
 // Define the static vector of strings outside the class definition
