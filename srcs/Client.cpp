@@ -15,6 +15,8 @@ Client::Client(int clientId)
 	fullName = "";
 	username = "";
 	this->clientId = clientId;
+	UFlag = false;
+	NFlag = false;
 	// counter = 0;
 }
 
@@ -29,6 +31,14 @@ bool Client::getIsIn()
 bool Client::getMode()
 {
 	return mode;
+}
+bool Client::getUFlag()
+{
+	return UFlag;
+}
+bool Client::getNFlag()
+{
+	return NFlag;
 }
 
 bool Client::getIsSignedIn()
@@ -97,7 +107,7 @@ void Client::setIsSignedIn(bool isSignedIn)
 }
 void Client::setIsSettingsSetted(bool settingsSetted)
 {
-	this->isSignedIn = settingsSetted;
+	this->settingsSetted = settingsSetted;
 }
 
 void Client::setNickname(std::string nickname)
@@ -126,6 +136,15 @@ void Client::addUser(std::string username, Client &c)
 void Client::setClientId(int clientId)
 {
 	this->clientId = clientId;
+}
+
+void Client::setUFlag()
+{
+	this->UFlag = true;
+}
+void Client::setNFlag()
+{
+	this->NFlag = true;
 }
 
 // void Client::incrementCounter()

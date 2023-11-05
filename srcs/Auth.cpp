@@ -67,6 +67,7 @@ int CheckUSER(std::vector <std::string> message, Client	&c){
 	else {
 		c.addUser(message[1], c);
 		c.setFullName(message[4]);
+		c.setUFlag();
 		return 1;
 	}
 	return 0;
@@ -94,29 +95,44 @@ int CheckNICK(std::vector <std::string> message, Client	&c){
 	}
 	else {
 		c.setNickname(message[1]);
+		c.setNFlag();
 		return 1;
 	}
 	return 0;
 }
 
 bool commands(std::vector<std::string> message, Client &c) {
-	std::cout << "wsel l commandes" << std::endl;
-	(void)c;
-	(void)message;
+	if (message[0].c_str() == "NICK")
+	{
+		if (CheckNICK(message, c)) {
+			std::cout << "SIGNED==>Nickname is : " << c.getNickname() << std::endl;
+			return true;
+		}
+		return false;
+	}
+	else if (message[0].c_str() == "USER")
+	{
+		if (CheckUSER(message, c)) {
+			std::cout << "SIGNED==>Username is: " << c.getUsername() << "\nFullname is: " << c.getFullName() << std::endl;
+			return true;
+		}
+		return false;
+	}
+	else {
+		std::cout << "SIGNED==>Enter a valid Command" << std::endl;
+		return false;
+	}
 	return false;
 }
 
-bool	Auth(std::vector<std::string> message, Client &c, std::string Password){
-
+bool	Auth(std::vector<std::string> message, Client &c, std::string Password)
+{
 	if (message.size() > 1) {
         std::string& secondElement = message[0];
         if (!secondElement.empty()) {
             std::transform(secondElement.begin(), secondElement.end(), secondElement.begin(), ::toupper);
         }
     }
-	std::vector<std::string> authC;
-	authC.push_back("USER");
-	authC.push_back("NICK");
 
 	if (message.size() < 2)
 		return false;
@@ -130,6 +146,14 @@ bool	Auth(std::vector<std::string> message, Client &c, std::string Password){
 		return false;
 	}
 	else if (c.getIsSignedIn() == true) {
+
+		if (c.getNFlag() && c.getUFlag()) {
+			c.setIsSettingsSetted(true);
+		}
+		if (c.isSettingsSetted() == true){
+			commands(message, c);
+			return true;
+		}
 		if (c.isSettingsSetted() == false) {
 			if (message[0] == authC.at(0)){
 				if (CheckUSER(message, c)) {
@@ -142,14 +166,12 @@ bool	Auth(std::vector<std::string> message, Client &c, std::string Password){
 					std::cout << "Nickname is : " << c.getNickname() << std::endl;
 					return true;
 				}
+				return false;
 			}
-			// else {
-			// 	std::cout << "Please enter a valid command" << std::endl;
-			// 	return false;
-			// }
-		}
-		else if (c.isSettingsSetted() == true){
-			commands(message, c);
+			else {
+				std::cout << "Please set user and nickname first" << std::endl;
+				return false;
+			}
 		}
 	}
 
