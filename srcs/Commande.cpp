@@ -5,9 +5,28 @@ HDE::Commande::Commande()
 {
 }
 
+std::string& rtrim(std::string& s, const char* t = " \t\n\r\f\v")
+{
+    s.erase(s.find_last_not_of(t) + 1);
+    return s;
+}
+
+std::string& ltrim(std::string& s, const char* t = " \t\n\r\f\v")
+{
+    s.erase(0, s.find_first_not_of(t));
+    return s;
+}
+
+std::string& trim(std::string& s, const char* t = " \t\n\r\f\v")
+{
+    return ltrim(rtrim(s, t), t);
+}
+
+
 void HDE::Commande::start_parssing(std::string& msg)
 {
 	std::string dl = " " ;
+	msg = trim(msg);
 	size_t pos = msg.find(dl);
 
 	if(pos != std::string::npos)
@@ -62,6 +81,7 @@ void	HDE::Commande::join_strings_after_colon(std::vector<std::string>& line){
 		if ((*it)[0] == ':'){
 			flag = true;
 			temp = *it;
+			temp.erase(0, 1);
 			saver = it;
 		}
 		else if (flag)
