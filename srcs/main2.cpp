@@ -14,7 +14,8 @@ int main(int ac, char **av){
 		Args	a(av[1], av[2]);
 		Client	c(5);
 
-		c.addUser("abdelhamidb1", c);
+		c.addUser("abouazi", c);
+		c.setNickname("opus");
 
 		// Server(a.getPort(), a.getPassword());
 		HDE::TestServer ts(a.getPort(), a.getPassword());

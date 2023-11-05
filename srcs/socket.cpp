@@ -118,7 +118,7 @@ void HDE::SocketHde::start_polling()
                         tmp_message = clt.at(fds[i].fd).commande_str.substr(0, pos);
                         obj.start_parssing(tmp_message);
 
-                std::cout << "the size of the request is : "                                            << obj.getRequest().size() << std::endl;
+                        std::cout << "the size of the request is : "<< obj.getRequest().size() << std::endl;
 
                         // if(!Auth(obj.getCmd(), clt.at(fds[i].fd), getPassword()));
                         //     std::cout << "error " << std::endl;

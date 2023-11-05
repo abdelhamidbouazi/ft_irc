@@ -4,7 +4,7 @@ Args::Args(std::string port, std::string password)
 {
 	if (port.length() > 6 || port.length() < 2)
 		throw std::length_error("Port length error");
-	for (int i = 0; i < port.size(); i++){
+	for (size_t i = 0; i < port.size(); i++){
 		if (!isdigit(port[i]))
 			throw std::length_error("Bad Port!");
 	}
