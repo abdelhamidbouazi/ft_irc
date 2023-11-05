@@ -13,7 +13,6 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
-int Server(int Port, std::string Password);
 
 class Args
 {
