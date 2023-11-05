@@ -11,7 +11,8 @@ Header =	./includes/socket.hpp \
 		./includes/Commande.hpp \
 		./includes/Client.hpp \
 		./includes/Args.hpp \
-		./includes/Replies.hpp
+		./includes/Replies.hpp \
+		./includes/Channel.hpp \
 
 VERSION = -std=c++98 -Wall -Wextra -Werror
 # VERSION = -std=c++98
@@ -29,6 +30,7 @@ SRC =	./srcs/main2.cpp \
 		./srcs/Auth.cpp \
 		./srcs/Replies.cpp \
 		./srcs/Commands/Mode.cpp \
+		./srcs/Channel.cpp \
 		# ./srcs/main.cpp \
 
 
