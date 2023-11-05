@@ -114,7 +114,7 @@ void HDE::SocketHde::start_polling()
                     size_t pos = clt.at(fds[i].fd).commande_str.find_first_of("\r\n");
                     while (pos != std::string::npos)
                     {
-						std::cout << "Message received: " << clt.at(fds[i].fd).commande_str.substr(0, pos) << std::endl;
+						// std::cout << "Message received: " << clt.at(fds[i].fd).commande_str.substr(0, pos) << std::endl;
                         tmp_message = clt.at(fds[i].fd).commande_str.substr(0, pos);
                         obj.start_parssing(tmp_message);
 
@@ -123,8 +123,8 @@ void HDE::SocketHde::start_polling()
 							std::cout << "error " << std::endl;
 						}
 
-						std::vector<std::string > v = obj.getRequest();
-						std::cout << v.size() << std::endl;
+						// std::vector<std::string > v = obj.getRequest();
+						// std::cout << v.size() << std::endl;
 						// for (size_t i = 0; i < v.size(); i++){
 						// 	std::cout << "The message recieved in the auth is : **" << v[i]<< "**" << "\n";
 						// }
