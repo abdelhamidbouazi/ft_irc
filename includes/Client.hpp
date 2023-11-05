@@ -5,6 +5,7 @@
 
 #include <vector>
 
+
 class Client
 {
 	private:
@@ -19,6 +20,7 @@ class Client
 		// int counter;
 		// Declare the static vector of strings as a private static member
 		static std::vector<std::string> users;
+		static std::vector<std::string> operators;
 		static std::vector<std::string> nicknames;
 		bool	UFlag;
 		bool	NFlag;
