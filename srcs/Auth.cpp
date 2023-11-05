@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <cctype>
 
+
 bool isFound(const std::vector<std::string>& vec, const std::string& str) {
     for (std::vector<std::string>::const_iterator it = vec.begin(); it != vec.end(); ++it) {
         if (*it == str) {
@@ -101,19 +102,20 @@ int CheckNICK(std::vector <std::string> message, Client	&c){
 	return 0;
 }
 
-bool commands(std::vector<std::string> message, Client &c) {
-	if (message[0].c_str() == "NICK")
+bool commands(std::vector<std::string> message, Client &c)
+{
+	if (message[0].compare("USER") == 0)
 	{
-		if (CheckNICK(message, c)) {
-			std::cout << "SIGNED==>Nickname is : " << c.getNickname() << std::endl;
+		if (CheckUSER(message, c)) {
+			std::cout << "SIGNED==>Username is: " << c.getUsername() << "\nFullname is: " << c.getFullName() << std::endl;
 			return true;
 		}
 		return false;
 	}
-	else if (message[0].c_str() == "USER")
+	else if (message[0].compare("NICK") == 0)
 	{
-		if (CheckUSER(message, c)) {
-			std::cout << "SIGNED==>Username is: " << c.getUsername() << "\nFullname is: " << c.getFullName() << std::endl;
+		if (CheckNICK(message, c)) {
+			std::cout << "SIGNED==>Nickname is : " << c.getNickname() << std::endl;
 			return true;
 		}
 		return false;
@@ -151,17 +153,18 @@ bool	Auth(std::vector<std::string> message, Client &c, std::string Password)
 			c.setIsSettingsSetted(true);
 		}
 		if (c.isSettingsSetted() == true){
-			commands(message, c);
-			return true;
+			if (commands(message, c))
+				return true;
+			return false;
 		}
 		if (c.isSettingsSetted() == false) {
-			if (message[0] == authC.at(0)){
+			if (message[0].compare("USER") == 0){
 				if (CheckUSER(message, c)) {
 					std::cout << "username is: " << c.getUsername() << "\nfullname is: " << c.getFullName() << std::endl;
 					return true;
 				}
 			}
-			else if (message[0] == authC.at(1)) {
+			else if (message[0].compare("NICK") == 0) {
 				if (CheckNICK(message, c)) {
 					std::cout << "Nickname is : " << c.getNickname() << std::endl;
 					return true;

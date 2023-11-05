@@ -13,9 +13,6 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
-std::vector<std::string> authC;
-authC.push_back("USER");
-authC.push_back("NICK");
 
 class Args
 {
