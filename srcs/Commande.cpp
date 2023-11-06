@@ -26,6 +26,7 @@ std::string& trim(std::string& s, const char* t = " \t\n\r\f\v")
 void HDE::Commande::start_parssing(std::string& msg)
 {
 	std::string dl = " " ;
+	std::string dlMode = ",";
 	msg = trim(msg);
 	size_t pos = msg.find(dl);
 
@@ -40,16 +41,47 @@ void HDE::Commande::start_parssing(std::string& msg)
 			join_strings_after_colon(this->request);
 		}
 
-		else if(this->cmd == "INVITE" || this->cmd == "MODE"
-                || this->cmd == "PASS" || this->cmd == "NICK")
+		else if(this->cmd == "INVITE" || this->cmd == "PASS" || this->cmd == "NICK")
         {
 			pushToVector(this->request, msg);
         }
-		// for (int i = 0; i< request.size(); i++)
-		// 	std::cout << "request[" << i << "] ===> "<< request[i] << std::endl;
-		// else if(this->cmd == "JOIN")
-        // {
-	    // }
+		else if(this->cmd == "MODE")
+		{
+			pushToVectorForMode(this->request, msg);
+		}
+		else if(this->cmd == "JOIN")
+        {
+			pushToVector(this->request, msg);
+			std::string tmp;
+			size_t pos_tmp;
+			size_t pos_chann;
+			int first = 1;
+			
+			if(this->request.size() <= 3)
+			{
+				while (1)
+				{
+					pos_chann = this->request[1].find(dlMode);
+					if (this->request.size() == 3 && first){
+						pos_tmp = this->request[2].find(dlMode);
+						tmp = this->request[2].substr(0, pos_tmp);
+						this->request[2].erase(0, pos_tmp + dlMode.length());
+						if (pos_tmp == std::string::npos)
+							first = 0;
+					}
+					else
+						tmp = "";
+
+					this->modeVect.push_back(std::make_pair(this->request[1].substr(0, pos_chann), tmp));	
+					this->request[1].erase(0, pos_chann + dlMode.length());
+					if (pos_chann == std::string::npos)
+						break;
+				}
+			}
+
+			// for(std::vector<std::pair< std::string, std::string> >::const_iterator it = this->modeVect.begin(), it != this->modeVect.end(), ++it)
+			// 	std::cout << "line : " << it->first << "---" << it->second << std::endl;
+		}
     }
 	else
 	{
@@ -57,6 +89,7 @@ void HDE::Commande::start_parssing(std::string& msg)
 		std::transform(msg.begin(), msg.end(), msg.begin(), ::toupper);
 	}
 }
+
 
 
 void pushToVector(std::vector<std::string> &vec, std::string str)
@@ -67,6 +100,34 @@ void pushToVector(std::vector<std::string> &vec, std::string str)
 	{
 		pos = str.find(dl);
 		vec.push_back(str.substr(0, pos));
+		str.erase(0, pos + dl.length());
+		if(pos == std::string::npos)
+			break;
+	}
+}
+void pushToVectorForMode(std::vector<std::string> &vec, std::string str)
+{
+	std::string dl = " " ;
+	size_t pos ;
+	int i = 0;
+	while (true)
+	{
+		i++;
+		pos = str.find(dl);
+		if(i == 2)
+		{
+			if(str.at(0) == '#')
+				str.erase(0,1);
+			else
+				std::cout << "not a channel " << std::endl;
+		}
+		if(i == 3)
+		{
+			vec.push_back(str.substr(0, 1));
+			vec.push_back(str.substr(1, pos));
+		}
+		else
+			vec.push_back(str.substr(0, pos));
 		str.erase(0, pos + dl.length());
 		if(pos == std::string::npos)
 			break;
@@ -99,18 +160,26 @@ std::string HDE::Commande::getCmd()
     return this->cmd;
 }
 
+std::vector<std::string> HDE::Commande::getRequest()
+{
+	return this->request;
+}
+
+std::vector<std::pair<std::string, std::string> > HDE::Commande::getModeVect()
+{
+    return this->modeVect;
+}
 
 void HDE::Commande::setCmd(std::string cmd)
 {
     this->cmd = cmd;
 }
 
-std::vector<std::string> HDE::Commande::getRequest()
-{
-	return this->request;
-}
-
 void HDE::Commande::setRequest(std::vector<std::string> request)
 {
 	this->request = request;
+}
+void HDE::Commande::setModeVect(std::vector<std::pair<std::string, std::string> > Modevect)
+{
+	this->modeVect = Modevect;
 }

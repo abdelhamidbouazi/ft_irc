@@ -125,6 +125,15 @@ bool commands(std::vector<std::string> message, Client &c)
 		}
 		return false;
 	}
+	else if (message[0].compare("JOIN") == 0)
+	{
+		// if (CheckNICK(message, c)) {
+		// 	// std::cout << "SIGNED==>Nickname is : " << c.getNickname() << std::endl;
+		// 	return true;
+		// }
+		// return false;
+		std::cout << "SIGNED==>Entred JOIN Command Function\n";
+	}
 	else if (message[0].compare("MODE") == 0)
 	{
 	// 	if (CheckMODE(message, c, ch)) {

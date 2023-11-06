@@ -29,8 +29,8 @@ SRC =	./srcs/main2.cpp \
 		./srcs/Args.cpp \
 		./srcs/Auth.cpp \
 		./srcs/Replies.cpp \
-		./srcs/Commands/Mode.cpp \
 		./srcs/Channel.cpp \
+		./srcs/Commands/Mode.cpp \
 		# ./srcs/main.cpp \
 
 
