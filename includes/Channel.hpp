@@ -15,6 +15,7 @@ class Channel
 		bool		inviteOnly;
 		bool		isTopic;
 		std::string	key;
+		static map <std::string, Channel &ch>	channelMap;
 
 	public:
 		Channel(std::string name, Client &owner);

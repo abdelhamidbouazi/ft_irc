@@ -3,7 +3,7 @@
 #include "../../includes/Replies.hpp"
 
 // in the parsing send me the address of channel, and in the vector send
-bool CheckMODE(std::vector<std::string> message, Client &c, Channel &ch){
+bool CheckMODE(std::vector<std::string> message, Client &c){
 	if (message[0].compare("MODE") == 0) {
 		for (int i = 0; i < message[3].length(); i++) {
 			if (message[3][i].compare('+') != 0 || message[3][i] != "t" || message[3][i] != "k" \
