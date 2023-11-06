@@ -26,7 +26,6 @@ std::string& trim(std::string& s, const char* t = " \t\n\r\f\v")
 void HDE::Commande::start_parssing(std::string& msg)
 {
 	std::string dl = " " ;
-	std::string dlMode = ",";
 	msg = trim(msg);
 	size_t pos = msg.find(dl);
 
@@ -52,41 +51,48 @@ void HDE::Commande::start_parssing(std::string& msg)
 		else if(this->cmd == "JOIN")
         {
 			pushToVector(this->request, msg);
-			std::string tmp;
-			size_t pos_tmp;
-			size_t pos_chann;
-			int first = 1;
-			
-			if(this->request.size() <= 3)
-			{
-				while (1)
-				{
-					pos_chann = this->request[1].find(dlMode);
-					if (this->request.size() == 3 && first){
-						pos_tmp = this->request[2].find(dlMode);
-						tmp = this->request[2].substr(0, pos_tmp);
-						this->request[2].erase(0, pos_tmp + dlMode.length());
-						if (pos_tmp == std::string::npos)
-							first = 0;
-					}
-					else
-						tmp = "";
-
-					this->modeVect.push_back(std::make_pair(this->request[1].substr(0, pos_chann), tmp));	
-					this->request[1].erase(0, pos_chann + dlMode.length());
-					if (pos_chann == std::string::npos)
-						break;
-				}
-			}
-
-			// for(std::vector<std::pair< std::string, std::string> >::const_iterator it = this->modeVect.begin(), it != this->modeVect.end(), ++it)
-			// 	std::cout << "line : " << it->first << "---" << it->second << std::endl;
+			splitTheJoinPram();
+			// for ( std::vector < std::pair<std::string, std::string> >::const_iterator it = this->modeVect.begin() ; it != this->modeVect.end(); it++){
+    	    // 	std::cout << it->first << "-------" << it->second << std::endl;  
+			// }
 		}
     }
 	else
 	{
         this->cmd = msg;
 		std::transform(msg.begin(), msg.end(), msg.begin(), ::toupper);
+	}
+}
+
+
+void HDE::Commande::splitTheJoinPram()
+{
+	std::string tmp;
+	size_t pos_tmp;
+	size_t pos_chann;
+	int first = 1;
+	std::string dlMode = ",";
+	
+	if(this->request.size() <= 3)
+	{
+		while (1)
+		{
+			pos_chann = this->request[1].find(dlMode);
+			if (this->request.size() == 3 && first){
+				pos_tmp = this->request[2].find(dlMode);
+				tmp = this->request[2].substr(0, pos_tmp);
+				this->request[2].erase(0, pos_tmp + dlMode.length());
+				if (pos_tmp == std::string::npos)
+					first = 0;
+			}
+			else
+				tmp = "";
+
+			this->modeVect.push_back(std::make_pair(this->request[1].substr(0, pos_chann), tmp));	
+			this->request[1].erase(0, pos_chann + dlMode.length());
+			if (pos_chann == std::string::npos)
+				break;
+		}
 	}
 }
 

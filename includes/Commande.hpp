@@ -27,6 +27,8 @@ namespace HDE
             void setCmd(std::string cmd);
             void setRequest(std::vector<std::string> request);
             void setModeVect(std::vector<std::pair<std::string, std::string> > Modevect);
+
+            void splitTheJoinPram();
     };
 }
 

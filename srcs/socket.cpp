@@ -119,8 +119,8 @@ void HDE::SocketHde::start_polling()
 
 						std::cout << "**** The Client ID is : " << clt.at(fds[i].fd).getClientId() << std::endl;
 						if(Auth(obj.getRequest(), clt.at(fds[i].fd), getPassword(), channelsMap)) {
-                            std::string str = "wellcom to the irc server\n";
-							send(clt.at(fds[i].fd).getClientId(), str.c_str(), str.length(), 0);
+                            // std::string str = "wellcom to the irc server\n";
+							// send(clt.at(fds[i].fd).getClientId(), str.c_str(), str.length(), 0);
 						}
 
                         tmp_message = clt.at(fds[i].fd).commande_str.erase(0, pos + 2);
