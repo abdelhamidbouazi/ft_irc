@@ -2,9 +2,11 @@
 #include "../includes/Args.hpp"
 #include <vector>
 #include "../includes/Replies.hpp"
+#include "../includes/Channel.hpp"
 #include <algorithm>
 #include <cctype>
 
+bool CheckMODE(std::vector<std::string> message, Client &c, Channel &ch);
 
 bool isFound(const std::vector<std::string>& vec, const std::string& str) {
     for (std::vector<std::string>::const_iterator it = vec.begin(); it != vec.end(); ++it) {
@@ -30,6 +32,7 @@ int CheckPASS(std::vector <std::string> message, Client	&c, std::string Pass){
 	else
 		return 1;
 }
+
 
 int CheckUSER(std::vector <std::string> message, Client	&c){
 	// std::vector<std::string>::iterator  it;
@@ -104,6 +107,8 @@ int CheckNICK(std::vector <std::string> message, Client	&c){
 
 bool commands(std::vector<std::string> message, Client &c)
 {
+	Channel ch("channel1", c);
+	// Channel ch;
 	if (message[0].compare("USER") == 0)
 	{
 		if (CheckUSER(message, c)) {
@@ -120,6 +125,14 @@ bool commands(std::vector<std::string> message, Client &c)
 		}
 		return false;
 	}
+	else if (message[0].compare("MODE") == 0)
+	{
+	// 	if (CheckMODE(message, c, ch)) {
+	// 		std::cout << "SIGNED==>Nickname is : " << c.getNickname() << std::endl;
+	// 		return true;
+	// 	}
+		return false;
+	}
 	else {
 		std::cout << "SIGNED==>Enter a valid Command" << std::endl;
 		return false;
@@ -129,6 +142,7 @@ bool commands(std::vector<std::string> message, Client &c)
 
 bool	Auth(std::vector<std::string> message, Client &c, std::string Password)
 {
+
 	if (message.size() > 1) {
         std::string& secondElement = message[0];
         if (!secondElement.empty()) {
