@@ -4,7 +4,10 @@
 #include "Args.hpp"
 
 #include <vector>
+#include <map>
+#include "Channel.hpp"
 
+class Channel;
 
 class Client
 {
@@ -65,6 +68,5 @@ class Client
 // Define the static vector of strings outside the class definition
 
 
-bool	Auth(std::vector<std::string> message, Client &c, std::string Password);
-
+bool	Auth(std::vector<std::string> message, Client &c, std::string Password, std::map<std::string, Channel&> channelsMap);
 #endif

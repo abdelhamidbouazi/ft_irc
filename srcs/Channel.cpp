@@ -1,10 +1,5 @@
 #include "../includes/Channel.hpp"
 #include "../includes/Client.hpp"
-
-std::vector<Client> Channel::users;
-std::vector<Client> Channel::operators;
-std::map<std::string, Channel&> Channel::channelsMap;
-
 #include <iostream>
 #include <vector>
 
@@ -17,6 +12,11 @@ Channel::Channel(std::string name, Client owner)
 	key = "";
 	users.push_back(owner);
 	operators.push_back(owner);
+}
+
+Channel::Channel(std::string name)
+{
+
 }
 
 Channel::~Channel()
@@ -65,23 +65,6 @@ std::string Channel::getKey()
 	return this->key;
 }
 
-// std::map<std::string, Channel &> &Channel::getChannelsMap()
-// {
-// 	return channelsMap;
-// }
-// Channel &Channel::getChannel(std::string channelName)
-// {
-// 	return channelsMap[channelName];
-// }
-
-Channel &Channel::getChannel(const std::string &channelName){
-	std::map<std::string, Channel&>::iterator it = channelsMap.find(channelName);
-    if (it != channelsMap.end())
-        return it->second;
-    else
-        throw std::runtime_error("Channel not found");
-}
-
 void Channel::setChannel(std::string _channel)
 {
 	this->channel = _channel;
@@ -105,8 +88,4 @@ void Channel::setIsTopic(bool _val)
 void Channel::setKey(std::string _key)
 {
 	this->key = _key;
-}
-
-void Channel::addChannels(std::string channelName, Channel& ch) {
-    channelsMap.insert(std::pair<std::string, Channel&>(channelName, ch));
 }
