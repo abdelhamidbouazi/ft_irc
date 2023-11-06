@@ -68,7 +68,10 @@ namespace HDE
 			void set_connection(int connection);
 	
 			std::string ClientIp(int sock);
+
+			// commands
 	};
 }
+void Join(std::vector<std::pair<std::string , std::string > > joinVector, Client &c ,std::map<std::string, Channel&> channelsMap);
 
 #endif

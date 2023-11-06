@@ -88,7 +88,7 @@ void HDE::Commande::splitTheJoinPram()
 			else
 				tmp = "";
 
-			this->modeVect.push_back(std::make_pair(this->request[1].substr(0, pos_chann), tmp));	
+			this->joinVector.push_back(std::make_pair(this->request[1].substr(0, pos_chann), tmp));	
 			this->request[1].erase(0, pos_chann + dlMode.length());
 			if (pos_chann == std::string::npos)
 				break;
@@ -164,9 +164,9 @@ std::vector<std::string> HDE::Commande::getRequest()
 	return this->request;
 }
 
-std::vector<std::pair<std::string, std::string> > HDE::Commande::getModeVect()
+std::vector<std::pair<std::string, std::string> > HDE::Commande::getJoinVector()
 {
-    return this->modeVect;
+    return this->joinVector;
 }
 
 void HDE::Commande::setCmd(std::string cmd)
@@ -178,7 +178,7 @@ void HDE::Commande::setRequest(std::vector<std::string> request)
 {
 	this->request = request;
 }
-void HDE::Commande::setModeVect(std::vector<std::pair<std::string, std::string> > Modevect)
+void HDE::Commande::setJoinVector(std::vector<std::pair<std::string, std::string> > joinVector)
 {
-	this->modeVect = Modevect;
+	this->joinVector = joinVector;
 }

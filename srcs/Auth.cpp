@@ -3,6 +3,7 @@
 #include <vector>
 #include "../includes/Replies.hpp"
 #include "../includes/Channel.hpp"
+#include "../includes/socket.hpp"
 #include <algorithm>
 #include <cctype>
 
@@ -105,7 +106,7 @@ int CheckNICK(std::vector <std::string> message, Client	&c){
 	return 0;
 }
 
-bool commands(std::vector<std::string> message, Client &c, std::map<std::string, Channel&> channelsMap)
+bool commands(std::vector<std::string> message, Client &c, std::map<std::string, Channel&> channelsMap, std::vector<std::pair<std::string , std::string > > joinVector)
 {
 	Channel ch("channel1", c);
 	// Channel ch;
@@ -132,6 +133,7 @@ bool commands(std::vector<std::string> message, Client &c, std::map<std::string,
 		// 	return true;
 		// }
 		// return false;
+		Join(joinVector, c, channelsMap);
 		std::cout << "SIGNED==>Entred JOIN Command Function\n";
 	}
 	else if (message[0].compare("MODE") == 0)
@@ -150,7 +152,7 @@ bool commands(std::vector<std::string> message, Client &c, std::map<std::string,
 	return false;
 }
 
-bool	Auth(std::vector<std::string> message, Client &c, std::string Password, std::map<std::string, Channel&> channelsMap)
+bool	Auth(std::vector<std::string> message, Client &c, std::string Password, std::map<std::string, Channel&> channelsMap, std::vector<std::pair<std::string , std::string > > joinVector)
 {
 
 	if (message.size() > 1) {
@@ -177,7 +179,7 @@ bool	Auth(std::vector<std::string> message, Client &c, std::string Password, std
 			c.setIsSettingsSetted(true);
 		}
 		if (c.isSettingsSetted() == true){
-			if (commands(message, c, channelsMap))
+			if (commands(message, c, channelsMap, joinVector))
 				return true;
 			return false;
 		}

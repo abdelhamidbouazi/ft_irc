@@ -70,5 +70,5 @@ class Client
 // Define the static vector of strings outside the class definition
 
 
-bool	Auth(std::vector<std::string> message, Client &c, std::string Password, std::map<std::string, Channel&> channelsMap);
+bool	Auth(std::vector<std::string> message, Client &c, std::string Password, std::map<std::string, Channel&> channelsMap, std::vector<std::pair<std::string , std::string > > joinVector);
 #endif
