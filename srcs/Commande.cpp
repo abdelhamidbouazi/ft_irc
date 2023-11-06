@@ -114,13 +114,6 @@ void pushToVectorForMode(std::vector<std::string> &vec, std::string str)
 	{
 		i++;
 		pos = str.find(dl);
-		if(i == 2)
-		{
-			if(str.at(0) == '#')
-				str.erase(0,1);
-			else
-				std::cout << "not a channel " << std::endl;
-		}
 		if(i == 3)
 		{
 			vec.push_back(str.substr(0, 1));

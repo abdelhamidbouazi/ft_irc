@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <cctype>
 
-bool CheckMODE(std::vector<std::string> message, Client &c, Channel &ch);
+bool CheckMODE(std::vector<std::string> message, Client &c, std::map<std::string, Channel&> channelsMap);
 
 bool isFound(const std::vector<std::string>& vec, const std::string& str) {
     for (std::vector<std::string>::const_iterator it = vec.begin(); it != vec.end(); ++it) {
@@ -105,7 +105,7 @@ int CheckNICK(std::vector <std::string> message, Client	&c){
 	return 0;
 }
 
-bool commands(std::vector<std::string> message, Client &c)
+bool commands(std::vector<std::string> message, Client &c, std::map<std::string, Channel&> channelsMap)
 {
 	Channel ch("channel1", c);
 	// Channel ch;
@@ -136,20 +136,21 @@ bool commands(std::vector<std::string> message, Client &c)
 	}
 	else if (message[0].compare("MODE") == 0)
 	{
-	// 	if (CheckMODE(message, c, ch)) {
+		if (CheckMODE(message, c, channelsMap)) {
 	// 		std::cout << "SIGNED==>Nickname is : " << c.getNickname() << std::endl;
 	// 		return true;
 	// 	}
-		return false;
-	}
-	else {
-		std::cout << "SIGNED==>Enter a valid Command" << std::endl;
-		return false;
+			return false;
+		}
+		else {
+			std::cout << "SIGNED==>Enter a valid Command" << std::endl;
+			return false;
+		}
 	}
 	return false;
 }
 
-bool	Auth(std::vector<std::string> message, Client &c, std::string Password)
+bool	Auth(std::vector<std::string> message, Client &c, std::string Password, std::map<std::string, Channel&> channelsMap)
 {
 
 	if (message.size() > 1) {
@@ -176,7 +177,7 @@ bool	Auth(std::vector<std::string> message, Client &c, std::string Password)
 			c.setIsSettingsSetted(true);
 		}
 		if (c.isSettingsSetted() == true){
-			if (commands(message, c))
+			if (commands(message, c, channelsMap))
 				return true;
 			return false;
 		}
@@ -209,3 +210,4 @@ bool	Auth(std::vector<std::string> message, Client &c, std::string Password)
 	// }2
 	return true;
 }
+

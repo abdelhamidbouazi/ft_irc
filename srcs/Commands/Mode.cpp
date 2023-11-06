@@ -1,33 +1,36 @@
 #include "../../includes/Client.hpp"
 #include "../../includes/Channel.hpp"
 #include "../../includes/Replies.hpp"
+#include "../../includes/socket.hpp"
 
-bool CheckMODE(std::vector<std::string> message, Client &c){
+bool CheckMODE(std::vector<std::string> message, Client &c ,std::map<std::string, Channel&> channelsMap){
+
 
 	if (message[0].compare("MODE") == 0)
 	{
 		if (message[2].compare("+") == 0)
 		{
 			if (message[3].compare("i") == 0){
-				Channel::getChannel(message[1]).setInviteOnly(true);
+				channelsMap.at(message[1]).setInviteOnly(true);
+				// Channel::getChannel(message[1]).setInviteOnly(true);
 				return true;
 			}
-			else if (message[3].compare("t") == 0){
-				Channel::getChannel(message[1]).setIsTopic(true);
-				return true;
-			}
-			else if (message[3].compare("k") == 0){
-				Channel::getChannel(message[1]).setKey(message[4]);
-				return true;
-			}
-			else if (message[3].compare("o") == 0){
-					Channel::getChannel(message[1]).addOperators(c);
-				return true;
-			}
-			else if (message[3].compare("l") == 0){
-					// Channel::getChannel(message[1]).setlimitUsers(message[4]); // must be int
-				return true;
-			}
+			// else if (message[3].compare("t") == 0){
+			// 	Channel::getChannel(message[1]).setIsTopic(true);
+			// 	return true;
+			// }
+			// else if (message[3].compare("k") == 0){
+			// 	Channel::getChannel(message[1]).setKey(message[4]);
+			// 	return true;
+			// }
+			// else if (message[3].compare("o") == 0){
+			// 		Channel::getChannel(message[1]).addOperators(c);
+			// 	return true;
+			// }
+			// else if (message[3].compare("l") == 0){
+			// 		// Channel::getChannel(message[1]).setlimitUsers(message[4]); // must be int
+			// 	return true;
+			// }
 			else {
 				std::cout << "invalid mode" << std::endl;
 			}
