@@ -1,35 +1,48 @@
 #include "../includes/Channel.hpp"
+#include "../includes/Client.hpp"
+
+std::vector<Client> Channel::users;
+std::vector<Client> Channel::operators;
+std::map<std::string, Channel&> Channel::channelsMap;
 
 #include <iostream>
 #include <vector>
 
-Channel::Channel(std::string name, Client &owner)
-		: channel(name),
-			limitUsers(-1),
-			inviteOnly(false),
-			isTopic(false),
-			key("")
+Channel::Channel(std::string name, Client owner)
 {
-	// operators.insert(std::make_pair <std::string, Client&> (owner.getUsername(), &owner));
+	channel = name;
+	limitUsers = -1;
+	inviteOnly = false;
+	isTopic = false;
+	key = "";
+	users.push_back(owner);
+	operators.push_back(owner);
 }
-
 
 Channel::~Channel()
 {}
 
-std::string Channel::getChannel()
+void Channel::addUsers(Client c)
+{
+	users.push_back(c);
+}
+void Channel::addOperators(Client c)
+{
+	operators.push_back(c);
+}
+
+std::string Channel::getChannelName()
 {
 	return channel;
 }
 
-std::map<std::string, Client &> Channel::getUsers()
+std::vector<Client> Channel::getUsers()
 {
-	return std::map<std::string, Client &>();
+	return users;
 }
-
-std::map<std::string, Client &> Channel::getOperators()
+std::vector<Client> Channel::getOperators()
 {
-	return std::map<std::string, Client &>();
+	return operators;
 }
 
 int Channel::getLimitUsers()
@@ -50,6 +63,23 @@ bool Channel::getIsTopic()
 std::string Channel::getKey()
 {
 	return this->key;
+}
+
+// std::map<std::string, Channel &> &Channel::getChannelsMap()
+// {
+// 	return channelsMap;
+// }
+// Channel &Channel::getChannel(std::string channelName)
+// {
+// 	return channelsMap[channelName];
+// }
+
+Channel &Channel::getChannel(const std::string &channelName){
+	std::map<std::string, Channel&>::iterator it = channelsMap.find(channelName);
+    if (it != channelsMap.end())
+        return it->second;
+    else
+        throw std::runtime_error("Channel not found");
 }
 
 void Channel::setChannel(std::string _channel)
@@ -77,14 +107,6 @@ void Channel::setKey(std::string _key)
 	this->key = _key;
 }
 
-void Channel::addUsers(std::string username, Client &c)
-{
-	// add user
-}
-void Channel::setOperators(std::string, Client &c)
-{
-}
-
-void Channel::setUsers(std::string, Client &c)
-{
+void Channel::addChannels(std::string channelName, Channel& ch) {
+    channelsMap.insert(std::pair<std::string, Channel&>(channelName, ch));
 }
