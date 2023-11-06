@@ -151,3 +151,13 @@ void Client::setNFlag()
 // {
 // 	this->counter++;
 // }
+
+int Client::getChannelCount()
+{
+	return this->channelCount;
+}
+
+void Client::setChannelCount(int count)
+{
+	this->channelCount = count;
+}

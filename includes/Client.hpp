@@ -27,7 +27,7 @@ class Client
 		static std::vector<std::string> nicknames;
 		bool	UFlag;
 		bool	NFlag;
-
+		int channelCount;
 
 	public:
 		Client(int clientId);
@@ -49,6 +49,7 @@ class Client
 		int getClientId();
 		bool getUFlag();
 		bool getNFlag();
+		int getChannelCount();
 		// int getCounter();
 
 
@@ -60,6 +61,7 @@ class Client
 		void setFullName(std::string fullName);
 		void addUser(std::string username, Client &c);
 		void setClientId(int clientId);
+		void setChannelCount(int count);
 		// void incrementCounter();
 		void setUFlag();
 		void setNFlag();
@@ -68,5 +70,5 @@ class Client
 // Define the static vector of strings outside the class definition
 
 
-bool	Auth(std::vector<std::string> message, Client &c, std::string Password, std::map<std::string, Channel&> channelsMap);
+bool	Auth(std::vector<std::string> message, Client &c, std::string Password, std::map<std::string, Channel&> channelsMap, std::vector<std::pair<std::string , std::string > > joinVector);
 #endif

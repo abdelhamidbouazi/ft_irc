@@ -31,6 +31,7 @@ SRC =	./srcs/main2.cpp \
 		./srcs/Replies.cpp \
 		./srcs/Channel.cpp \
 		./srcs/Commands/Mode.cpp \
+		./srcs/Commands/Join.cpp \
 		# ./srcs/main.cpp \
 
 
