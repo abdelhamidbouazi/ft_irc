@@ -107,7 +107,8 @@ int CheckNICK(std::vector <std::string> message, Client	&c){
 
 bool commands(std::vector<std::string> message, Client &c)
 {
-	Channel ch(c.getUsername(), c);
+	Channel ch("channel1", c);
+	// Channel ch;
 	if (message[0].compare("USER") == 0)
 	{
 		if (CheckUSER(message, c)) {
@@ -126,10 +127,10 @@ bool commands(std::vector<std::string> message, Client &c)
 	}
 	else if (message[0].compare("MODE") == 0)
 	{
-		if (CheckMODE(message, c, ch)) {
-			std::cout << "SIGNED==>Nickname is : " << c.getNickname() << std::endl;
-			return true;
-		}
+	// 	if (CheckMODE(message, c, ch)) {
+	// 		std::cout << "SIGNED==>Nickname is : " << c.getNickname() << std::endl;
+	// 		return true;
+	// 	}
 		return false;
 	}
 	else {
