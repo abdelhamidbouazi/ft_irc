@@ -108,7 +108,7 @@ int CheckNICK(std::vector <std::string> message, Client	&c){
 
 bool HDE::SocketHde::commands(std::vector<std::string> message, std::vector<std::pair<std::string , std::string > > joinVector,int i)
 {
-	Channel ch("channel1", clt.at(fds[i].fd));
+	// Channel ch("channel1", clt.at(fds[i].fd));
 	// Channel ch;
 	if (message[0].compare("USER") == 0)
 	{
