@@ -30,29 +30,16 @@ bool checkModeArgs(std::vector<std::string> message)
 	if (checker == 'i' || checker == 't')
 	{
 		if (message.size() == 4)
-		{
 			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
 	else if (checker == 'k' || checker == 'l' || checker == 'o')
 	{
 		if (message.size() == 5)
-		{
 			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-	else
-	{
 		return false;
 	}
+	return false;
 }
 
 bool modeI(std::vector<std::string> message, std::map<std::string, Channel &> &channelsMap, int mode)
@@ -89,8 +76,57 @@ bool modeT(std::vector<std::string> message, std::map<std::string, Channel &> &c
 	}
 }
 
-bool modeK(std::vector<std::string> message, std::map<std::string, Channel &> &channelsMap, int mode, std::string key) {
-	return false;
+bool modeK(std::vector<std::string> message, std::map<std::string, Channel &> &channelsMap, int mode)
+{
+	if (channelsMap.find(message[1]) != channelsMap.end())
+	{
+		if (mode == 1)
+			channelsMap.at(message[1]).setKey(message[4]);
+		if (mode == 0)
+			channelsMap.at(message[1]).setKey("");
+		return true;
+	}
+	else
+	{
+		std::cout << "Key not found in the map" << std::endl;
+		return false;
+	}
+}
+
+bool modeO(std::vector<std::string> message, std::map<std::string, Channel &> &channelsMap, int mode, Client &c)
+{
+	if (channelsMap.find(message[1]) != channelsMap.end())
+	{
+		if (mode == 1)
+			channelsMap.at(message[1]).addOperators(c));
+		if (mode == 0)
+			channelsMap.at(message[1]).addOperators(c));
+		return true;
+	}
+	else
+	{
+		std::cout << "Key not found in the map" << std::endl;
+		return false;
+	}
+}
+
+bool modeL(std::vector<std::string> message, std::map<std::string, Channel &> &channelsMap, int mode, Client &c)
+{
+
+	if (channelsMap.find(message[1]) != channelsMap.end())
+	{
+		if (mode == 1)
+			channelsMap.at(message[1]).setlimitUsers(std::atoi(message[4].c_str()));
+		if (mode == 0)
+			channelsMap.at(message[1]).setlimitUsers(-1);
+		// channelsMap.at(message[1]).setlimitUsers(message[4]); // must be int
+		return true;
+	}
+	else
+	{
+		std::cout << "Key not found in the map" << std::endl;
+		return false;
+	}
 }
 
 bool HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i)
@@ -126,127 +162,66 @@ bool HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i)
 			}
 			else if (message[3].compare("k") == 0)
 			{
-				if (channelsMap.find(message[1]) != channelsMap.end())
-				{
-					channelsMap.at(message[1]).setKey(message[4]);
+				if (modeK(message, channelsMap, 1))
 					return true;
-				}
-				else
-				{
-					std::cout << "Key not found in the map" << std::endl;
-					return false;
-				}
+				return false;
 			}
 			else if (message[3].compare("o") == 0)
 			{
-				if (channelsMap.find(message[1]) != channelsMap.end())
-				{
-					channelsMap.at(message[1]).addOperators(clt.at(fds[i].fd));
-					std::cout << "\n\n========Operator : " << ch.getUsers().at(0).getNickname()
-							  << " Added to channel: " << ch.getChannelName() << "\n\n";
+				if (modeO(message, channelsMap, 1, clt.at(fds[i].fd)))
 					return true;
-				}
-				else
-				{
-					std::cout << "Key not found in the map" << std::endl;
-					return false;
-				}
+				return false;
 			}
 			else if (message[3].compare("l") == 0)
 			{
-				if (channelsMap.find(message[1]) != channelsMap.end())
-				{
-					// channelsMap.at(message[1]).setlimitUsers(message[4]); // must be int
-					channelsMap.at(message[1]).addOperators(clt.at(fds[i].fd));
+				if (modeL(message, channelsMap, 1, clt.at(fds[i].fd)))
 					return true;
-				}
-				else
-				{
-					std::cout << "Key not found in the map" << std::endl;
-					return false;
-				}
+				return false;
 			}
 			else
 			{
 				std::cout << "invalid mode" << std::endl;
 			}
 		}
-		else if (message[2].compare("-") == 0)
+		if (message[2].compare("-") == 0)
 		{
 			if (message[3].compare("i") == 0)
 			{
-				if (channelsMap.find(message[1]) != channelsMap.end())
-				{
-					channelsMap.at(message[1]).setInviteOnly(false);
+				if (modeI(message, channelsMap, 0))
 					return true;
-				}
-				else
-				{
-					std::cout << "Key not found in the map" << std::endl;
-					return false;
-				}
+				return false;
 				// clt.at(fds[i].fd).getClientId
 			}
 			else if (message[3].compare("t") == 0)
 			{
-				if (channelsMap.find(message[1]) != channelsMap.end())
-				{
-					channelsMap.at(message[1]).setIsTopic(false);
+				if (modeT(message, channelsMap, 0))
 					return true;
-				}
-				else
-				{
-					std::cout << "Key not found in the map" << std::endl;
-					return false;
-				}
+				return false;
 			}
 			else if (message[3].compare("k") == 0)
 			{
-				if (channelsMap.find(message[1]) != channelsMap.end())
-				{
-					channelsMap.at(message[1]).setKey("");
+				if (modeK(message, channelsMap, 0))
 					return true;
-				}
-				else
-				{
-					std::cout << "Key not found in the map" << std::endl;
-					return false;
-				}
+				return false;
 			}
 			else if (message[3].compare("o") == 0)
 			{
-				if (channelsMap.find(message[1]) != channelsMap.end())
-				{
-					std::cout << "remove operator here" << std::endl;
-					// channelsMap.at(message[1]).addOperators(clt.at(fds[i].fd));
+				if (modeO(message, channelsMap, 0, clt.at(fds[i].fd)))
 					return true;
-				}
-				else
-				{
-					std::cout << "Key not found in the map" << std::endl;
-					return false;
-				}
+				return false;
 			}
 			else if (message[3].compare("l") == 0)
 			{
-				if (channelsMap.find(message[1]) != channelsMap.end())
-				{
-					// channelsMap.at(message[1]).setlimitUsers(message[4]); // must be int
-					channelsMap.at(message[1]).setlimitUsers(-1); // must be int
-					channelsMap.at(message[1]).addOperators(clt.at(fds[i].fd));
+				if (modeL(message, channelsMap, 0, clt.at(fds[i].fd)))
 					return true;
-				}
-				else
-				{
-					std::cout << "Key not found in the map" << std::endl;
-					return false;
-				}
+				return false;
 			}
 			else
 			{
 				std::cout << "invalid mode" << std::endl;
 			}
 		}
+
 	}
 	std::cout << "MODE" << std::endl;
 	return false;
