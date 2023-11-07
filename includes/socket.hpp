@@ -70,8 +70,10 @@ namespace HDE
 			std::string ClientIp(int sock);
 
 			// commands
+			bool Auth(std::vector<std::string> message, std::vector<std::pair<std::string , std::string > > joinVector,int i);
+			bool commands(std::vector<std::string> message, std::vector<std::pair<std::string , std::string > > joinVector,int i);
+			void Join(std::vector<std::pair<std::string , std::string > > joinVector,int i);
 	};
 }
-void Join(std::vector<std::pair<std::string , std::string > > joinVector, Client &c ,std::map<std::string, Channel&> channelsMap);
 
 #endif
