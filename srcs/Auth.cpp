@@ -106,22 +106,22 @@ int CheckNICK(std::vector <std::string> message, Client	&c){
 	return 0;
 }
 
-bool commands(std::vector<std::string> message, Client &c, std::map<std::string, Channel&> channelsMap, std::vector<std::pair<std::string , std::string > > joinVector)
+bool HDE::SocketHde::commands(std::vector<std::string> message, std::vector<std::pair<std::string , std::string > > joinVector,int i)
 {
-	Channel ch("channel1", c);
+	Channel ch("channel1", clt.at(fds[i].fd));
 	// Channel ch;
 	if (message[0].compare("USER") == 0)
 	{
-		if (CheckUSER(message, c)) {
-			std::cout << "SIGNED==>Username is: " << c.getUsername() << "\nFullname is: " << c.getFullName() << std::endl;
+		if (CheckUSER(message, clt.at(fds[i].fd))) {
+			std::cout << "SIGNED==>Username is: " << clt.at(fds[i].fd).getUsername() << "\nFullname is: " << clt.at(fds[i].fd).getFullName() << std::endl;
 			return true;
 		}
 		return false;
 	}
 	else if (message[0].compare("NICK") == 0)
 	{
-		if (CheckNICK(message, c)) {
-			std::cout << "SIGNED==>Nickname is : " << c.getNickname() << std::endl;
+		if (CheckNICK(message, clt.at(fds[i].fd))) {
+			std::cout << "SIGNED==>Nickname is : " << clt.at(fds[i].fd).getNickname() << std::endl;
 			return true;
 		}
 		return false;
@@ -133,12 +133,12 @@ bool commands(std::vector<std::string> message, Client &c, std::map<std::string,
 		// 	return true;
 		// }
 		// return false;
-		Join(joinVector, c, channelsMap);
+		Join(joinVector, i);
 		std::cout << "SIGNED==>Entred JOIN Command Function\n";
 	}
 	else if (message[0].compare("MODE") == 0)
 	{
-		if (CheckMODE(message, c, channelsMap)) {
+		if (CheckMODE(message, i)) {
 	// 		std::cout << "SIGNED==>Nickname is : " << c.getNickname() << std::endl;
 	// 		return true;
 	// 	}
@@ -152,7 +152,8 @@ bool commands(std::vector<std::string> message, Client &c, std::map<std::string,
 	return false;
 }
 
-bool	Auth(std::vector<std::string> message, Client &c, std::string Password, std::map<std::string, Channel&> channelsMap, std::vector<std::pair<std::string , std::string > > joinVector)
+
+bool	HDE::SocketHde::Auth(std::vector<std::string> message, std::vector<std::pair<std::string , std::string > > joinVector,int i)
 {
 
 	if (message.size() > 1) {
@@ -165,34 +166,34 @@ bool	Auth(std::vector<std::string> message, Client &c, std::string Password, std
 	if (message.size() < 2)
 		return false;
 
-	if (c.getIsSignedIn() == false) {
-		if (CheckPASS(message, c, Password)){
+	if (clt.at(fds[i].fd).getIsSignedIn() == false) {
+		if (CheckPASS(message, clt.at(fds[i].fd), password)){
 			std::cout << "Command Pass Passed With Success" << std::endl;
-			c.setIsSignedIn(true);
+			clt.at(fds[i].fd).setIsSignedIn(true);
 			return true;
 		}
 		return false;
 	}
-	else if (c.getIsSignedIn() == true) {
+	else if (clt.at(fds[i].fd).getIsSignedIn() == true) {
 
-		if (c.getNFlag() && c.getUFlag()) {
-			c.setIsSettingsSetted(true);
+		if (clt.at(fds[i].fd).getNFlag() && clt.at(fds[i].fd).getUFlag()) {
+			clt.at(fds[i].fd).setIsSettingsSetted(true);
 		}
-		if (c.isSettingsSetted() == true){
-			if (commands(message, c, channelsMap, joinVector))
+		if (clt.at(fds[i].fd).isSettingsSetted() == true){
+			if (commands(message, joinVector, i))
 				return true;
 			return false;
 		}
-		if (c.isSettingsSetted() == false) {
+		if (clt.at(fds[i].fd).isSettingsSetted() == false) {
 			if (message[0].compare("USER") == 0){
-				if (CheckUSER(message, c)) {
-					std::cout << "username is: " << c.getUsername() << "\nfullname is: " << c.getFullName() << std::endl;
+				if (CheckUSER(message, clt.at(fds[i].fd))) {
+					std::cout << "username is: " << clt.at(fds[i].fd).getUsername() << "\nfullname is: " << clt.at(fds[i].fd).getFullName() << std::endl;
 					return true;
 				}
 			}
 			else if (message[0].compare("NICK") == 0) {
-				if (CheckNICK(message, c)) {
-					std::cout << "Nickname is : " << c.getNickname() << std::endl;
+				if (CheckNICK(message, clt.at(fds[i].fd))) {
+					std::cout << "Nickname is : " << clt.at(fds[i].fd).getNickname() << std::endl;
 					return true;
 				}
 				return false;
@@ -212,4 +213,3 @@ bool	Auth(std::vector<std::string> message, Client &c, std::string Password, std
 	// }2
 	return true;
 }
-

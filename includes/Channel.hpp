@@ -19,7 +19,7 @@ class Channel
 		std::string	key;
 
 	public:
-		Channel(std::string name, Client owner);
+		Channel(std::string name, Client owner, std::string key);
 		Channel(std::string name);
 		~Channel();
 

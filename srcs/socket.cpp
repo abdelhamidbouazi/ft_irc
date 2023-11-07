@@ -77,6 +77,7 @@ void HDE::SocketHde::start_polling()
             }
             else
             {
+                localhost = ClientIp(connection);
                 clt.insert(std::pair<int, Client>(connection, Client(connection)));
                 fds[nfds].fd = connection;
                 fds[nfds].events = POLLIN;
@@ -118,7 +119,9 @@ void HDE::SocketHde::start_polling()
                         obj.start_parssing(tmp_message);
 
 						std::cout << "**** The Client ID is : " << clt.at(fds[i].fd).getClientId() << std::endl;
-						if(Auth(obj.getRequest(), clt.at(fds[i].fd), getPassword(), channelsMap, obj.getJoinVector())) {
+						if(Auth(obj.getRequest(), obj.getJoinVector(), i)) {
+
+						// if(Auth(obj.getRequest(), clt.at(fds[i].fd), getPassword(), channelsMap, obj.getJoinVector())) {
                             // std::string str = "wellcom to the irc server\n";
 							// send(clt.at(fds[i].fd).getClientId(), str.c_str(), str.length(), 0);
 						}
@@ -224,4 +227,19 @@ int HDE::SocketHde::getPort()
 std::string HDE::SocketHde::getPassword()
 {
     return password;
+}
+
+std::string HDE::SocketHde::getLocalhost()
+{
+    return this->localhost;
+}
+
+void HDE::SocketHde::setLocalhost(std::string localhost)
+{
+    this->localhost = localhost;
+}
+
+void HDE::SocketHde::sendMessage(std::string message, int fd)
+{
+    send(fd, message.c_str(), message.length(), 0);
 }

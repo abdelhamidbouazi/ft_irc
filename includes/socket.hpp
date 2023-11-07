@@ -62,16 +62,23 @@ namespace HDE
 			std::string getHostAdresse();
 			int getPort();
 			std::string getPassword();
+			std::string getLocalhost();
 
 			void setPort(int port);
 			void setPassword(std::string password);
 			void set_connection(int connection);
+			void setLocalhost(std::string localhost);
 	
 			std::string ClientIp(int sock);
 
 			// commands
+			bool Auth(std::vector<std::string> message, std::vector<std::pair<std::string , std::string > > joinVector,int i);
+			bool commands(std::vector<std::string> message, std::vector<std::pair<std::string , std::string > > joinVector,int i);
+			void Join(std::vector<std::pair<std::string , std::string > > joinVector,int i);
+			bool CheckMODE(std::vector<std::string> message, int i);
+			//tools
+			void sendMessage(std::string message, int fd);
 	};
 }
-void Join(std::vector<std::pair<std::string , std::string > > joinVector, Client &c ,std::map<std::string, Channel&> channelsMap);
 
 #endif
