@@ -77,6 +77,7 @@ void HDE::SocketHde::start_polling()
             }
             else
             {
+                localhost = ClientIp(connection);
                 clt.insert(std::pair<int, Client>(connection, Client(connection)));
                 fds[nfds].fd = connection;
                 fds[nfds].events = POLLIN;
@@ -226,4 +227,14 @@ int HDE::SocketHde::getPort()
 std::string HDE::SocketHde::getPassword()
 {
     return password;
+}
+
+std::string HDE::SocketHde::getLocalhost()
+{
+    return this->localhost;
+}
+
+void HDE::SocketHde::setLocalhost(std::string localhost)
+{
+    this->localhost = localhost;
 }

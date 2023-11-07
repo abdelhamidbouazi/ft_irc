@@ -62,10 +62,12 @@ namespace HDE
 			std::string getHostAdresse();
 			int getPort();
 			std::string getPassword();
+			std::string getLocalhost();
 
 			void setPort(int port);
 			void setPassword(std::string password);
 			void set_connection(int connection);
+			void setLocalhost(std::string localhost);
 	
 			std::string ClientIp(int sock);
 
