@@ -17,5 +17,6 @@ class Replies
 		static void ERR_INVALIDNICKNAME(Client c);
 };
 
+#define ERR_NEEDMOREPARAMS(cmd, nick)    "461 " + nick + " " + cmd + " :Not enough parameters\r\n"
 
 # endif

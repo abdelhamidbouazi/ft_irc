@@ -138,7 +138,7 @@ bool HDE::SocketHde::commands(std::vector<std::string> message, std::vector<std:
 	}
 	else if (message[0].compare("MODE") == 0)
 	{
-		if (CheckMODE(message, clt.at(fds[i].fd), channelsMap)) {
+		if (CheckMODE(message, i)) {
 	// 		std::cout << "SIGNED==>Nickname is : " << c.getNickname() << std::endl;
 	// 		return true;
 	// 	}

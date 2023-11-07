@@ -3,7 +3,7 @@
 #include "../../includes/Replies.hpp"
 #include "../../includes/socket.hpp"
 
-bool CheckMODE(std::vector<std::string> message, Client &c ,std::map<std::string, Channel&> channelsMap){
+bool HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i){
 
 
 	if (message[0].compare("MODE") == 0)
@@ -11,9 +11,11 @@ bool CheckMODE(std::vector<std::string> message, Client &c ,std::map<std::string
 		if (message[2].compare("+") == 0)
 		{
 			if (message[3].compare("i") == 0){
-				channelsMap.at(message[1]).setInviteOnly(true);
+				// add the protection for the channels map
+				// channelsMap.at(message[1]).setInviteOnly(true);
 				// Channel::getChannel(message[1]).setInviteOnly(true);
 				return true;
+				// clt.at(fds[i].fd).getClientId
 			}
 			// else if (message[3].compare("t") == 0){
 			// 	Channel::getChannel(message[1]).setIsTopic(true);

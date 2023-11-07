@@ -3,13 +3,13 @@
 #include <iostream>
 #include <vector>
 
-Channel::Channel(std::string name, Client owner)
+Channel::Channel(std::string name, Client owner, std::string key)
 {
 	channel = name;
 	limitUsers = -1;
 	inviteOnly = false;
 	isTopic = false;
-	key = "";
+	this->key = key;
 	users.push_back(owner);
 	operators.push_back(owner);
 }

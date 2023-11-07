@@ -238,3 +238,8 @@ void HDE::SocketHde::setLocalhost(std::string localhost)
 {
     this->localhost = localhost;
 }
+
+void HDE::SocketHde::sendMessage(std::string message, int fd)
+{
+    send(fd, message.c_str(), message.length(), 0);
+}
