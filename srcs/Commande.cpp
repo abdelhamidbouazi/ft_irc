@@ -60,6 +60,7 @@ void HDE::Commande::start_parssing(std::string& msg)
 	else
 	{
         this->cmd = msg;
+		this->request.push_back(msg);
 		std::transform(msg.begin(), msg.end(), msg.begin(), ::toupper);
 	}
 }
