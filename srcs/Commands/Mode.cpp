@@ -98,9 +98,9 @@ bool modeO(std::vector<std::string> message, std::map<std::string, Channel &> &c
 	if (channelsMap.find(message[1]) != channelsMap.end())
 	{
 		if (mode == 1)
-			channelsMap.at(message[1]).addOperators(c));
+			channelsMap.at(message[1]).addOperators(c);
 		if (mode == 0)
-			channelsMap.at(message[1]).addOperators(c));
+			channelsMap.at(message[1]).addOperators(c); // remove privelage
 		return true;
 	}
 	else
@@ -115,11 +115,11 @@ bool modeL(std::vector<std::string> message, std::map<std::string, Channel &> &c
 
 	if (channelsMap.find(message[1]) != channelsMap.end())
 	{
+		// check if the message[4] is an int, if its not int return false
 		if (mode == 1)
 			channelsMap.at(message[1]).setlimitUsers(std::atoi(message[4].c_str()));
 		if (mode == 0)
 			channelsMap.at(message[1]).setlimitUsers(-1);
-		// channelsMap.at(message[1]).setlimitUsers(message[4]); // must be int
 		return true;
 	}
 	else
@@ -190,7 +190,6 @@ bool HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i)
 				if (modeI(message, channelsMap, 0))
 					return true;
 				return false;
-				// clt.at(fds[i].fd).getClientId
 			}
 			else if (message[3].compare("t") == 0)
 			{
