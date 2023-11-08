@@ -27,13 +27,45 @@ void HDE::SocketHde::Join(std::vector<std::pair<std::string , std::string > > jo
     {
         // leave all the channel 
         // decrement the count of channel to 0 in the client 
+
+        clt.at(fds[i].fd).setChannelCount(0);
         return ;
     }
-    std::cout << "the size of the joinvector: " << joinVector.size() << std::endl;
-    for(int i = 0; i < joinVector.size(); i++)
+    for(int index = 0; index < joinVector.size(); index++)
     {
         // ERR_NEEDMOREPARAMS(clt.at(fds[i].fd));
+        std::pair<std::string , std::string> temp = joinVector[index];
+        if(temp.first[0] != '#')
+            sendMessage(localhost + ERR_BADCHANMASK(temp.first, clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
+        else
+        {
+            if(channelsMap.find(temp.first) != channelsMap.end())
+            {
+                sendMessage("channel exit and you will join to it \n", clt.at(fds[i].fd).getClientId());
 
-        std::cout << "first: "<<joinVector[i].first << " second: " << joinVector[i].second << std::endl;
+            }
+            else
+            {
+                Channel addChannel(temp.first, clt.at(fds[i].fd), temp.second);
+
+                // Channel addChannel = new Channel(temp.first, clt.at(fds[i].fd), temp.second);
+                std::pair<std::string, Channel&> map(temp.first, addChannel);
+                map.first = temp.first;
+                map.second = addChannel;
+                channelsMap.insert(map);
+                // delete addChannel;
+                sendMessage("channel doesnt exit you will create it \n", clt.at(fds[i].fd).getClientId());
+
+            }
+        }
+        // std::cout << "first: "<<joinVector[i].first << " second: " << joinVector[i].second << std::endl;
     }
+    // std::map<std::string, Channel&>::iterator it;
+    // for (it = channelsMap.begin(); it != channelsMap.end(); ++it) {
+    //     std::string  name = it->first;           // Access the key
+    //     Channel channel = it->second;   // Access the value (Client object)
+
+    //     std::cout << "name: " << name << " channel class: " << it->second.getChannelName() <<std::endl;
+    //     // std::cout << "id: " << key << " name: " << client.getNickname() << std::endl;
+    // }
 }

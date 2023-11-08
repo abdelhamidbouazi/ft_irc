@@ -17,9 +17,9 @@ class Channel
 		bool		inviteOnly;
 		bool		isTopic;
 		std::string	key;
-
+		
 	public:
-		Channel(std::string name, Client owner, std::string key);
+		Channel(std::string channel, Client owner, std::string key);
 		Channel(std::string name);
 		~Channel();
 
