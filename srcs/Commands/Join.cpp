@@ -5,8 +5,11 @@
 
 void HDE::SocketHde::Join(std::vector<std::pair<std::string , std::string > > joinVector, int i)
 {
+    // std::cout << "size of the join vector" << joinVector.size() << std::endl;
+
     if(joinVector.empty())
     {
+        std::cout << "empty\n";
         // replies ERR_NEEDMOREPARAMS
         sendMessage(localhost + ERR_NEEDMOREPARAMS("JOIN", clt.at(fds[i].fd).getNickname()), i);
         return ;

@@ -117,7 +117,7 @@ int CheckNICK(std::vector<std::string> message, Client &c)
 	return 0;
 }
 
-bool HDE::SocketHde::commands(std::vector<std::string> message, std::vector<std::pair<std::string, std::string>> joinVector, int i)
+bool HDE::SocketHde::commands(std::vector<std::string> message, std::vector<std::pair<std::string, std::string> > joinVector, int i)
 {
 	if (message[0].compare("USER") == 0)
 	{
@@ -159,7 +159,7 @@ bool HDE::SocketHde::commands(std::vector<std::string> message, std::vector<std:
 	return false;
 }
 
-bool HDE::SocketHde::Auth(std::vector<std::string> message, std::vector<std::pair<std::string, std::string>> joinVector, int i)
+bool HDE::SocketHde::Auth(std::vector<std::string> message, std::vector<std::pair<std::string, std::string> > joinVector, int i)
 {
 
 	if (!message.empty())
