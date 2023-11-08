@@ -20,6 +20,7 @@ class Client
 		std::string fullName;
 		std::string username;
 		int clientId;
+		int clientFd;
 		// int counter;
 		// Declare the static vector of strings as a private static member
 		static std::vector<std::string> users;
@@ -30,6 +31,7 @@ class Client
 		int channelCount;
 
 	public:
+		Client();
 		Client(int clientId);
 		~Client();
 
@@ -47,6 +49,7 @@ class Client
 		std::vector<std::string> getNicknames();
 		std::vector<std::string> getAllUsers();
 		int getClientId();
+		int getClientFd();
 		bool getUFlag();
 		bool getNFlag();
 		int getChannelCount();
@@ -61,6 +64,7 @@ class Client
 		void setFullName(std::string fullName);
 		void addUser(std::string username, Client &c);
 		void setClientId(int clientId);
+		void setClientFd(int clientFd);
 		void setChannelCount(int count);
 		// void incrementCounter();
 		void setUFlag();

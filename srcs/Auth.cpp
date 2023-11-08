@@ -188,7 +188,6 @@ bool HDE::SocketHde::Auth(std::vector<std::string> message, std::vector<std::pai
 			}
 			if (clt.at(fds[i].fd).isSettingsSetted() == true)
 			{
-				std::cout << "in the auth" << std::endl;
 				if (commands(message, joinVector, i))
 					return true;
 				return false;

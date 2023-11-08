@@ -7,12 +7,21 @@ void HDE::SocketHde::Join(std::vector<std::pair<std::string , std::string > > jo
 {
     // std::cout << "size of the join vector" << joinVector.size() << std::endl;
 
+    // for ( std::vector < std::pair<std::string ,std::string> >::const_iterator it = joinVector.begin() ; it != joinVector.end(); it++){
+    //     std::cout << "first: "<< it->first << "second: " << it->second << std::endl;
+    // }
+    // std::map<int, Client>::iterator it;
+    // for (it = clt.begin(); it != clt.end(); ++it) {
+    //     int key = it->first;           // Access the key
+    //     Client& client = it->second;   // Access the value (Client object)
+
+    //     std::cout << "id: " << key << " name: " << client.getNickname() << std::endl;
+    // }
+
     if(joinVector.empty())
     {
-        std::cout << "empty\n";
-        // replies ERR_NEEDMOREPARAMS
-        sendMessage(localhost + ERR_NEEDMOREPARAMS("JOIN", clt.at(fds[i].fd).getNickname()), i);
-        return ;
+        sendMessage(localhost + ERR_NEEDMOREPARAMS("JOIN", clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
+        return;
     }
     if(joinVector.size() == 1 && joinVector[0].first == "0")
     {
