@@ -14,7 +14,7 @@ int main(int ac, char **av){
 		Args	a(av[1], av[2]);
 		Client	c(5);
 
-		Channel ch("channel1", c);
+		// Channel ch("channel1", c);
 
 
 		// // std::cout << ch.getChannel() << "\n";
