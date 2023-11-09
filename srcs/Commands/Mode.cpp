@@ -228,14 +228,14 @@ bool HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i)
 					return false;
 				}
 				else {
-					int user = Client::getIdByUsername(message[4]);
-					std::cout << user << std::endl;
+					
 					// if (clt.at(5).getClientId() > 3){
 					// 	std::cout << "clt.at(fds[user])  : " << clt.at(user).getUsername() << std::endl;
 					// }
 					// maybe check if the user is a user in the channel
-					std::cout << "moved " << fds[user].fd<<  std::endl;
-					if (modeO(message, channelsMap, mode, clt.at(fds[user].fd))){ // error here in ctl.at(user)
+					std::cout << "moved " <<  std::endl;
+					ch.addUsers(ch.getUserByName(message[4]));
+					if (modeO(message, channelsMap, mode, ch.getUserByName(message[4]))){ // error here in ctl.at(user)
 						std::cout << "DEBUG" << std::endl;
 						for (int j = 0; j < operators.size(); j++)
 						{

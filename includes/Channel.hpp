@@ -30,6 +30,7 @@ class Channel
 		bool		getInvite_only();
 		bool		getIsTopic();
 		std::string	getKey();
+		Client& getUserByName(std::string username);
 
 		void setChannel(std::string _channel);
 		void setlimitUsers(int _limit);
@@ -42,7 +43,7 @@ class Channel
 		void addUsers(Client c);
 		void addOperators(Client c);
 
-		
+
 };
 
 # endif

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 
+
 Channel::Channel(std::string name, Client owner, std::string key)
 {
 	channel = name;
@@ -81,6 +82,17 @@ bool Channel::getIsTopic()
 std::string Channel::getKey()
 {
 	return this->key;
+}
+
+Client& Channel::getUserByName(std::string username) {
+    for (std::vector<Client>::iterator it = users.begin(); it != users.end(); ++it) {
+        if (it->getUsername() == username) {
+            return *it;
+        }
+    }
+    std::cout << "User not found" << std::endl;
+    static Client invalidUser(-1); // Create a special "invalid" user
+    return invalidUser; // Return a reference to the "invalid" user
 }
 
 void Channel::setChannel(std::string _channel)
