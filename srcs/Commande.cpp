@@ -53,7 +53,7 @@ void HDE::Commande::start_parssing(std::string& msg)
 			pushToVector(this->request, msg);
 			splitTheJoinPram();
 			// for ( std::vector < std::pair<std::string, std::string> >::const_iterator it = this->modeVect.begin() ; it != this->modeVect.end(); it++){
-    	    // 	std::cout << it->first << "-------" << it->second << std::endl;  
+    	    // 	std::cout << it->first << "-------" << it->second << std::endl;
 			// }
 		}
     }
@@ -73,7 +73,7 @@ void HDE::Commande::splitTheJoinPram()
 	size_t pos_chann;
 	int first = 1;
 	std::string dlMode = ",";
-	
+
 	if(this->request.size() <= 3)
 	{
 		while (1)
@@ -89,7 +89,7 @@ void HDE::Commande::splitTheJoinPram()
 			else
 				tmp = "";
 
-			this->joinVector.push_back(std::make_pair(this->request[1].substr(0, pos_chann), tmp));	
+			this->joinVector.push_back(std::make_pair(this->request[1].substr(0, pos_chann), tmp));
 			this->request[1].erase(0, pos_chann + dlMode.length());
 			if (pos_chann == std::string::npos)
 				break;
@@ -124,7 +124,7 @@ void pushToVectorForMode(std::vector<std::string> &vec, std::string str)
 		if(i == 3)
 		{
 			vec.push_back(str.substr(0, 1));
-			vec.push_back(str.substr(1, pos));
+			vec.push_back(str.substr(1, pos - 1));
 		}
 		else
 			vec.push_back(str.substr(0, pos));
