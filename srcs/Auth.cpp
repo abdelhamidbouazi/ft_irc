@@ -117,7 +117,7 @@ int CheckNICK(std::vector<std::string> message, Client &c)
 	return 0;
 }
 
-bool HDE::SocketHde::commands(std::vector<std::string> message, std::vector<std::pair<std::string, std::string> > joinVector, int i)
+bool HDE::SocketHde::commands(std::vector<std::string> message, std::vector<std::pair<std::string, std::string > > joinVector, int i)
 {
 	if (message[0].compare("USER") == 0)
 	{
@@ -145,6 +145,8 @@ bool HDE::SocketHde::commands(std::vector<std::string> message, std::vector<std:
 	{
 		if (CheckMODE(message, i))
 		{
+			std::cout << "MODE Command Success" << std::endl;
+			return true;
 			// 		std::cout << "SIGNED==>Nickname is : " << c.getNickname() << std::endl;
 			// 		return true;
 			// 	}
@@ -159,7 +161,7 @@ bool HDE::SocketHde::commands(std::vector<std::string> message, std::vector<std:
 	return false;
 }
 
-bool HDE::SocketHde::Auth(std::vector<std::string> message, std::vector<std::pair<std::string, std::string> > joinVector, int i)
+bool HDE::SocketHde::Auth(std::vector<std::string> message, std::vector<std::pair<std::string, std::string > > joinVector, int i)
 {
 
 	if (!message.empty())
@@ -173,7 +175,7 @@ bool HDE::SocketHde::Auth(std::vector<std::string> message, std::vector<std::pai
 		{
 			if (CheckPASS(message, clt.at(fds[i].fd), password))
 			{
-				std::cout << "Command Pass Passed With Success" << std::endl;
+				// std::cout << "Command Pass Passed With Success" << std::endl;
 				clt.at(fds[i].fd).setIsSignedIn(true);
 				return true;
 			}
@@ -188,6 +190,7 @@ bool HDE::SocketHde::Auth(std::vector<std::string> message, std::vector<std::pai
 			}
 			if (clt.at(fds[i].fd).isSettingsSetted() == true)
 			{
+				// std::cout << "in the auth" << std::endl;
 				if (commands(message, joinVector, i))
 					return true;
 				return false;
@@ -198,7 +201,7 @@ bool HDE::SocketHde::Auth(std::vector<std::string> message, std::vector<std::pai
 				{
 					if (CheckUSER(message, clt.at(fds[i].fd)))
 					{
-						std::cout << "username is: " << clt.at(fds[i].fd).getUsername() << "\nfullname is: " << clt.at(fds[i].fd).getFullName() << std::endl;
+						// std::cout << "username is: " << clt.at(fds[i].fd).getUsername() << "\nfullname is: " << clt.at(fds[i].fd).getFullName() << std::endl;
 						return true;
 					}
 				}
@@ -206,7 +209,7 @@ bool HDE::SocketHde::Auth(std::vector<std::string> message, std::vector<std::pai
 				{
 					if (CheckNICK(message, clt.at(fds[i].fd)))
 					{
-						std::cout << "Nickname is : " << clt.at(fds[i].fd).getNickname() << std::endl;
+						// std::cout << "Nickname is : " << clt.at(fds[i].fd).getNickname() << std::endl;
 						return true;
 					}
 					return false;
