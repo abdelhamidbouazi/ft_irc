@@ -17,7 +17,7 @@ Client::Client(int clientId)
 	this->clientId = clientId;
 	UFlag = false;
 	NFlag = false;
-	usersIds.insert(std::pair<std::string, int>("", 0));
+	// usersIds.insert(std::pair<std::string, int>("", 0));
 	// counter = 0;
 }
 
@@ -132,7 +132,7 @@ void Client::addUser(std::string username, Client &c)
 		this->username = username;
 		users.push_back(username);
 		usersIds.insert(std::pair<std::string, int>(username, clientId)); // Add username and id to the map
-		std::cout << "Username from the map id is : " << usersIds.at(username) << std::endl;
+		// std::cout << "Username from the map id is : " << usersIds.at(username) << std::endl;
 	}
 	else
 	{
@@ -165,10 +165,13 @@ int Client::getChannelCount()
 
 int Client::getIdByUsername(std::string username)
 {
+
+    // for(std::map<std::string, int>::iterator it = usersIds.begin(); it != usersIds.end() ; it++)
+	// 	std::cout << "client name is : " << it->first << " client id is : " << it->second << std::endl;
     std::map<std::string, int>::iterator it = usersIds.find(username);
     if (it != usersIds.end())
     {
-		std::cout << "function getIdByUsername: return : " << it->second<< std::endl;
+		// std::cout << "function getIdByUsername: return : " << it->second<< std::endl;
         // The username was found. Return the associated id.
         return it->second;
     }

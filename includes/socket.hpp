@@ -29,9 +29,9 @@
 #include "../includes/Client.hpp"
 #include "../includes/Channel.hpp"
 
-namespace HDE 
+namespace HDE
 {
-	class SocketHde 
+	class SocketHde
 	{
 		private:
 			int sock;
@@ -68,7 +68,7 @@ namespace HDE
 			void setPassword(std::string password);
 			void set_connection(int connection);
 			void setLocalhost(std::string localhost);
-	
+
 			std::string ClientIp(int sock);
 
 			// commands
@@ -76,6 +76,13 @@ namespace HDE
 			bool commands(std::vector<std::string> message, std::vector<std::pair<std::string , std::string > > joinVector,int i);
 			void Join(std::vector<std::pair<std::string , std::string > > joinVector,int i);
 			bool CheckMODE(std::vector<std::string> message, int i);
+			// mode tools
+			bool modeI(std::vector<std::string> message, int mode);
+			bool modeT(std::vector<std::string> message, int mode);
+			bool modeK(std::vector<std::string> message,int mode);
+			bool modeO(std::vector<std::string> message,int mode, int user);
+			bool modeL(std::vector<std::string> message,int mode);
+
 			//tools
 			void sendMessage(std::string message, int fd);
 	};

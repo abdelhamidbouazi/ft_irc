@@ -21,7 +21,7 @@
 
 bool checkModeArgs(std::vector<std::string> message)
 {
-	std::cout << "The message size is : " << message.size() << std::endl;
+	// std::cout << "The message size is : " << message.size() << std::endl;
 	if (message[3].length() > 2)
 	{
 		return false;
@@ -53,7 +53,7 @@ bool checkModeArgs(std::vector<std::string> message)
 	return false;
 }
 
-bool modeI(std::vector<std::string> message, std::map<std::string, Channel &> &channelsMap, int mode)
+bool HDE::SocketHde::modeI(std::vector<std::string> message, int mode)
 {
 	if (channelsMap.find(message[1]) != channelsMap.end())
 	{
@@ -70,7 +70,7 @@ bool modeI(std::vector<std::string> message, std::map<std::string, Channel &> &c
 	}
 }
 
-bool modeT(std::vector<std::string> message, std::map<std::string, Channel &> &channelsMap, int mode)
+bool HDE::SocketHde::modeT(std::vector<std::string> message, int mode)
 {
 	if (channelsMap.find(message[1]) != channelsMap.end())
 	{
@@ -87,7 +87,7 @@ bool modeT(std::vector<std::string> message, std::map<std::string, Channel &> &c
 	}
 }
 
-bool modeK(std::vector<std::string> message, std::map<std::string, Channel &> &channelsMap, int mode)
+bool HDE::SocketHde::modeK(std::vector<std::string> message,int mode)
 {
 	if (channelsMap.find(message[1]) != channelsMap.end())
 	{
@@ -104,25 +104,30 @@ bool modeK(std::vector<std::string> message, std::map<std::string, Channel &> &c
 	}
 }
 
-bool modeO(std::vector<std::string> message, std::map<std::string, Channel &> &channelsMap, int mode, Client &c)
+bool HDE::SocketHde::modeO(std::vector<std::string> message,int mode, int user)
 {
-	std::cout << "DEBUG2" << std::endl;
-	if (channelsMap.find(message[1]) != channelsMap.end())
-	{
-		if (mode == 1)
-			channelsMap.at(message[1]).addOperators(c);
-		if (mode == 0)
-			channelsMap.at(message[1]).eraseOperator(c);
-		return true;
-	}
-	else
-	{
-		std::cout << "Key not found in the map" << std::endl;
+		if (channelsMap.find(message[1]) != channelsMap.end())
+		{
+			if (mode == 1) {
+				channelsMap.at(message[1]).addOperators(clt.at(user));
+				// std::cout << "entred to the add opereator" << std::endl;
+				return true;
+			}
+			if (mode == 0){
+				channelsMap.at(message[1]).eraseOperator(clt.at(user));
+				return true;
+			}
+		}
+		else
+		{
+			std::cout << "Key not found in the map" << std::endl;
+			return false;
+		}
 		return false;
-	}
+	// std::cout << "DEBUG2" << std::endl;
 }
 
-bool modeL(std::vector<std::string> message, std::map<std::string, Channel &> &channelsMap, int mode, Client &c)
+bool HDE::SocketHde::modeL(std::vector<std::string> message,int mode)
 {
 	std::cout << "Entred to the limit users\n";
 	if (channelsMap.find(message[1]) != channelsMap.end())
@@ -201,26 +206,26 @@ bool HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i)
 		{
 			if (message[3].compare("i") == 0)
 			{
-				if (modeI(message, channelsMap, mode))
+				if (modeI(message, mode))
 					return true;
 				return false;
 				// clt.at(fds[i].fd).getClientId
 			}
 			else if (message[3].compare("t") == 0)
 			{
-				if (modeT(message, channelsMap, mode))
+				if (modeT(message, mode))
 					return true;
 				return false;
 			}
 			else if (message[3].compare("k") == 0)
 			{
-				if (modeK(message, channelsMap, mode))
+				if (modeK(message, mode))
 					return true;
 				return false;
 			}
 			else if (message[3].compare("o") == 0)
 			{
-					std::cout << "Inisde DEBUG0" << std::endl;
+				// std::cout << "Inisde DEBUG0" << std::endl;
 				int user;
 				if (Client::getIdByUsername(message[4]) == -1) {
 					// std::cout << "User Entred is not found" << std::endl;
@@ -228,27 +233,44 @@ bool HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i)
 					return false;
 				}
 				else {
-					
+
 					// if (clt.at(5).getClientId() > 3){
 					// 	std::cout << "clt.at(fds[user])  : " << clt.at(user).getUsername() << std::endl;
 					// }
 					// maybe check if the user is a user in the channel
 					std::cout << "moved " <<  std::endl;
-					ch.addUsers(ch.getUserByName(message[4]));
-					if (modeO(message, channelsMap, mode, ch.getUserByName(message[4]))){ // error here in ctl.at(user)
-						std::cout << "DEBUG" << std::endl;
-						for (int j = 0; j < operators.size(); j++)
+					int user = Client::getIdByUsername(message[4]);
+					ch.addUsers(clt.at(user));
+					std::vector<Client>::iterator itt ;
+					for(itt = ch.getUsers().begin() ; itt != ch.getUsers().end(); itt++)
+						std::cout << "list of the user in the channel is : " << itt->getNickname() << std::endl;
+					// std::cout << "new client id is : " << user << std::endl;
+					// std::cout << "client name with this id is : " << clt.at(user).getNickname() << std::endl;
+					if(modeO(message, mode, user))
+					{
+						// std::vector<Client> operators2 = channelsMap.at(message[1]).getOperators();
+						// std::cout << "the mode o is succes\n";
+						// for (int j = 0; j < operators2.size(); j++)
+						// {
+						// 	std::cout << "*******====== operators in this channel are : " << operators2[j].getClientId() << " username " << operators2[j].getUsername() << std::endl;
+						// }
+						std::map<std::string, Channel&>::iterator it;
+						for(it = channelsMap.begin() ; it != channelsMap.end() ; ++it)
 						{
-							std::cout << "*******====== operators in this channel are : " << operators[j].getClientId() << " username " << operators[j].getUsername() << std::endl;
+							std::cout<< "list of channel: channel name : " << it->first << std::endl;
 						}
 						return true;
 					}
+										// if (modeO(message, channelsMap, mode, ch.getUserByName(message[4]))){ // error here in ctl.at(user)
+					// 	std::cout << "DEBUG" << std::endl;
+					// 	return true;
+					// }
 				}
 				return false;
 			}
 			else if (message[3].compare("l") == 0)
 			{
-				if (modeL(message, channelsMap, mode, clt.at(fds[i].fd)))
+				if (modeL(message, mode))
 				{
 					std::cout << "MODE limit users set to : " << channelsMap.at(message[1]).getLimitUsers() << " in channel : " << channelsMap.at(message[1]).getChannelName() << std::endl;
 					return true;

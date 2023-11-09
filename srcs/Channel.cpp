@@ -27,15 +27,30 @@ void Channel::addUsers(Client c)
 {
 	users.push_back(c);
 }
+
 void Channel::addOperators(Client c)
 {
-	for (std::vector<Client>::iterator it = users.begin(); it < users.end(); ++it) {
-		if (it->getUsername() == c.getUsername()) {
+	std::cout << "client name : "<<c.getNickname() << "id is :"<< c.getClientId() <<std::endl;
+	std::vector<Client>::iterator it;
+	for(it = users.begin() ; it != users.end() ; ++it)
+	{
+		if(it->getUsername() == c.getUsername())
 			operators.push_back(c);
 			return ;
-		}
 	}
-	std::cout << c.getUsername() << " is not a user in the channel invite user first!" << std::endl;
+	if(it == users.end())
+	{
+		std::cout << c.getUsername() << " is not a user in the channel invite user first!" << std::endl;
+	}
+	// std::cout << "**entred to the add opereator 2" << std::endl;
+	// for (std::vector<Client>::iterator it = users.begin(); it < users.end(); it++) {
+	// 	if (it->getUsername() == c.getUsername()) {
+	// 		operators.push_back(c);
+
+	// 	}
+	// 	std::cout << it->getClientId() << " " << it->getNickname() << std::endl;
+	// 	std::cout << "after the if" << std::endl;
+	// }
 }
 
 void Channel::eraseOperator(Client c)
@@ -84,16 +99,16 @@ std::string Channel::getKey()
 	return this->key;
 }
 
-Client& Channel::getUserByName(std::string username) {
-    for (std::vector<Client>::iterator it = users.begin(); it != users.end(); ++it) {
-        if (it->getUsername() == username) {
-            return *it;
-        }
-    }
-    std::cout << "User not found" << std::endl;
-    static Client invalidUser(-1); // Create a special "invalid" user
-    return invalidUser; // Return a reference to the "invalid" user
-}
+// Client& Channel::getUserByName(std::string username) {
+//     for (std::vector<Client>::iterator it = users.begin(); it != users.end(); ++it) {
+//         if (it->getUsername() == username) {
+//             return *it;
+//         }
+//     }
+//     std::cout << "User not found" << std::endl;
+//     Client invalidUser(-1); // Create a special "invalid" user
+//     return invalidUser; // Return a reference to the "invalid" user
+// }
 
 void Channel::setChannel(std::string _channel)
 {
