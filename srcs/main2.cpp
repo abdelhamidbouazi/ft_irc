@@ -26,8 +26,8 @@ int main(int ac, char **av){
 		// }
 		// std::cout <<std::endl;
 
-		c.addUser("abouazi", c);
-		c.setNickname("opus");
+		// c.addUser("abouazi", c);
+		// c.setNickname("opus");
 
 		// Server(a.getPort(), a.getPassword());
 		HDE::TestServer ts(a.getPort(), a.getPassword());

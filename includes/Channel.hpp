@@ -36,10 +36,13 @@ class Channel
 		void setInviteOnly(bool _val);
 		void setIsTopic(bool _val);
 		void setKey(std::string _key);
+		void eraseOperator(Client c);
 
 
 		void addUsers(Client c);
 		void addOperators(Client c);
+
+		
 };
 
 # endif

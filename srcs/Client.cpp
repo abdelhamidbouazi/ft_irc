@@ -2,8 +2,8 @@
 #include "../includes/Replies.hpp"
 
 std::vector<std::string> Client::users;
+std::map<std::string, int> Client::usersIds;
 std::vector<std::string> Client::nicknames;
-
 
 Client::Client(int clientId)
 {
@@ -17,6 +17,7 @@ Client::Client(int clientId)
 	this->clientId = clientId;
 	UFlag = false;
 	NFlag = false;
+	usersIds.insert(std::pair<std::string, int>("", 0));
 	// counter = 0;
 }
 
@@ -66,7 +67,7 @@ std::string Client::getFullName()
 
 std::vector<std::string> Client::getUsers()
 {
-	return this->users;
+	return users;
 }
 
 std::vector<std::string> Client::getNicknames()
@@ -76,7 +77,8 @@ std::vector<std::string> Client::getNicknames()
 
 std::vector<std::string> Client::getAllUsers()
 {
-	for (size_t i = 0; i < users.size(); i++){
+	for (size_t i = 0; i < users.size(); i++)
+	{
 		std::cout << users[i] << " " << std::endl;
 	}
 	return this->users;
@@ -125,11 +127,15 @@ void Client::addUser(std::string username, Client &c)
 {
 	if (username.length() == 0)
 		Replies::ERR_ALREADYREGISTRED(c);
-	if (username.length() > 1) {
+	if (username.length() > 1)
+	{
 		this->username = username;
 		users.push_back(username);
+		usersIds.insert(std::pair<std::string, int>(username, clientId)); // Add username and id to the map
+		std::cout << "Username from the map id is : " << usersIds.at(username) << std::endl;
 	}
-	else {
+	else
+	{
 		std::cout << "Username is less than 2\n";
 	}
 }
@@ -156,6 +162,33 @@ int Client::getChannelCount()
 {
 	return this->channelCount;
 }
+
+int Client::getIdByUsername(std::string username)
+{
+    std::map<std::string, int>::iterator it = usersIds.find(username);
+    if (it != usersIds.end())
+    {
+		std::cout << "function getIdByUsername: return : " << it->second<< std::endl;
+        // The username was found. Return the associated id.
+        return it->second;
+    }
+    else
+    {
+		std::cout << "User not found!!!" << std::endl;
+        // The username was not found. Return a sentinel value to indicate this.
+        // -1 is often used for this purpose, but you should choose a value that makes sense for your application.
+        return -1;
+    }
+}
+
+// Client& getUserById(int id) {
+//     std::map<int, Client&>::iterator it = users.find(id);
+//     if (it != users.end()) {
+//         return it->second;
+//     } else {
+//         throw std::runtime_error("User not found");
+//     }
+// }
 
 void Client::setChannelCount(int count)
 {

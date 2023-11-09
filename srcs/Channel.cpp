@@ -28,7 +28,25 @@ void Channel::addUsers(Client c)
 }
 void Channel::addOperators(Client c)
 {
-	operators.push_back(c);
+	for (std::vector<Client>::iterator it = users.begin(); it < users.end(); ++it) {
+		if (it->getUsername() == c.getUsername()) {
+			operators.push_back(c);
+			return ;
+		}
+	}
+	std::cout << c.getUsername() << " is not a user in the channel invite user first!" << std::endl;
+}
+
+void Channel::eraseOperator(Client c)
+{
+    for (std::vector<Client>::iterator it = operators.begin(); it != operators.end(); ++it)
+    {
+        if (it->getClientId() == c.getClientId())
+        {
+            operators.erase(it);
+            break;
+        }
+    }
 }
 
 std::string Channel::getChannelName()
