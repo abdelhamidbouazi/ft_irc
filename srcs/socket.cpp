@@ -45,6 +45,7 @@ void HDE::SocketHde::start_polling()
     int current_size = 0;
     char buffer[800];
     int new_sd = -1;
+    Client dataClient;
 
     while (!end_server)
     {
@@ -65,26 +66,31 @@ void HDE::SocketHde::start_polling()
         {
             std::cout << "Listening socket is readable" << std::endl;
 
-            int connection = accept(sock, NULL, NULL);
-            if (connection < 0)
+            struct sockaddr_in client_addr;
+            socklen_t client_len = sizeof(client_addr);
+            int connection = accept(sock, (struct sockaddr *)&client_addr, &client_len);
+            if (connection == -1)
             {
-                if (errno != EWOULDBLOCK)
-                {
-                    perror("accept() failed");
-                    close(sock);
-                    end_server = true;
-                }
+                std::cerr << "accept: " << std::strerror(errno) << std::endl;
+                exit (EXIT_FAILURE);
+                // if (errno != EWOULDBLOCK)
+                // {
+                //     perror("accept() failed");
+                //     close(sock);
+                //     end_server = true;
+                // }
             }
-            else
-            {
-                localhost = ClientIp(connection);
-                clt.insert(std::pair<int, Client>(connection, Client(connection)));
-                fds[nfds].fd = connection;
-                fds[nfds].events = POLLIN;
-                nfds++;
-            }
+            
+            localhost = ClientIp(connection);
+            // Client dataClient(connection);
+            dataClient.setClientFd(connection);
+            std::cout << "client fd: " << dataClient.getClientFd() << std::endl;
+            clt.insert(std::pair<int, Client>(connection, Client(connection)));
+            fds[nfds].fd = connection;
+            fds[nfds].events = POLLIN;
+            nfds++;
+        
         }
-
         current_size = nfds;
         for (int i = 1; i < current_size; i++) // Start from 1, skipping the listening socket
         {
@@ -120,7 +126,6 @@ void HDE::SocketHde::start_polling()
 
 						// std::cout << "**** The Client ID is : " << clt.at(fds[i].fd).getClientId() << std::endl;
 						if(Auth(obj.getRequest(), obj.getJoinVector(), i)) {
-
 						// if(Auth(obj.getRequest(), clt.at(fds[i].fd), getPassword(), channelsMap, obj.getJoinVector())) {
                             // std::string str = "wellcom to the irc server\n";
 							// send(clt.at(fds[i].fd).getClientId(), str.c_str(), str.length(), 0);
@@ -241,5 +246,6 @@ void HDE::SocketHde::setLocalhost(std::string localhost)
 
 void HDE::SocketHde::sendMessage(std::string message, int fd)
 {
+    // std::cout << "fd = " << fd << " message: " << message <<std::endl;
     send(fd, message.c_str(), message.length(), 0);
 }

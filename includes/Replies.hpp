@@ -17,6 +17,7 @@ class Replies
 		static void ERR_INVALIDNICKNAME(Client c);
 };
 
-#define ERR_NEEDMOREPARAMS(cmd, nick)    "461 " + nick + " " + cmd + " :Not enough parameters\r\n"
+#define ERR_NEEDMOREPARAMS(cmd, nick)    " 461 " + nick + " " + cmd + " :Not enough parameters\r\n"
+#define ERR_BADCHANMASK(param, nick) " 403 " + nick + " " + param + " :No such channel\r\n" 
 
 # endif

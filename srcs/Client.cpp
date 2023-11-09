@@ -5,6 +5,7 @@ std::vector<std::string> Client::users;
 std::map<std::string, int> Client::usersIds;
 std::vector<std::string> Client::nicknames;
 
+Client::Client(){}
 Client::Client(int clientId)
 {
 	isIn = false;
@@ -88,6 +89,10 @@ int Client::getClientId()
 {
 	return clientId;
 }
+int Client::getClientFd()
+{
+	return clientFd;
+}
 
 // int Client::getCounter()
 // {
@@ -142,6 +147,10 @@ void Client::addUser(std::string username, Client &c)
 void Client::setClientId(int clientId)
 {
 	this->clientId = clientId;
+}
+void Client::setClientFd(int clientFd)
+{
+	this->clientFd = clientFd;
 }
 
 void Client::setUFlag()
