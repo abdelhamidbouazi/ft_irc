@@ -3,21 +3,6 @@
 #include "../../includes/Replies.hpp"
 #include "../../includes/socket.hpp"
 #include <algorithm>
-// Channel &getChannel(std::map<std::string, Channel &> channelsMap, std::string channel)
-// {
-// 	// for (std::vector<std::string>::const_iterator it = channelsMap.begin(); it != channelsMap.end(); ++it) {
-// 	//     if (*it == str) {
-// 	//         return true; // The string exists in the vector
-// 	//     }
-// 	// }
-// 	// return false;
-// 	// std::map<char, int>::iterator it;
-
-// 	// it = mymap.find('b');
-// 	// if (it != mymap.end())
-// 	// 	mymap.erase(it);
-// 	return channelsMap[channel];
-// }
 
 bool checkModeArgs(std::vector<std::string> message)
 {
@@ -162,7 +147,7 @@ bool HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i)
 	int mode;
 	// Channel ch("#channel", clt.at(fds[i].fd), "");
 	Channel* ch = new Channel("#channel", clt.at(fds[i].fd), "");
-	
+
 	// channelsMap.insert(std::pair<std::string, Channel*>("#channel", ch));
 	channelsMap["#channel1"] = ch;
 
