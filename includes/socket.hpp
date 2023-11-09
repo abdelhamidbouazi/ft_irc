@@ -49,7 +49,7 @@ namespace HDE
 			std::string password;
 		public:
 			std::map<int, Client> clt;
-			std::map<std::string, Channel&> channelsMap;
+			std::map<std::string, Channel*> channelsMap;
 			SocketHde(int domain, int service, int protocol, int port, unsigned long interface, std::string password);
 			virtual int connect_network( int sock, struct sockaddr_in address) = 0;
 			void test_connection(int item_to_test);

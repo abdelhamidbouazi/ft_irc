@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 
-
+Channel::Channel(){}
 Channel::Channel(std::string name, Client owner, std::string key)
 {
 	channel = name;
