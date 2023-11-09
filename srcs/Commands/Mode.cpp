@@ -58,9 +58,9 @@ bool HDE::SocketHde::modeI(std::vector<std::string> message, int mode)
 	if (channelsMap.find(message[1]) != channelsMap.end())
 	{
 		if (mode == 1)
-			channelsMap.at(message[1]).setInviteOnly(true);
+			channelsMap.at(message[1])->setInviteOnly(true);
 		if (mode == 0)
-			channelsMap.at(message[1]).setInviteOnly(false);
+			channelsMap.at(message[1])->setInviteOnly(false);
 		return true;
 	}
 	else
@@ -75,9 +75,9 @@ bool HDE::SocketHde::modeT(std::vector<std::string> message, int mode)
 	if (channelsMap.find(message[1]) != channelsMap.end())
 	{
 		if (mode == 1)
-			channelsMap.at(message[1]).setIsTopic(true);
+			channelsMap.at(message[1])->setIsTopic(true);
 		if (mode == 0)
-			channelsMap.at(message[1]).setIsTopic(false);
+			channelsMap.at(message[1])->setIsTopic(false);
 		return true;
 	}
 	else
@@ -92,9 +92,9 @@ bool HDE::SocketHde::modeK(std::vector<std::string> message,int mode)
 	if (channelsMap.find(message[1]) != channelsMap.end())
 	{
 		if (mode == 1)
-			channelsMap.at(message[1]).setKey(message[4]);
+			channelsMap.at(message[1])->setKey(message[4]);
 		if (mode == 0)
-			channelsMap.at(message[1]).setKey("");
+			channelsMap.at(message[1])->setKey("");
 		return true;
 	}
 	else
@@ -109,12 +109,12 @@ bool HDE::SocketHde::modeO(std::vector<std::string> message,int mode, int user)
 		if (channelsMap.find(message[1]) != channelsMap.end())
 		{
 			if (mode == 1) {
-				channelsMap.at(message[1]).addOperators(clt.at(user));
+				channelsMap.at(message[1])->addOperators(clt.at(user));
 				// std::cout << "entred to the add opereator" << std::endl;
 				return true;
 			}
 			if (mode == 0){
-				channelsMap.at(message[1]).eraseOperator(clt.at(user));
+				channelsMap.at(message[1])->eraseOperator(clt.at(user));
 				return true;
 			}
 		}
@@ -135,12 +135,12 @@ bool HDE::SocketHde::modeL(std::vector<std::string> message,int mode)
 		std::cout << "Limit number entred is " << std::atoi(message[4].c_str()) << "\n";
 		if (mode == 1 && std::atoi(message[4].c_str()) > 0)
 		{
-			channelsMap.at(message[1]).setlimitUsers(std::atoi(message[4].c_str()));
+			channelsMap.at(message[1])->setlimitUsers(std::atoi(message[4].c_str()));
 			return true;
 		}
 		if (mode == 0)
 		{
-			channelsMap.at(message[1]).setlimitUsers(-1);
+			channelsMap.at(message[1])->setlimitUsers(-1);
 			return true;
 		}
 		return false;
@@ -160,8 +160,11 @@ bool isUserOperator(Client ctl, std::string user)
 bool HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i)
 {
 	int mode;
-	Channel ch("#channel", clt.at(fds[i].fd), "");
-	channelsMap.insert(std::pair<std::string, Channel &>("#channel", ch));
+	// Channel ch("#channel", clt.at(fds[i].fd), "");
+	Channel* ch = new Channel("#channel", clt.at(fds[i].fd), "");
+	
+	// channelsMap.insert(std::pair<std::string, Channel*>("#channel", ch));
+	channelsMap["#channel1"] = ch;
 
 	// ch.addUsers(clt.at(fds[4].fd));
 
@@ -185,7 +188,7 @@ bool HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i)
 	else
 		return false;
 
-	std::vector<Client> operators = channelsMap.at(message[1]).getOperators();
+	std::vector<Client> operators = channelsMap.at(message[1])->getOperators();
 	std::string user = clt.at(fds[i].fd).getUsername();
 	bool isOperator = false;
 
@@ -240,9 +243,9 @@ bool HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i)
 					// maybe check if the user is a user in the channel
 					std::cout << "moved " <<  std::endl;
 					int user = Client::getIdByUsername(message[4]);
-					ch.addUsers(clt.at(user));
+					ch->addUsers(clt.at(user));
 					std::vector<Client>::iterator itt ;
-					for(itt = ch.getUsers().begin() ; itt != ch.getUsers().end(); itt++)
+					for(itt = ch->getUsers().begin() ; itt != ch->getUsers().end(); itt++)
 						std::cout << "list of the user in the channel is : " << itt->getNickname() << std::endl;
 					// std::cout << "new client id is : " << user << std::endl;
 					// std::cout << "client name with this id is : " << clt.at(user).getNickname() << std::endl;
@@ -254,7 +257,7 @@ bool HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i)
 						// {
 						// 	std::cout << "*******====== operators in this channel are : " << operators2[j].getClientId() << " username " << operators2[j].getUsername() << std::endl;
 						// }
-						std::map<std::string, Channel&>::iterator it;
+						std::map<std::string, Channel*>::iterator it;
 						for(it = channelsMap.begin() ; it != channelsMap.end() ; ++it)
 						{
 							std::cout<< "list of channel: channel name : " << it->first << std::endl;
@@ -272,7 +275,7 @@ bool HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i)
 			{
 				if (modeL(message, mode))
 				{
-					std::cout << "MODE limit users set to : " << channelsMap.at(message[1]).getLimitUsers() << " in channel : " << channelsMap.at(message[1]).getChannelName() << std::endl;
+					std::cout << "MODE limit users set to : " << channelsMap.at(message[1])->getLimitUsers() << " in channel : " << channelsMap.at(message[1])->getChannelName() << std::endl;
 					return true;
 				}
 				else
