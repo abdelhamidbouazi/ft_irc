@@ -40,6 +40,10 @@ std::string Channel::getOwner()
 {
 	return this->owner;
 }
+void Channel::setOwner(std::string name)
+{
+	this->owner = name;
+}
 
 bool Channel::getHasOwner()
 {

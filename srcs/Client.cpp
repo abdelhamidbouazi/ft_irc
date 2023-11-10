@@ -18,6 +18,7 @@ Client::Client(int clientId)
 	this->clientId = clientId;
 	UFlag = false;
 	NFlag = false;
+	channelCount = 0;
 	// usersIds.insert(std::pair<std::string, int>("", 0));
 	// counter = 0;
 }

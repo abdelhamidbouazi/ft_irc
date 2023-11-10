@@ -24,6 +24,7 @@ class Replies
 #define ERR_BADCHANNELKEY(param, nick) " 475 " + nick + " " + param + " :Cannot join channel (+k)\r\n" 
 #define ERR_INVITEONLYCHAN(param, nick) " 473 " + nick + " " + param + " :Cannot join channel (+i)\r\n"
 #define ERR_NOSUCHCHANNEL(param, nick) " 403 " + nick + " " + param + " :No such channel\r\n" 
+#define ERR_NOTONCHANNEL(param) " 442 " + param + " :You're not on that channel\r\n"
 
 
 

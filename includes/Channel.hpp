@@ -21,6 +21,7 @@ class Channel
 		std::string owner;
 		std::string	key;
 		
+		
 	public:
 		Channel();
 		Channel(std::string channel, Client owner, std::string key);
@@ -49,6 +50,7 @@ class Channel
 		void eraseOperator(Client c);
 		void eraseUser(Client c);
 		void eraseInvitedUser(std::string name);
+		void setOwner(std::string name);
 
 
 		void addUsers(Client c);
