@@ -139,7 +139,8 @@ bool HDE::SocketHde::commands(std::vector<std::string> message, std::vector<std:
 	}
 	else if (message[0].compare("JOIN") == 0)
 	{
-		Join(joinVector, i);
+		return false;
+		// Join(joinVector, i);
 	}
 	else if (message[0].compare("MODE") == 0)
 	{
@@ -154,7 +155,33 @@ bool HDE::SocketHde::commands(std::vector<std::string> message, std::vector<std:
 		}
 		else
 		{
-			std::cout << "SIGNED==>Enter a valid Command" << std::endl;
+			std::cout << "SIGNED==>MODE ERROR" << std::endl;
+			return false;
+		}
+	}
+	else if (message[0].compare("KICK") == 0)
+	{
+		if (CheckKICK(message, i))
+		{
+			std::cout << "Kick Command Success" << std::endl;
+			return true;
+		}
+		else
+		{
+			std::cout << "SIGNED==>KICK ERROR" << std::endl;
+			return false;
+		}
+	}
+	else if (message[0].compare("INVITE") == 0)
+	{
+		if (CheckINVITE(message, i))
+		{
+			std::cout << "INVITE Command Success" << std::endl;
+			return true;
+		}
+		else
+		{
+			std::cout << "SIGNED==>INVITE ERROR" << std::endl;
 			return false;
 		}
 	}

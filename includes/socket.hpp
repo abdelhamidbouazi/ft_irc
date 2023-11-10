@@ -74,8 +74,10 @@ namespace HDE
 			// commands
 			bool Auth(std::vector<std::string> message, std::vector<std::pair<std::string , std::string > > joinVector,int i);
 			bool commands(std::vector<std::string> message, std::vector<std::pair<std::string , std::string > > joinVector,int i);
-			void Join(std::vector<std::pair<std::string , std::string > > joinVector,int i);
+			// void Join(std::vector<std::pair<std::string , std::string > > joinVector,int i);
 			bool CheckMODE(std::vector<std::string> message, int i);
+			bool CheckKICK(std::vector<std::string> message, int i);
+			bool CheckINVITE(std::vector<std::string> message, int i);
 			// mode tools
 			bool modeI(std::vector<std::string> message, int mode);
 			bool modeT(std::vector<std::string> message, int mode);
