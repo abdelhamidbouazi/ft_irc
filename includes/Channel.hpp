@@ -49,6 +49,7 @@ class Channel
 		void eraseOperator(Client c);
 		void eraseUser(Client c);
 		void eraseInvitedUser(std::string name);
+		void setOwner(std::string name);
 
 
 		void addUsers(Client c);

@@ -7,8 +7,10 @@
 #include <map>
 #include "Channel.hpp"
 
-class Channel;
 
+#define USER_MAX_CHANNEL 3
+
+class Channel;
 class Client
 {
 	private:
