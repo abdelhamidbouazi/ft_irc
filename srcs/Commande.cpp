@@ -39,7 +39,6 @@ void HDE::Commande::start_parssing(std::string& msg)
 			pushToVector(this->request, msg);
 			join_strings_after_colon(this->request);
 		}
-
 		else if(this->cmd == "INVITE" || this->cmd == "PASS" || this->cmd == "NICK")
         {
 			pushToVector(this->request, msg);
@@ -52,9 +51,6 @@ void HDE::Commande::start_parssing(std::string& msg)
         {
 			pushToVector(this->request, msg);
 			splitTheJoinPram();
-			// for ( std::vector < std::pair<std::string, std::string> >::const_iterator it = this->modeVect.begin() ; it != this->modeVect.end(); it++){
-    	    // 	std::cout << it->first << "-------" << it->second << std::endl;
-			// }
 		}
     }
 	else

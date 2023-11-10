@@ -92,6 +92,17 @@ void Channel::eraseOperator(Client c)
         }
     }
 }
+void Channel::eraseUser(Client c)
+{
+    for (std::vector<Client>::iterator it = users.begin(); it != users.end(); ++it)
+    {
+        if (it->getClientId() == c.getClientId())
+        {
+            users.erase(it);
+            break;
+        }
+    }
+}
 
 std::string Channel::getChannelName()
 {

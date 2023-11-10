@@ -141,6 +141,11 @@ bool HDE::SocketHde::commands(std::vector<std::string> message, std::vector<std:
 	{
 		Join(joinVector, i);
 	}
+	else if (message[0].compare("PART") == 0)
+	{
+		Part(message, i);
+	}
+	
 	else if (message[0].compare("MODE") == 0)
 	{
 		if (CheckMODE(message, i))

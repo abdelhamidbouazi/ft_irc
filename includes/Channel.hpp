@@ -47,6 +47,7 @@ class Channel
 		void setIsTopic(bool _val);
 		void setKey(std::string _key);
 		void eraseOperator(Client c);
+		void eraseUser(Client c);
 		void eraseInvitedUser(std::string name);
 
 
