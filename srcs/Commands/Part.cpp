@@ -24,7 +24,7 @@ bool checkUserInChannel(Channel *chan, std::string name)
     }
     return false;
 }
-bool checkUserInChannelOperator(Channel *chan, std::string name)
+bool HDE::SocketHde::checkUserInChannelOperator(Channel *chan, std::string name)
 {
     std::vector<Client>::iterator it ;
     for(it = chan->getOperators().begin(); it != chan->getOperators().end(); it++)
