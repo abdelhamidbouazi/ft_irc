@@ -29,6 +29,10 @@
 #include "../includes/Client.hpp"
 #include "../includes/Channel.hpp"
 
+#define USER_MAX_CHANNEL 3
+
+
+
 namespace HDE
 {
 	class SocketHde
@@ -84,6 +88,7 @@ namespace HDE
 			bool modeL(std::vector<std::string> message,int mode);
 
 			//tools
+			void sendMessageToAll(int i, std::string channelname);
 			void sendMessage(std::string message, int fd);
 	};
 }
