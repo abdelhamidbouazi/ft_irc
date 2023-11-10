@@ -112,7 +112,6 @@ void HDE::SocketHde::Join(std::vector<std::pair<std::string , std::string > > jo
     // u should delete the addchannel to avoid the leaks 
 }
 
-
 void HDE::SocketHde::sendMessageToAll(int i, std::string channelname)
 {
     std::string nick = clt.at(fds[i].fd).getNickname();
@@ -130,11 +129,10 @@ void HDE::SocketHde::sendMessageToAll(int i, std::string channelname)
             std::vector<Client>::iterator itt;
             for(itt = tmp.begin(); itt != tmp.end(); itt++)
             {
-                if(itt->getNickname() != clt.at(fds[i].fd).getNickname())
-                {
+                if(itt->getNickname() != it->second->getOwner())
                     usersName += itt->getNickname() + " ";
+                if(itt->getNickname() != clt.at(fds[i].fd).getNickname())
                     add.push_back(itt->getClientId());
-                }
             }
             std::string msjj = ":" + localhost + " 353 " + clt.at(fds[i].fd).getNickname() + " = " + channelname + " :" + usersName;
             if(it->second->getHasOwner())
