@@ -10,7 +10,9 @@ Channel::Channel(std::string name, Client owner, std::string key)
 	limitUsers = -1;
 	inviteOnly = false;
 	isTopic = false;
+	hasOwner = true;
 	this->key = key;
+	this->owner = owner.getNickname();
 	users.push_back(owner);
 	operators.push_back(owner);
 }
@@ -22,6 +24,32 @@ Channel::Channel(std::string name)
 
 Channel::~Channel()
 {}
+
+void Channel::addInvitedUser(std::string name)
+{
+	this->invitedUser.push_back(name);
+}
+void Channel::eraseInvitedUser(std::string name)
+{
+	std::vector<std::string>::iterator it = find(invitedUser.begin(), invitedUser.end(), name);
+	if(it == invitedUser.end())
+		return ;
+	invitedUser.erase(it);
+}
+std::string Channel::getOwner()
+{
+	return this->owner;
+}
+
+bool Channel::getHasOwner()
+{
+	return hasOwner;
+}
+
+void Channel::setHasOwner(bool hasOwner)
+{
+	this->hasOwner = hasOwner;
+}
 
 void Channel::addUsers(Client c)
 {
@@ -79,6 +107,10 @@ std::vector<Client> Channel::getOperators()
 	return operators;
 }
 
+std::vector<std::string> Channel::getInvitedUser()
+{
+    return this->invitedUser;
+}
 int Channel::getLimitUsers()
 {
 	return limitUsers;
