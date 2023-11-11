@@ -68,6 +68,7 @@ class Client
 		void setClientId(int clientId);
 		void setClientFd(int clientFd);
 		void setChannelCount(int count);
+		bool eraseNickname(Client &c);
 		// void incrementCounter();
 		void setUFlag();
 		void setNFlag();

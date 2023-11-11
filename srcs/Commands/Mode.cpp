@@ -94,9 +94,14 @@ bool HDE::SocketHde::modeO(std::vector<std::string> message,int mode, int user)
 		if (channelsMap.find(message[1]) != channelsMap.end())
 		{
 			if (mode == 1) {
-				channelsMap.at(message[1])->addOperators(clt.at(user));
-				// std::cout << "entred to the add opereator" << std::endl;
-				return true;
+				if (channelsMap.at(message[1])->addOperators(clt.at(user))){
+					std::cout << "Mode: Operator added with Success" << std::endl;
+					return true;
+				}
+				else {
+					std::cout << "Mode: Operator not added" << std::endl;
+					return false;
+				}
 			}
 			if (mode == 0){
 				channelsMap.at(message[1])->eraseOperator(clt.at(user));
@@ -145,16 +150,6 @@ bool isUserOperator(Client ctl, std::string user)
 bool HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i)
 {
 	int mode;
-	// Channel ch("#channel", clt.at(fds[i].fd), "");
-	Channel* ch = new Channel("#channel", clt.at(fds[i].fd), "");
-
-	// channelsMap.insert(std::pair<std::string, Channel*>("#channel", ch));
-	channelsMap["#channel1"] = ch;
-
-	// ch.addUsers(clt.at(fds[4].fd));
-
-	// check if the user is a operator
-
 	if (channelsMap.empty())
 	{
 		std::cout << "Empty list of channels" << std::endl;
@@ -217,15 +212,13 @@ bool HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i)
 					return false;
 				}
 				else {
-
 					std::cout << "moved " <<  std::endl;
 					int user = Client::getIdByUsername(message[4]);
-					ch->addUsers(clt.at(user));
 					std::vector<Client>::iterator itt ;
-					// for(itt = ch->getUsers().begin() ; itt != ch->getUsers().end(); itt++)
-					// 	std::cout << "list of the user in the channel is : " << itt->getNickname() << std::endl;
 					if(modeO(message, mode, user))
 					{
+						for(int f = 0 ; f < channelsMap.at(message[1])->getOperators().size(); f++)
+							std::cout << "******Operators in the channel is : " << channelsMap.at(message[1])->getOperators()[f].getUsername() << std::endl;
 						return true;
 					}
 				}

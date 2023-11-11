@@ -29,6 +29,10 @@
 #include "../includes/Client.hpp"
 #include "../includes/Channel.hpp"
 
+#define USER_MAX_CHANNEL 3
+
+
+
 namespace HDE
 {
 	class SocketHde
@@ -74,18 +78,21 @@ namespace HDE
 			// commands
 			bool Auth(std::vector<std::string> message, std::vector<std::pair<std::string , std::string > > joinVector,int i);
 			bool commands(std::vector<std::string> message, std::vector<std::pair<std::string , std::string > > joinVector,int i);
-			// void Join(std::vector<std::pair<std::string , std::string > > joinVector,int i);
+			void Join(std::vector<std::pair<std::string , std::string > > joinVector,int i);
 			bool CheckMODE(std::vector<std::string> message, int i);
+			void Part(std::vector<std::string> message, int i);
+
 			bool CheckKICK(std::vector<std::string> message, int i);
 			bool CheckINVITE(std::vector<std::string> message, int i);
+
 			// mode tools
 			bool modeI(std::vector<std::string> message, int mode);
 			bool modeT(std::vector<std::string> message, int mode);
 			bool modeK(std::vector<std::string> message,int mode);
 			bool modeO(std::vector<std::string> message,int mode, int user);
 			bool modeL(std::vector<std::string> message,int mode);
-
 			//tools
+			void sendMessageToAll(int i, std::string channelname);
 			void sendMessage(std::string message, int fd);
 	};
 }
