@@ -29,9 +29,6 @@
 #include "../includes/Client.hpp"
 #include "../includes/Channel.hpp"
 
-#define USER_MAX_CHANNEL 3
-
-
 
 namespace HDE
 {
@@ -91,8 +88,10 @@ namespace HDE
 			bool modeK(std::vector<std::string> message,int mode);
 			bool modeO(std::vector<std::string> message,int mode, int user);
 			bool modeL(std::vector<std::string> message,int mode);
+			bool checkUserInChannelOperator(Channel *chan, std::string name);
 			//tools
 			void sendMessageToAll(int i, std::string channelname);
+			void sendMessageToAllForPart(int i, std::string channelname);
 			void sendMessage(std::string message, int fd);
 	};
 }
