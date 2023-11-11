@@ -79,6 +79,10 @@ namespace HDE
 			bool CheckMODE(std::vector<std::string> message, int i);
 			void Part(std::vector<std::string> message, int i);
 			void Topic(std::vector<std::string> message, int i);
+
+			bool CheckKICK(std::vector<std::string> message, int i);
+			bool CheckINVITE(std::vector<std::string> message, int i);
+
 			// mode tools
 			bool modeI(std::vector<std::string> message, int mode);
 			bool modeT(std::vector<std::string> message, int mode);

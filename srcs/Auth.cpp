@@ -110,6 +110,8 @@ int CheckNICK(std::vector<std::string> message, Client &c)
 	}
 	else
 	{
+		if (c.getNickname() != "")
+			c.eraseNickname(c);
 		c.setNickname(message[1]);
 		c.setNFlag();
 		return 1;
@@ -140,34 +142,58 @@ bool HDE::SocketHde::commands(std::vector<std::string> message, std::vector<std:
 	else if (message[0].compare("JOIN") == 0)
 	{
 		Join(joinVector, i);
+		return false;
 	}
 	else if (message[0].compare("PART") == 0)
 	{
 		Part(message, i);
 	}
+
 	else if(message[0].compare("TOPIC") == 0)
 	{
 		Topic(message, i);
 	}
+
 	else if (message[0].compare("MODE") == 0)
 	{
 		if (CheckMODE(message, i))
 		{
 			std::cout << "MODE Command Success" << std::endl;
 			return true;
-			// 		std::cout << "SIGNED==>Nickname is : " << c.getNickname() << std::endl;
-			// 		return true;
-			// 	}
-			return false;
 		}
 		else
 		{
-			std::cout << "SIGNED==>Enter a valid Command" << std::endl;
+			std::cout << "SIGNED==>MODE ERROR" << std::endl;
 			return false;
 		}
 	}
+	// else if (message[0].compare("KICK") == 0)
+	// {
+	// 	if (CheckKICK(message, i))
+	// 	{
+	// 		std::cout << "Kick Command Success" << std::endl;
+	// 		return true;
+	// 	}
+	// 	else
+	// 	{
+	// 		std::cout << "SIGNED==>KICK ERROR" << std::endl;
+	// 		return false;
+	// 	}
+	// }
+	// else if (message[0].compare("INVITE") == 0)
+	// {
+	// 	if (CheckINVITE(message, i))
+	// 	{
+	// 		std::cout << "INVITE Command Success" << std::endl;
+	// 		return true;
+	// 	}
+		else
+		{
+			std::cout << "SIGNED==>INVITE ERROR" << std::endl;
+			return false;
+		}
 	return false;
-}
+	}
 
 bool HDE::SocketHde::Auth(std::vector<std::string> message, std::vector<std::pair<std::string, std::string > > joinVector, int i)
 {
