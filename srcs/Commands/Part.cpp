@@ -3,36 +3,37 @@
 #include "../../includes/Replies.hpp"
 #include "../../includes/socket.hpp"
 
-
-std::vector<std::string> splitStringWithComma(std::string str) {
-  std::vector<std::string> parts;
-  std::stringstream ss(str);
-  std::string part;
-  while (std::getline(ss, part, ',')) {
-    parts.push_back(part);
-  }
-  return parts;
+std::vector<std::string> splitStringWithComma(std::string str)
+{
+	std::vector<std::string> parts;
+	std::stringstream ss(str);
+	std::string part;
+	while (std::getline(ss, part, ','))
+	{
+		parts.push_back(part);
+	}
+	return parts;
 }
 
 bool checkUserInChannel(Channel *chan, std::string name)
 {
-    std::vector<Client>::iterator it ;
-    for(it = chan->getUsers().begin(); it != chan->getUsers().end(); it++)
-    {
-        if(it->getNickname() == name)
-            return true;
-    }
-    return false;
+	std::vector<Client>::iterator it;
+	for (it = chan->getUsers().begin(); it != chan->getUsers().end(); it++)
+	{
+		if (it->getNickname() == name)
+			return true;
+	}
+	return false;
 }
 bool HDE::SocketHde::checkUserInChannelOperator(Channel *chan, std::string name)
 {
-    std::vector<Client>::iterator it ;
-    for(it = chan->getOperators().begin(); it != chan->getOperators().end(); it++)
-    {
-        if(it->getNickname() == name)
-            return true;
-    }
-    return false;
+	std::vector<Client>::iterator it;
+	for (it = chan->getOperators().begin(); it != chan->getOperators().end(); it++)
+	{
+		if (it->getNickname() == name)
+			return true;
+	}
+	return false;
 }
 void HDE::SocketHde::Part(std::vector<std::string> message, int i)
 {
