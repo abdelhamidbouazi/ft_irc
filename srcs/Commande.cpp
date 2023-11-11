@@ -34,10 +34,15 @@ void HDE::Commande::start_parssing(std::string& msg)
 		this->cmd = msg.substr(0, pos);
 		std::transform(this->cmd.begin(), this->cmd.end(), this->cmd.begin(), ::toupper);
 		if(this->cmd == "USER" || this->cmd == "PRIVMSG"
-			|| this->cmd == "TOPIC" || this->cmd == "PART" || this->cmd == "KICK")
+			|| this->cmd == "PART" || this->cmd == "KICK")
         {
 			pushToVector(this->request, msg);
-			join_strings_after_colon(this->request);
+			join_strings_after_colon(this->request, 1);
+		}
+		else if(this->cmd == "TOPIC")
+		{
+			pushToVector(this->request, msg);
+			join_strings_after_colon(this->request, 0);
 		}
 		else if(this->cmd == "INVITE" || this->cmd == "PASS" || this->cmd == "NICK")
         {
@@ -130,7 +135,7 @@ void pushToVectorForMode(std::vector<std::string> &vec, std::string str)
 	}
 }
 
-void	HDE::Commande::join_strings_after_colon(std::vector<std::string>& line){
+void	HDE::Commande::join_strings_after_colon(std::vector<std::string>& line, int i){
 	std::string	temp;
 	bool	flag = false;
 	std::vector<std::string>::iterator saver = line.end();
@@ -138,8 +143,9 @@ void	HDE::Commande::join_strings_after_colon(std::vector<std::string>& line){
 		if ((*it)[0] == ':'){
 			flag = true;
 			temp = *it;
-			temp.erase(0, 1);
 			saver = it;
+			if( i == 1)
+				temp.erase(0, 1);
 		}
 		else if (flag)
 			temp += " " + *it;
