@@ -53,6 +53,7 @@ class Channel
 
 		void addUsers(Client c);
 		bool addOperators(Client c);
+		void addInvited(Client c);
 		void addInvitedUser(std::string name);
 
 

@@ -38,8 +38,18 @@ bool HDE::SocketHde::CheckINVITE(std::vector<std::string> message, int i)
 			else if (Client::getIdByUsername(message[1]) >= 3)
 			{
 				int user = Client::getIdByUsername(message[1]);
-				// ch->addUsers(clt.at(user));
-				channelsMap.at(message[2])->addUsers(clt.at(user));
+				// check if he is user or not
+				std::vector<Client>::iterator it;
+				for (it = channelsMap.at(message[2])->getUsers().begin(); it != channelsMap.at(message[2])->getUsers().end(); ++it)
+				{
+					if (it->getUsername() == clt.at(user).getUsername())
+					{
+						std::cout << "INVITE: User is already a user in the channel" << std::endl;
+						return false;
+					}
+				}
+				channelsMap.at(message[2])->addInvited(clt.at(user));
+				std::cout << "User is invited"<< std::endl;
 			}
 			else
 			{

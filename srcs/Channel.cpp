@@ -59,6 +59,10 @@ void Channel::addUsers(Client c)
 {
 	users.push_back(c);
 }
+void Channel::addInvited(Client c)
+{
+	invitedUser.push_back(c.getNickname());
+}
 
 bool Channel::addOperators(Client c)
 {
