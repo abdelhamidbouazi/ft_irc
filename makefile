@@ -33,6 +33,7 @@ SRC =	./srcs/main2.cpp \
 		./srcs/Commands/Mode.cpp \
 		./srcs/Commands/Join.cpp \
 		./srcs/Commands/Part.cpp \
+		./srcs/Commands/Topic.cpp \
 		# ./srcs/main.cpp \
 
 

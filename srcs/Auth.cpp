@@ -145,7 +145,10 @@ bool HDE::SocketHde::commands(std::vector<std::string> message, std::vector<std:
 	{
 		Part(message, i);
 	}
-	
+	else if(message[0].compare("TOPIC") == 0)
+	{
+		Topic(message, i);
+	}
 	else if (message[0].compare("MODE") == 0)
 	{
 		if (CheckMODE(message, i))

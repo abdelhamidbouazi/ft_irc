@@ -20,7 +20,8 @@ class Channel
 		bool		hasOwner;
 		std::string owner;
 		std::string	key;
-		
+		std::string topic;
+
 		
 	public:
 		Channel();
@@ -37,8 +38,8 @@ class Channel
 		bool		getIsTopic();
 		bool		getHasOwner();
 		std::string getOwner();
-
 		std::string	getKey();
+		std::string getTopic();
 		// Client& getUserByName(std::string username);
 
 		void setChannel(std::string _channel);
@@ -51,6 +52,7 @@ class Channel
 		void eraseUser(Client c);
 		void eraseInvitedUser(std::string name);
 		void setOwner(std::string name);
+		void setTopic(std::string topic);
 
 
 		void addUsers(Client c);

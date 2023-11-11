@@ -25,7 +25,10 @@ class Replies
 #define ERR_INVITEONLYCHAN(param, nick) " 473 " + nick + " " + param + " :Cannot join channel (+i)\r\n"
 #define ERR_NOSUCHCHANNEL(param, nick) " 403 " + nick + " " + param + " :No such channel\r\n" 
 #define ERR_NOTONCHANNEL(param) " 442 " + param + " :You're not on that channel\r\n"
-
+#define ERR_NOCHANMODES(param, nick) " 477 " + nick + " " + param + " :Channel doesn't support modes\r\n"
+#define ERR_CHANOPRIVSNEEDED(param, nick) " 482 " + nick + " " + param + " :You're not channel operator\r\n"
+#define RPL_TOPIC(nick, param, topic) "332 " + nick + " " + param + " :" + topic + "\r\n"
+#define RPL_NOTOPIC(nick, param) "331 " + nick + " " + param + " :No topic is set\r\n"
 
 
 # endif

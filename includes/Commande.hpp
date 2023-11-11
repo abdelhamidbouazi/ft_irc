@@ -18,7 +18,7 @@ namespace HDE
             Commande();
 
             void	start_parssing(std::string& msg);
-            void	join_strings_after_colon(std::vector<std::string>& line);
+            void	join_strings_after_colon(std::vector<std::string>& line, int i);
 
             std::string getCmd();
             std::vector<std::string> getRequest();

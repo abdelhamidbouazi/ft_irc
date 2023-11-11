@@ -9,7 +9,7 @@ Channel::Channel(std::string name, Client owner, std::string key)
 	channel = name;
 	limitUsers = -1;
 	inviteOnly = false;
-	isTopic = false;
+	isTopic = true;
 	hasOwner = true;
 	this->key = key;
 	this->owner = owner.getNickname();
@@ -53,6 +53,16 @@ bool Channel::getHasOwner()
 void Channel::setHasOwner(bool hasOwner)
 {
 	this->hasOwner = hasOwner;
+}
+
+std::string Channel::getTopic()
+{
+	return this->topic;
+}
+
+void Channel::setTopic(std::string topic)
+{
+	this->topic = topic;
 }
 
 void Channel::addUsers(Client c)
