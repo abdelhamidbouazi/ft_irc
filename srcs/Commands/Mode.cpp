@@ -42,11 +42,17 @@ bool HDE::SocketHde::modeI(std::vector<std::string> message, int mode)
 {
 	if (channelsMap.find(message[1]) != channelsMap.end())
 	{
-		if (mode == 1)
+		if (mode == 1){
 			channelsMap.at(message[1])->setInviteOnly(true);
-		if (mode == 0)
+			std::cout << "INVITE: "<<channelsMap.at(message[1])->getInvite_only() << std::endl;
+			return true;
+		}
+		if (mode == 0){
 			channelsMap.at(message[1])->setInviteOnly(false);
-		return true;
+			std::cout << "INVITE: "<<channelsMap.at(message[1])->getInvite_only() << std::endl;
+			return true;
+		}
+		return false;
 	}
 	else
 	{

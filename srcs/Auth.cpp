@@ -167,33 +167,34 @@ bool HDE::SocketHde::commands(std::vector<std::string> message, std::vector<std:
 			return false;
 		}
 	}
-	// else if (message[0].compare("KICK") == 0)
-	// {
-	// 	if (CheckKICK(message, i))
-	// 	{
-	// 		std::cout << "Kick Command Success" << std::endl;
-	// 		return true;
-	// 	}
-	// 	else
-	// 	{
-	// 		std::cout << "SIGNED==>KICK ERROR" << std::endl;
-	// 		return false;
-	// 	}
-	// }
-	// else if (message[0].compare("INVITE") == 0)
-	// {
-	// 	if (CheckINVITE(message, i))
-	// 	{
-	// 		std::cout << "INVITE Command Success" << std::endl;
-	// 		return true;
-	// 	}
+	else if (message[0].compare("KICK") == 0)
+	{
+		if (CheckKICK(message, i))
+		{
+			std::cout << "Kick Command Success" << std::endl;
+			return true;
+		}
+		else
+		{
+			std::cout << "SIGNED==>KICK ERROR" << std::endl;
+			return false;
+		}
+	}
+	else if (message[0].compare("INVITE") == 0)
+	{
+		if (CheckINVITE(message, i))
+		{
+			std::cout << "INVITE Command Success" << std::endl;
+			return true;
+		}
 		else
 		{
 			std::cout << "SIGNED==>INVITE ERROR" << std::endl;
 			return false;
 		}
-	return false;
 	}
+	return false;
+}
 
 bool HDE::SocketHde::Auth(std::vector<std::string> message, std::vector<std::pair<std::string, std::string > > joinVector, int i)
 {
