@@ -7,6 +7,10 @@
 
 bool HDE::SocketHde::CheckINVITE(std::vector<std::string> message, int i)
 {
+	if (message.size() != 3){
+		std::cout << "args error" <<std::endl;
+		return false;
+	}
 	if (channelsMap.empty())
 	{
 		std::cout << "INVITE: Empty list of channels" << std::endl;
@@ -49,13 +53,17 @@ bool HDE::SocketHde::CheckINVITE(std::vector<std::string> message, int i)
 					}
 				}
 				channelsMap.at(message[2])->addInvited(clt.at(user));
-				std::cout << "User is invited"<< std::endl;
+				for (int j = 0; j < channelsMap.at(message[2])->getInvitedUser().size(); j++)
+				{
+					std::cout << "Invited Users are : " << channelsMap.at(message[2])->getInvitedUser().at(j) << std::endl;
+				}
+				return true;
 			}
-			else
-			{
-				std::cout << "INVITE: channel Key not found in the map" << std::endl;
-				return false;
-			}
+		}
+		else
+		{
+			std::cout << "INVITE: channel Key not found in the map" << std::endl;
+			return false;
 		}
 	}
 	else

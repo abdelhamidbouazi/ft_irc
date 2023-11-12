@@ -34,6 +34,8 @@ SRC =	./srcs/main2.cpp \
 		./srcs/Commands/Join.cpp \
 		./srcs/Commands/Part.cpp \
 		./srcs/Commands/Topic.cpp \
+		./srcs/Commands/Invite.cpp \
+		./srcs/Commands/Kick.cpp \
 		# ./srcs/main.cpp \
 
 
