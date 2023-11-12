@@ -1,7 +1,7 @@
 #include "../../includes/Client.hpp"
 #include "../../includes/Channel.hpp"
 #include "../../includes/Replies.hpp"
-#include "../../includes/socket.hpp"
+#include "../../includes/socket.hpp"  
 
 
 std::vector<std::string> splitStringWithComma(std::string str) {
@@ -16,21 +16,39 @@ std::vector<std::string> splitStringWithComma(std::string str) {
 
 bool HDE::SocketHde::checkUserInChannel(Channel *chan, std::string name)
 {
-    std::vector<Client>::iterator it ;
-    for(it = chan->getUsers().begin(); it != chan->getUsers().end(); it++)
+    std::vector<Client>::iterator it;
+    std::vector<Client> vec = chan->getUsers();
+    std::cout << "the size of the users vector : " << vec.size() << std::endl;
+    std::cout << "****DEBUG 1\n";
+    if (!vec.empty())
     {
-        if(it->getNickname() == name)
-            return true;
+    std::cout << "****DEBUG 2\n";
+        for(it = chan->getUsers().begin(); it != chan->getUsers().end(); it++)
+        {
+    std::cout << "****DEBUG 3\n";
+            std::cout << "------ nike name : " << it->getNickname() << std::endl;
+            if(it->getNickname() == name)
+            {
+    std::cout << "****DEBUG 4\n";
+                return true;
+            }
+        }
     }
+    std::cout << "+++++ : " << it->getNickname() << std::endl;
+    std::cout << "****DEBUG 5\n";
     return false;
 }
 bool HDE::SocketHde::checkUserInChannelOperator(Channel *chan, std::string name)
 {
-    std::vector<Client>::iterator it ;
-    for(it = chan->getOperators().begin(); it != chan->getOperators().end(); it++)
+    std::vector<Client>::iterator it;
+    std::vector<Client> vec = chan->getOperators();
+    if (!vec.empty())
     {
-        if(it->getNickname() == name)
-            return true;
+        for(it = chan->getUsers().begin(); it != chan->getUsers().end(); it++)
+        {
+            if(it->getNickname() == name)
+                return true;
+        }
     }
     return false;
 }

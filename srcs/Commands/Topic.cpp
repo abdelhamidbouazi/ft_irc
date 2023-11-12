@@ -67,7 +67,6 @@ void HDE::SocketHde::Topic(std::vector<std::string> message, int i)
     return ;
 }
 
-
 void HDE::SocketHde::sendMessageToAllForTopic(int i, std::string channelname, int flag)
 {
     std::map<std::string, Channel*>::iterator it;

@@ -149,6 +149,10 @@ bool HDE::SocketHde::commands(std::vector<std::string> message, std::vector<std:
 	{
 		Topic(message, i);
 	}
+	else if(message[0].compare("PRIVMSG") == 0)
+	{
+		Privmsg(message, i);
+	}
 	else if (message[0].compare("MODE") == 0)
 	{
 		if (CheckMODE(message, i))

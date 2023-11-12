@@ -3,6 +3,8 @@
 #include "../../includes/Replies.hpp"
 #include "../../includes/socket.hpp"
 #include <algorithm>
+
+
 // Channel &getChannel(std::map<std::string, Channel &> channelsMap, std::string channel)
 // {
 // 	// for (std::vector<std::string>::const_iterator it = channelsMap.begin(); it != channelsMap.end(); ++it) {
