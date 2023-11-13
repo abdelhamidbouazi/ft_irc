@@ -2,7 +2,7 @@
 
 bool HDE::SocketHde::CheckKICK(std::vector<std::string> message, int i)
 {
-	if (message.size() != 3){
+	if (message.size() < 3 || message.size() > 5){
 		std::cout << "args error" <<std::endl;
 		return false;
 	}
@@ -44,7 +44,12 @@ bool HDE::SocketHde::CheckKICK(std::vector<std::string> message, int i)
 						// check if the user is that we want to delete is an operator, if operator delete from the vector of operators and users
 						channelsMap.at(message[1])->eraseUser(clt.at(user));
 						channelsMap.at(message[1])->eraseOperator(clt.at(user));
-						std::cout << "KICK: User erased from the channel" << std::endl;
+						if (!message[3].empty()){
+							std::cout << "KICK: User kicked from the channel for the reason: " << message[3] << std::endl;
+						}
+						else {
+							std::cout << "KICK: User erased from the channel" << std::endl;
+						}
 						return true;
 					}
 				}
