@@ -85,8 +85,6 @@ void HDE::SocketHde::sendMessageToAllForPrivmsg(int i, std::string channelname, 
     }
 }
 
-
-
 // std::string reply = ":" + localhost + " 001 " + clt.at(fds[i].fd).getNickname();
 // reply += " :Welcome to the Internet Relay Network " +  clt.at(fds[i].fd).getNickname() + "\n"; 
 // reply += ":" + localhost + " 002 " + clt.at(fds[i].fd).getNickname();

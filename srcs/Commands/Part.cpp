@@ -18,37 +18,22 @@ bool HDE::SocketHde::checkUserInChannel(Channel *chan, std::string name)
 {
     std::vector<Client>::iterator it;
     std::vector<Client> vec = chan->getUsers();
-    std::cout << "the size of the users vector : " << vec.size() << std::endl;
-    std::cout << "****DEBUG 1\n";
-    if (!vec.empty())
+
+    for(int i = 0; i < vec.size(); i++)
     {
-    std::cout << "****DEBUG 2\n";
-        for(it = chan->getUsers().begin(); it != chan->getUsers().end(); it++)
-        {
-    std::cout << "****DEBUG 3\n";
-            std::cout << "------ nike name : " << it->getNickname() << std::endl;
-            if(it->getNickname() == name)
-            {
-    std::cout << "****DEBUG 4\n";
-                return true;
-            }
-        }
+        if(vec[i].getNickname() == name)
+            return true;
     }
-    std::cout << "+++++ : " << it->getNickname() << std::endl;
-    std::cout << "****DEBUG 5\n";
     return false;
 }
 bool HDE::SocketHde::checkUserInChannelOperator(Channel *chan, std::string name)
 {
     std::vector<Client>::iterator it;
     std::vector<Client> vec = chan->getOperators();
-    if (!vec.empty())
+    for(int i = 0; i < vec.size(); i++)
     {
-        for(it = chan->getUsers().begin(); it != chan->getUsers().end(); it++)
-        {
-            if(it->getNickname() == name)
-                return true;
-        }
+        if(vec[i].getNickname() == name)
+            return true;
     }
     return false;
 }
