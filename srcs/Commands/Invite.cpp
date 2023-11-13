@@ -53,10 +53,6 @@ bool HDE::SocketHde::CheckINVITE(std::vector<std::string> message, int i)
 					}
 				}
 				channelsMap.at(message[2])->addInvited(clt.at(user));
-				for (int j = 0; j < channelsMap.at(message[2])->getInvitedUser().size(); j++)
-				{
-					std::cout << "Invited Users are : " << channelsMap.at(message[2])->getInvitedUser().at(j) << std::endl;
-				}
 				return true;
 			}
 		}
