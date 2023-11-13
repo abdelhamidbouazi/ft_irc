@@ -5,7 +5,7 @@ std::vector<std::string> Client::users;
 std::map<std::string, int> Client::usersIds;
 std::vector<std::string> Client::nicknames;
 
-Client::Client(){}
+Client::Client() {}
 Client::Client(int clientId)
 {
 	isIn = false;
@@ -77,6 +77,18 @@ std::vector<std::string> Client::getNicknames()
 	return this->nicknames;
 }
 
+bool Client::eraseNickname(Client &c)
+{
+	std::vector<std::string>::iterator it;
+	it = std::find(nicknames.begin(), nicknames.end(), c.nickname);
+	if (it != nicknames.end())
+	{
+		nicknames.erase(it);
+		return true;
+	}
+	return false;
+}
+
 std::vector<std::string> Client::getAllUsers()
 {
 	for (size_t i = 0; i < users.size(); i++)
@@ -122,6 +134,7 @@ void Client::setNickname(std::string nickname)
 {
 	this->nicknames.push_back(nickname);
 	this->nickname = nickname;
+	usersIds.insert(std::pair<std::string, int>(nickname, clientId)); // Add username and id to the map
 }
 
 void Client::setFullName(std::string fullName)
@@ -137,7 +150,6 @@ void Client::addUser(std::string username, Client &c)
 	{
 		this->username = username;
 		users.push_back(username);
-		usersIds.insert(std::pair<std::string, int>(username, clientId)); // Add username and id to the map
 		// std::cout << "Username from the map id is : " << usersIds.at(username) << std::endl;
 	}
 	else
@@ -176,22 +188,22 @@ int Client::getChannelCount()
 int Client::getIdByUsername(std::string username)
 {
 
-    // for(std::map<std::string, int>::iterator it = usersIds.begin(); it != usersIds.end() ; it++)
+	// for(std::map<std::string, int>::iterator it = usersIds.begin(); it != usersIds.end() ; it++)
 	// 	std::cout << "client name is : " << it->first << " client id is : " << it->second << std::endl;
-    std::map<std::string, int>::iterator it = usersIds.find(username);
-    if (it != usersIds.end())
-    {
+	std::map<std::string, int>::iterator it = usersIds.find(username);
+	if (it != usersIds.end())
+	{
 		// std::cout << "function getIdByUsername: return : " << it->second<< std::endl;
-        // The username was found. Return the associated id.
-        return it->second;
-    }
-    else
-    {
+		// The username was found. Return the associated id.
+		return it->second;
+	}
+	else
+	{
 		std::cout << "User not found!!!" << std::endl;
-        // The username was not found. Return a sentinel value to indicate this.
-        // -1 is often used for this purpose, but you should choose a value that makes sense for your application.
-        return -1;
-    }
+		// The username was not found. Return a sentinel value to indicate this.
+		// -1 is often used for this purpose, but you should choose a value that makes sense for your application.
+		return -1;
+	}
 }
 
 // Client& getUserById(int id) {

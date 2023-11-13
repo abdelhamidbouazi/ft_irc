@@ -3,15 +3,16 @@
 #include "../../includes/Replies.hpp"
 #include "../../includes/socket.hpp"  
 
-
-std::vector<std::string> splitStringWithComma(std::string str) {
-  std::vector<std::string> parts;
-  std::stringstream ss(str);
-  std::string part;
-  while (std::getline(ss, part, ',')) {
-    parts.push_back(part);
-  }
-  return parts;
+std::vector<std::string> splitStringWithComma(std::string str)
+{
+	std::vector<std::string> parts;
+	std::stringstream ss(str);
+	std::string part;
+	while (std::getline(ss, part, ','))
+	{
+		parts.push_back(part);
+	}
+	return parts;
 }
 
 bool HDE::SocketHde::checkUserInChannel(Channel *chan, std::string name)

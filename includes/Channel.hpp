@@ -22,7 +22,6 @@ class Channel
 		std::string	key;
 		std::string topic;
 
-		
 	public:
 		Channel();
 		Channel(std::string channel, Client owner, std::string key);
@@ -56,7 +55,8 @@ class Channel
 
 
 		void addUsers(Client c);
-		void addOperators(Client c);
+		bool addOperators(Client c);
+		void addInvited(Client c);
 		void addInvitedUser(std::string name);
 
 

@@ -35,6 +35,8 @@ SRC =	./srcs/main2.cpp \
 		./srcs/Commands/Part.cpp \
 		./srcs/Commands/Topic.cpp \
 		./srcs/Commands/Privmsg.cpp \
+		./srcs/Commands/Invite.cpp \
+		./srcs/Commands/Kick.cpp \
 		# ./srcs/main.cpp \
 
 OBJECTS = $(SRC:.cpp=.o)
