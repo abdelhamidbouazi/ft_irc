@@ -172,6 +172,9 @@ bool HDE::SocketHde::commands(std::vector<std::string> message, std::vector<std:
 		if (CheckKICK(message, i))
 		{
 			std::cout << "Kick Command Success" << std::endl;
+			for (int j = 0; j < channelsMap.at(message[1])->getUsers().size(); j++){
+				std::cout << "User in the channel are: " << channelsMap.at(message[1])->getUsers()[j].getNickname() << std::endl;
+			}
 			return true;
 		}
 		else
