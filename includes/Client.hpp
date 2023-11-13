@@ -6,6 +6,7 @@
 #include <vector>
 #include <map>
 #include "Channel.hpp"
+#include <ctime>
 
 
 #define USER_MAX_CHANNEL 20
@@ -23,6 +24,7 @@ class Client
 		std::string username;
 		int clientId;
 		int clientFd;
+		std::time_t startTime;
 		// int counter;
 		// Declare the static vector of strings as a private static member
 		static std::vector<std::string> users;
@@ -57,6 +59,7 @@ class Client
 		bool getNFlag();
 		int getChannelCount();
 		static int getIdByUsername(std::string username);
+		std::time_t getStartTime() const;
 		// int getCounter();
 
 

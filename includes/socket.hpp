@@ -82,6 +82,7 @@ namespace HDE
 			void Part(std::vector<std::string> message, int i);
 			void Topic(std::vector<std::string> message, int i);
 			void Privmsg(std::vector<std::string> message, int i);
+			void Bot(int i);
 			bool CheckKICK(std::vector<std::string> message, int i);
 			bool CheckINVITE(std::vector<std::string> message, int i);
 

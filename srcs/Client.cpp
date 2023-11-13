@@ -19,6 +19,7 @@ Client::Client(int clientId)
 	UFlag = false;
 	NFlag = false;
 	channelCount = 0;
+	startTime = std::time(nullptr);
 	// usersIds.insert(std::pair<std::string, int>("", 0));
 	// counter = 0;
 }
@@ -218,4 +219,9 @@ int Client::getIdByUsername(std::string username)
 void Client::setChannelCount(int count)
 {
 	this->channelCount = count;
+}
+
+std::time_t Client::getStartTime() const
+{
+	return this->startTime;
 }

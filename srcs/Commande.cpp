@@ -115,36 +115,6 @@ void pushToVector(std::vector<std::string> &vec, std::string str)
 	}
 }
 
-// void pushToVector(std::vector<std::string> &vec, std::string str) {
-//   std::string dl = " ";  // Delimiter string
-//   size_t pos;  // Position of the delimiter
-
-//   while (true) {
-//     // Find the next non-space character
-//     pos = str.find_first_not_of(dl);
-
-//     if (pos == std::string::npos) {
-//       // Reached the end of the string
-//       break;
-//     }
-
-//     // Find the next space after the non-space character
-//     pos = str.find(dl, pos);
-
-//     if (pos == std::string::npos) {
-//       // No more spaces in the string
-//       vec.push_back(str.substr(pos));
-//       break;
-//     }
-
-//     // Push the word to the vector
-//     vec.push_back(str.substr(pos, pos - pos));
-
-//     // Skip over the spaces
-//     str.erase(pos, dl.length());
-//   }
-// }
-
 void pushToVectorForMode(std::vector<std::string> &vec, std::string str)
 {
 	std::string dl = " " ;
