@@ -27,8 +27,11 @@ class Replies
 #define ERR_NOTONCHANNEL(param) " 442 " + param + " :You're not on that channel\r\n"
 #define ERR_NOCHANMODES(param, nick) " 477 " + nick + " " + param + " :Channel doesn't support modes\r\n"
 #define ERR_CHANOPRIVSNEEDED(param, nick) " 482 " + nick + " " + param + " :You're not channel operator\r\n"
-#define RPL_TOPIC(nick, param, topic) "332 " + nick + " " + param + " :" + topic + "\r\n"
-#define RPL_NOTOPIC(nick, param) "331 " + nick + " " + param + " :No topic is set\r\n"
+#define RPL_TOPIC(nick, param, topic) " 332 " + nick + " " + param + " :" + topic + "\r\n"
+#define RPL_NOTOPIC(nick, param) " 331 " + nick + " " + param + " :No topic is set\r\n"
+#define ERR_NORECIPIENT(param) " 411 :No recipient given " + param + "\r\n"
+#define ERR_NOTEXTTOSEND " 412 :No text to send\r\n"
+#define ERR_TOOMANYTARGETS(param) " 407 " + param + " :recipients. No message delivered\r\n"
 
 
 # endif

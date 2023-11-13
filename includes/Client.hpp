@@ -8,7 +8,7 @@
 #include "Channel.hpp"
 
 
-#define USER_MAX_CHANNEL 3
+#define USER_MAX_CHANNEL 20
 
 class Channel;
 class Client

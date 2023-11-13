@@ -29,6 +29,8 @@
 #include "../includes/Client.hpp"
 #include "../includes/Channel.hpp"
 
+#define MAX_TARGET 1
+
 
 namespace HDE
 {
@@ -79,7 +81,7 @@ namespace HDE
 			bool CheckMODE(std::vector<std::string> message, int i);
 			void Part(std::vector<std::string> message, int i);
 			void Topic(std::vector<std::string> message, int i);
-
+			void Privmsg(std::vector<std::string> message, int i);
 			bool CheckKICK(std::vector<std::string> message, int i);
 			bool CheckINVITE(std::vector<std::string> message, int i);
 
@@ -95,6 +97,7 @@ namespace HDE
 			void sendMessageToAll(int i, std::string channelname);
 			void sendMessageToAllForPart(int i, std::string channelname);
 			void sendMessageToAllForTopic(int i, std::string channelname, int flag);
+			void sendMessageToAllForPrivmsg(int i, std::string channelname, std::string message);
 			void sendMessage(std::string message, int fd);
 	};
 }

@@ -39,7 +39,8 @@ void HDE::SocketHde::start_polling()
     memset(fds, 0, sizeof(fds));
     fds[0].fd = sock;
     fds[0].events = POLLIN;
-    timeout = (3 * 60 * 1000);
+    // timeout = (3 * 60 * 1000);
+    timeout = -1;
     end_server = false;
     nfds = 1;
     int current_size = 0;
