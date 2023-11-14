@@ -16,7 +16,7 @@ void HDE::SocketHde::Topic(std::vector<std::string> message, int i)
         {
             if(checkUserInChannel(channelsMap.at(message[1]), clt.at(fds[i].fd).getNickname()))
             {
-                if(!channelsMap.at(message[1])->getIsTopic())
+                if(channelsMap.at(message[1])->getIsTopic() == false)
                 {
                     sendMessage(":" + localhost +  ERR_NOCHANMODES(message[1], clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
                     return ;
