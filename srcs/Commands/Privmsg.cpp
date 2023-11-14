@@ -18,6 +18,19 @@ std::vector<std::string> splitPrivmsgArgs(std::string message)
     }
     return target;
 }
+
+int GetUserIdByName(std::map<std::string, int> &AllUsers, std::string name) 
+{
+    std::map<std::string, int>::iterator it = AllUsers.find(name);
+
+    if (it == AllUsers.end())
+        return -1;
+    else 
+    {
+        int id = it->second;
+        return id;
+    }
+}
 void HDE::SocketHde::Privmsg(std::vector<std::string> message, int i)
 {
     std::vector<std:: string> target = splitPrivmsgArgs(message[1]);
@@ -41,7 +54,6 @@ void HDE::SocketHde::Privmsg(std::vector<std::string> message, int i)
     {
         if(channelsMap.find(message[1]) != channelsMap.end())
         {
-            std::cout << "****DEBUG 6 :" << clt.at(fds[i].fd).getNickname() << std::endl;
             if(checkUserInChannel(channelsMap.at(message[1]), clt.at(fds[i].fd).getNickname()))
             {
                 sendMessageToAllForPrivmsg(i, message[1], message[2]);
@@ -58,9 +70,20 @@ void HDE::SocketHde::Privmsg(std::vector<std::string> message, int i)
     }
     else
     {
-
+        if(GetUserIdByName(AllUsers, message[1]) != -1) 
+        {
+            int k = GetUserIdByName(AllUsers, message[1]);
+            std::string nick = clt.at(fds[k].fd).getNickname();
+            std::string selfStr = ":" + nick + "!" + nick + "@" + localhost + " PRIVMSG " + clt.at(fds[i].fd).getNickname() + " :"+ message[2] + "\r\n";
+            sendMessage(selfStr, clt.at(fds[k].fd).getClientId());
+        }
+        else
+            sendMessage(":" + localhost + ERR_NOSUCHNICK(clt.at(fds[i].fd).getNickname() , message[1]), clt.at(fds[i].fd).getClientId());
+        return ;
     }
 }
+
+
 
 void HDE::SocketHde::sendMessageToAllForPrivmsg(int i, std::string channelname, std::string message)
 {
@@ -78,7 +101,7 @@ void HDE::SocketHde::sendMessageToAllForPrivmsg(int i, std::string channelname, 
                     add.push_back(itt->getClientId());
             }
             std::string nick = clt.at(fds[i].fd).getNickname();
-            std::string selfStr = ":" + nick  + "!" + nick + "@" + localhost + " PRIVMSG " +  channelname + " :" + message + "\r\n";
+            std::string selfStr = ":" + nick  + "!" + nick + "@" + localhost + " PRIVMSG " +  channelname + " " + message + "\r\n";
             for(int index = 0; index < add.size() ; index++)
                 sendMessage(selfStr, add.at(index));
         }

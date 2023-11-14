@@ -19,6 +19,7 @@ class Replies
 
 #define RPL_NOTOPIC(nick, param) " 331 " + nick + " " + param + " :No topic is set\r\n"
 #define RPL_TOPIC(nick, param, topic) " 332 " + nick + " " + param + " :" + topic + "\r\n"
+#define ERR_NOSUCHNICK(nick, user)  " 401 " + nick + " " + user + " :No such nick/channel\r\n"
 #define ERR_NOSUCHCHANNEL(param, nick) " 403 " + nick + " " + param + " :No such channel\r\n" 
 #define ERR_TOOMANYCHANNELS(param, nick) " 405 " + nick + " " + param + " :You have joined too many channels\r\n" 
 #define ERR_TOOMANYTARGETS(param) " 407 " + param + " :recipients. No message delivered\r\n"
