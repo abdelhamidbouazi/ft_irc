@@ -38,6 +38,7 @@ class Client
 	public:
 		Client();
 		Client(int clientId);
+		// Client(int clientId, std::string nickname);
 		~Client();
 
 		// i add this

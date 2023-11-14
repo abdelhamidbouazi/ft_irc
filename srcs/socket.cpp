@@ -81,13 +81,13 @@ void HDE::SocketHde::start_polling()
                 //     end_server = true;
                 // }
             }
-            
+
             localhost = ClientIp(connection);
             clt.insert(std::pair<int, Client>(connection, Client(connection)));
             fds[nfds].fd = connection;
             fds[nfds].events = POLLIN;
             nfds++;
-        
+
         }
         current_size = nfds;
         for (int i = 1; i < current_size; i++) // Start from 1, skipping the listening socket
