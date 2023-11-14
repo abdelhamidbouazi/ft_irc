@@ -109,10 +109,12 @@ void pushToVector(std::vector<std::string> &vec, std::string str)
 		pos = str.find(dl);
 		vec.push_back(str.substr(0, pos));
 		str.erase(0, pos + dl.length());
+		str = trim(str);
 		if(pos == std::string::npos)
 			break;
 	}
 }
+
 void pushToVectorForMode(std::vector<std::string> &vec, std::string str)
 {
 	std::string dl = " " ;

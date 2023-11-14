@@ -157,6 +157,10 @@ bool HDE::SocketHde::commands(std::vector<std::string> message, std::vector<std:
 	{
 		Privmsg(message, i);
 	}
+	else if(message[0].compare("BOT") == 0)
+	{
+		Bot(i);
+	}
 
 	else if (message[0].compare("MODE") == 0)
 	{
