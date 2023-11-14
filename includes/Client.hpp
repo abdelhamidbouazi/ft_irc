@@ -9,7 +9,7 @@
 #include <ctime>
 
 
-#define USER_MAX_CHANNEL 20
+#define USER_MAX_CHANNEL 30
 
 class Channel;
 class Client
