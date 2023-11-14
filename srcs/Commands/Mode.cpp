@@ -65,11 +65,17 @@ bool HDE::SocketHde::modeT(std::vector<std::string> message, int mode)
 {
 	if (channelsMap.find(message[1]) != channelsMap.end())
 	{
-		if (mode == 1)
-			channelsMap.at(message[1])->setIsTopic(true);
-		if (mode == 0)
+		if (mode == 1) {
 			channelsMap.at(message[1])->setIsTopic(false);
-		return true;
+			std::cout << "TOPIC: " << channelsMap.at(message[1])->getIsTopic() << std::endl;
+			return true;
+		}
+		if (mode == 0){
+			channelsMap.at(message[1])->setIsTopic(true);
+			std::cout << "TOPIC: " << channelsMap.at(message[1])->getIsTopic() << std::endl;
+			return true;
+		}
+		return false;
 	}
 	else
 	{
