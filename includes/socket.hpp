@@ -47,9 +47,9 @@ namespace HDE
 			int end_server;
 			int nfds;
 			std::string localhost;
-
 			int port;
 			std::string password;
+			std::map<std::string, int> AllUsers;
 		public:
 			std::map<int, Client> clt;
 			std::map<std::string, Channel*> channelsMap;

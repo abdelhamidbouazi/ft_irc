@@ -72,8 +72,8 @@ void HDE::SocketHde::Join(std::vector<std::pair<std::string , std::string > > jo
                             }
                             if(invite_only && invited_user || !invite_only)
                             {
-                                channelsMap.at(temp.first)->addUsers(clt.at(fds[i].fd));
                                 clt.at(fds[i].fd).setChannelCount(clt.at(fds[i].fd).getChannelCount() + 1);
+                                channelsMap.at(temp.first)->addUsers(clt.at(fds[i].fd));
                                 sendMessageToAll(i, temp.first);
                             }
                         }
@@ -85,9 +85,19 @@ void HDE::SocketHde::Join(std::vector<std::pair<std::string , std::string > > jo
                     }
                     else
                     {
-                        clt.at(fds[i].fd).setChannelCount(clt.at(fds[i].fd).getChannelCount() + 1);
-                        channelsMap.at(temp.first)->addUsers(clt.at(fds[i].fd));
-                        sendMessageToAll(i, temp.first);
+                        bool invite_only = channelsMap.at(temp.first)->getInvite_only();
+                        bool invited_user = IsInInvitedUser(channelsMap.at(temp.first)->getInvitedUser(), clt.at(fds[i].fd).getNickname());
+                        if(invite_only && !invited_user)
+                        {
+                            sendMessage(":" + localhost +  ERR_INVITEONLYCHAN(temp.first, clt.at(fds[i].fd).getNickname()),clt.at(fds[i].fd).getClientId());
+                            return ;
+                        }
+                        if(invite_only && invited_user || !invite_only)
+                        {
+                            clt.at(fds[i].fd).setChannelCount(clt.at(fds[i].fd).getChannelCount() + 1);
+                            channelsMap.at(temp.first)->addUsers(clt.at(fds[i].fd));
+                            sendMessageToAll(i, temp.first);
+                        }
                     }
                 }
             }
