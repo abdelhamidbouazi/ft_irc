@@ -2,25 +2,27 @@
 #include "../../includes/Client.hpp"
 #include "../../includes/Replies.hpp"
 
-
-bool IsClientInVector(std::vector<Client> users, Client client) {
-  for (std::vector<Client>::iterator it = users.begin(); it != users.end(); ++it) {
-    if (it->getNickname() == client.getNickname()) {
-      return true;
-    }
-  }
-  return false;
+bool IsClientInVector(std::vector<Client> users, Client client)
+{
+	for (std::vector<Client>::iterator it = users.begin(); it != users.end(); ++it)
+	{
+		if (it->getNickname() == client.getNickname())
+		{
+			return true;
+		}
+	}
+	return false;
 }
 bool IsInInvitedUser(std::vector<std::string> invitedUser, std::string name)
 {
-    std::vector<std::string>::iterator it = find(invitedUser.begin(), invitedUser.end(), name);
-	if(it == invitedUser.end())
+	std::vector<std::string>::iterator it = find(invitedUser.begin(), invitedUser.end(), name);
+	if (it == invitedUser.end())
 		return false;
-    else
-        return true;
+	else
+		return true;
 }
 
-void HDE::SocketHde::Join(std::vector<std::pair<std::string , std::string > > joinVector, int i)
+void HDE::SocketHde::Join(std::vector<std::pair<std::string, std::string > > joinVector, int i)
 {
     if(joinVector.empty())
     {
@@ -124,35 +126,35 @@ void HDE::SocketHde::Join(std::vector<std::pair<std::string , std::string > > jo
 
 void HDE::SocketHde::sendMessageToAll(int i, std::string channelname)
 {
-    std::string nick = clt.at(fds[i].fd).getNickname();
-    std::string selfStr = ":" + nick  + "!" + nick + "@" + localhost + " JOIN " +  channelname + "\r\n";
-    sendMessage(selfStr, clt.at(fds[i].fd).getClientId());
+	std::string nick = clt.at(fds[i].fd).getNickname();
+	std::string selfStr = ":" + nick + "!" + nick + "@" + localhost + " JOIN " + channelname + "\r\n";
+	sendMessage(selfStr, clt.at(fds[i].fd).getClientId());
 
-    std::string usersName = "";
-    std::map<std::string, Channel*>::iterator it;
-    for(it = channelsMap.begin(); it != channelsMap.end() ; ++it)
-    {
-        if(it->first == channelname)
-        {
-            std::vector<Client> tmp = it->second->getUsers();
-            std::vector<int > add;
-            std::vector<Client>::iterator itt;
-            for(itt = tmp.begin(); itt != tmp.end(); itt++)
-            {
-                if(itt->getNickname() != it->second->getOwner())
-                    usersName += itt->getNickname() + " ";
-                if(itt->getNickname() != clt.at(fds[i].fd).getNickname())
-                    add.push_back(itt->getClientId());
-            }
-            std::string msjj = ":" + localhost + " 353 " + clt.at(fds[i].fd).getNickname() + " = " + channelname + " :" + usersName;
-            if(it->second->getHasOwner())
-            {
-                msjj += "@" + it->second->getOwner();
-            }
-            msjj += "\r\n:" + localhost + " 366 " + clt.at(fds[i].fd).getNickname() + " " + channelname + " :End of /NAMES list\r\n";
-            sendMessage(msjj, clt.at(fds[i].fd).getClientId());
-            for(int index = 0; index < add.size() ; index++)
-                sendMessage(selfStr, add.at(index));
-        }
-    }
+	std::string usersName = "";
+	std::map<std::string, Channel *>::iterator it;
+	for (it = channelsMap.begin(); it != channelsMap.end(); ++it)
+	{
+		if (it->first == channelname)
+		{
+			std::vector<Client> tmp = it->second->getUsers();
+			std::vector<int> add;
+			std::vector<Client>::iterator itt;
+			for (itt = tmp.begin(); itt != tmp.end(); itt++)
+			{
+				if (itt->getNickname() != it->second->getOwner())
+					usersName += itt->getNickname() + " ";
+				if (itt->getNickname() != clt.at(fds[i].fd).getNickname())
+					add.push_back(itt->getClientId());
+			}
+			std::string msjj = ":" + localhost + " 353 " + clt.at(fds[i].fd).getNickname() + " = " + channelname + " :" + usersName;
+			if (it->second->getHasOwner())
+			{
+				msjj += "@" + it->second->getOwner();
+			}
+			msjj += "\r\n:" + localhost + " 366 " + clt.at(fds[i].fd).getNickname() + " " + channelname + " :End of /NAMES list\r\n";
+			sendMessage(msjj, clt.at(fds[i].fd).getClientId());
+			for (int index = 0; index < add.size(); index++)
+				sendMessage(selfStr, add.at(index));
+		}
+	}
 }
