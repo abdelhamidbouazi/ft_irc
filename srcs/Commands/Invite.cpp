@@ -16,24 +16,16 @@ bool HDE::SocketHde::CheckINVITE(std::vector<std::string> message, int i)
 		std::cout << "INVITE: Empty list of channels" << std::endl;
 		return false;
 	}
-	std::vector<Client> operators = channelsMap.at(message[2])->getOperators();
 	std::string user = clt.at(fds[i].fd).getUsername();
-	bool isOperator = false;
 
-	for (std::vector<Client>::iterator it = operators.begin(); it != operators.end(); ++it)
-	{
-		if (it->getUsername() == user)
-		{
-			isOperator = true;
-			continue;
-		}
-	}
-
+	
+	bool isOperator = checkUserInChannelOperator(channelsMap.at(message[2]), user);
 	if (isOperator)
 	{
 		if (channelsMap.find(message[2]) != channelsMap.end())
 		{
 			int user;
+			std::cout << "debug 1\n";
 			if (Client::getIdByUsername(message[1]) == -1)
 			{
 				std::cout << "INVITE: User not Found" << std::endl;
@@ -42,16 +34,16 @@ bool HDE::SocketHde::CheckINVITE(std::vector<std::string> message, int i)
 			else if (Client::getIdByUsername(message[1]) >= 3)
 			{
 				int user = Client::getIdByUsername(message[1]);
-				// check if he is user or not
-				std::vector<Client>::iterator it;
-				for (it = channelsMap.at(message[2])->getUsers().begin(); it != channelsMap.at(message[2])->getUsers().end(); ++it)
+				std::vector<Client> cl = channelsMap.at(message[2])->getUsers();
+				for(int index = 0 ; index < cl.size() ; index++)
 				{
-					if (it->getUsername() == clt.at(user).getUsername())
+					if (cl[i].getUsername() == clt.at(user).getUsername())
 					{
 						std::cout << "INVITE: User is already a user in the channel" << std::endl;
 						return false;
 					}
 				}
+
 				channelsMap.at(message[2])->addInvited(clt.at(user));
 				return true;
 			}

@@ -17,7 +17,6 @@ std::vector<std::string> splitStringWithComma(std::string str)
 
 bool HDE::SocketHde::checkUserInChannel(Channel *chan, std::string name)
 {
-    std::vector<Client>::iterator it;
     std::vector<Client> vec = chan->getUsers();
 
     for(int i = 0; i < vec.size(); i++)
@@ -29,7 +28,6 @@ bool HDE::SocketHde::checkUserInChannel(Channel *chan, std::string name)
 }
 bool HDE::SocketHde::checkUserInChannelOperator(Channel *chan, std::string name)
 {
-    std::vector<Client>::iterator it;
     std::vector<Client> vec = chan->getOperators();
     for(int i = 0; i < vec.size(); i++)
     {

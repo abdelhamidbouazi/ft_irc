@@ -14,7 +14,8 @@ Header =	./includes/socket.hpp \
 		./includes/Replies.hpp \
 		./includes/Channel.hpp \
 
-VERSION = -std=c++98 -Wall -Wextra -Werror  
+VERSION = -std=c++98 -Wall -Wextra -Werror  -fsanitize=address
+
 # VERSION = -std=c++98
 
 SRC =	./srcs/main2.cpp \
