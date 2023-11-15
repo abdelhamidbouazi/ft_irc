@@ -22,11 +22,11 @@ Replies::Replies()
 Replies::~Replies()
 {
 }
-void Replies::NOTENOUGHPARAMS(Client c)
-{
-    std::string message = ":" + getHostName() + " 461 " + c.getNickname() + " :Not enough parameters" + "\r\n";
-    send(c.getClientId(), message.c_str(), message.length(), 0);
-}
+// void Replies::NOTENOUGHPARAMS(Client c)
+// {
+//     std::string message = ":" + getHostName() + " 461 " + c.getNickname() + " :Not enough parameters" + "\r\n";
+//     send(c.getClientId(), message.c_str(), message.length(), 0);
+// }
 
 void Replies::WRONGPASSWORD(Client c)
 {
@@ -46,17 +46,17 @@ void Replies::ERR_INVALIDNICKNAME (Client c)
     send(c.getClientId(),message.c_str(),message.length(),0);
 }
 
-void Replies::ERR_NICKNAMEINUSE (Client c)
-{
-    std::string message =   ":" + getHostName() + " 433 " + c.getNickname() + " :" + "Nickname is already in use" + "\r\n";
-    send(c.getClientId(),message.c_str(),message.length(),0);
-}
+// void Replies::ERR_NICKNAMEINUSE (Client c)
+// {
+//     std::string message =   ":" + getHostName() + " 433 " + c.getNickname() + " :" + "Nickname is already in use" + "\r\n";
+//     send(c.getClientId(),message.c_str(),message.length(),0);
+// }
 
-void Replies::ERR_ALREADYREGISTRED(Client c)
-{
-    std::string message = ":" + getHostName() + " 462 " + c.getNickname() + " :" + "You are registred" + "\r\n";
-    send(c.getClientId(), message.c_str(), message.length(), 0);
-}
+// void Replies::ERR_ALREADYREGISTRED(Client c)
+// {
+//     std::string message = ":" + getHostName() + " 462 " + c.getNickname() + " :" + "You are registred" + "\r\n";
+//     send(c.getClientId(), message.c_str(), message.length(), 0);
+// }
 
 // void Replies::ERR_NICKCOLLISION (Client c)
 // {

@@ -1,14 +1,15 @@
 #include "../../includes/socket.hpp"
+#include "../../includes/Replies.hpp"
 
 bool HDE::SocketHde::CheckKICK(std::vector<std::string> message, int i)
 {
 	if (message.size() < 3 || message.size() > 5){
-		std::cout << "args error" <<std::endl;
+		sendMessage(":" + localhost + ERR_NEEDMOREPARAMS("KICK", clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
 		return false;
 	}
 	if (channelsMap.empty())
 	{
-		std::cout << "KICK: Empty list of channels" << std::endl;
+		sendMessage(":" + localhost + ERR_NOSUCHCHANNEL(message[1], clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
 		return false;
 	}
 	std::vector<Client> operators = channelsMap.at(message[1])->getOperators();
@@ -25,12 +26,12 @@ bool HDE::SocketHde::CheckKICK(std::vector<std::string> message, int i)
 	}
 	if (isOperator)
 	{
-		if (channelsMap.find(message[1]) != channelsMap.end())
+		if (channelsMap.find(message[1]) != channelsMap.end() && message[1].at(0) == '#')
 		{
 			int user;
 			if (Client::getIdByUsername(message[2]) == -1)
 			{
-				std::cout << "KICK: User not Found" << std::endl;
+				sendMessage(":" + localhost + ERR_NOSUCHNICK(clt.at(fds[i].fd).getNickname() , message[4]), clt.at(fds[i].fd).getClientId());
 				return false;
 			}
 			else if (Client::getIdByUsername(message[2]) >= 3)
@@ -45,10 +46,10 @@ bool HDE::SocketHde::CheckKICK(std::vector<std::string> message, int i)
 						channelsMap.at(message[1])->eraseUser(clt.at(user));
 						channelsMap.at(message[1])->eraseOperator(clt.at(user));
 						if (!message[3].empty()){
-							std::cout << "KICK: User kicked from the channel for the reason: " << message[3] << std::endl;
+							sendMessage(":" + clt.at(fds[i].fd).getNickname() + "KICK " + channelsMap.at(message[1])->getChannelName() + " " + clt.at(user).getNickname() + " :" + message[3], clt.at(user).getClientId());
 						}
 						else {
-							std::cout << "KICK: User erased from the channel" << std::endl;
+							sendMessage(":" + clt.at(fds[i].fd).getNickname() + "KICK " + channelsMap.at(message[1])->getChannelName() + " " + clt.at(user).getNickname(), clt.at(user).getClientId());
 						}
 						return true;
 					}
@@ -57,13 +58,13 @@ bool HDE::SocketHde::CheckKICK(std::vector<std::string> message, int i)
 		}
 		else
 		{
-			std::cout << "KICK: channel Key not found in the map" << std::endl;
+			sendMessage(":" + localhost + ERR_NOSUCHCHANNEL(message[1], clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
 			return false;
 		}
 	}
 	else
 	{
-		std::cout << "KICK: You are not operator" << std::endl;
+		// sendMessage(":" + localhost + ERR_UNKNOWNMODE(message[3][0], channelsMap.at(message[1])->getChannelName()), clt.at(fds[i].fd).getClientId());
 		return false;
 	}
 	return false;

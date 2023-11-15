@@ -19,22 +19,26 @@ bool HDE::SocketHde::isFound(const std::vector<std::string> &vec, const std::str
 	return false; // The string does not exist in the vector
 }
 
-bool HDE::SocketHde::commands(std::vector<std::string> message, std::vector<std::pair<std::string, std::string > > joinVector, int i)
+bool HDE::SocketHde::commands(std::vector<std::string> message, std::vector<std::pair<std::string, std::string  > > joinVector, int i)
 {
+	if (message[0].compare("PASS") == 0)
+	{
+		sendMessage(":" + localhost + ERR_ALREADYREGISTRED(clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
+		return false;
+	}
+
 	if (message[0].compare("USER") == 0)
 	{
-		if (CheckUSER(message, clt.at(fds[i].fd)))
+		if (CheckUSER(message, clt.at(fds[i].fd), i))
 		{
-			std::cout << "SIGNED==>\nUsername is: " << clt.at(fds[i].fd).getUsername() << "\nFullname is: " << clt.at(fds[i].fd).getFullName() << std::endl;
 			return true;
 		}
 		return false;
 	}
 	else if (message[0].compare("NICK") == 0)
 	{
-		if (CheckNICK(message, clt.at(fds[i].fd)))
+		if (CheckNICK(message, clt.at(fds[i].fd), i))
 		{
-			std::cout << "SIGNED==>Nickname is : " << clt.at(fds[i].fd).getNickname() << std::endl;
 			return true;
 		}
 		return false;
@@ -49,21 +53,22 @@ bool HDE::SocketHde::commands(std::vector<std::string> message, std::vector<std:
 		Part(message, i);
 	}
 
-	else if(message[0].compare("TOPIC") == 0)
+	else if (message[0].compare("TOPIC") == 0)
 	{
 		Topic(message, i);
 	}
-	else if(message[0].compare("PRIVMSG") == 0)
+	else if (message[0].compare("PRIVMSG") == 0)
 	{
 		Privmsg(message, i);
 	}
-	else if(message[0].compare("BOT") == 0)
+	else if (message[0].compare("BOT") == 0)
 	{
 		Bot(i);
 	}
 
 	else if (message[0].compare("MODE") == 0)
 	{
+		std::cout << "Entred MODE Command\n";
 		if (CheckMODE(message, i))
 		{
 			std::cout << "MODE Command Success" << std::endl;
@@ -80,7 +85,8 @@ bool HDE::SocketHde::commands(std::vector<std::string> message, std::vector<std:
 		if (CheckKICK(message, i))
 		{
 			std::cout << "Kick Command Success" << std::endl;
-			for (int j = 0; j < channelsMap.at(message[1])->getUsers().size(); j++){
+			for (int j = 0; j < channelsMap.at(message[1])->getUsers().size(); j++)
+			{
 				std::cout << "User in the channel are: " << channelsMap.at(message[1])->getUsers()[j].getNickname() << std::endl;
 			}
 			return true;
@@ -119,7 +125,12 @@ bool HDE::SocketHde::Auth(std::vector<std::string> message, std::vector<std::pai
 		}
 		if (clt.at(fds[i].fd).getIsSignedIn() == false)
 		{
-			if (CheckPASS(message, clt.at(fds[i].fd), password))
+			if (message[0].compare("PASS") != 0)
+			{
+				sendMessage(":" + localhost + ERR_NOTREGISTERED(), clt.at(fds[i].fd).getClientId());
+				return false;
+			}
+			if (CheckPASS(message, clt.at(fds[i].fd), password, i))
 			{
 				clt.at(fds[i].fd).setIsSignedIn(true);
 				return true;
@@ -136,11 +147,16 @@ bool HDE::SocketHde::Auth(std::vector<std::string> message, std::vector<std::pai
 			}
 			if (clt.at(fds[i].fd).isSettingsSetted() == false)
 			{
+				// if (message[0].compare("PASS") == 0)
+				// {
+				// 	sendMessage(":" + localhost + ERR_ALREADYREGISTRED(clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
+				// 	return false;
+				// }
 				if (message[0].compare("USER") == 0)
 				{
-					if (CheckUSER(message, clt.at(fds[i].fd)))
+					if (CheckUSER(message, clt.at(fds[i].fd), i))
 					{
-						if (clt.at(fds[i].fd).getNFlag() == true && clt.at(fds[i].fd).getUFlag() == true  && clt.at(fds[i].fd).isSettingsSetted() == false)
+						if (clt.at(fds[i].fd).getNFlag() == true && clt.at(fds[i].fd).getUFlag() == true && clt.at(fds[i].fd).isSettingsSetted() == false)
 						{
 							sendMessage(":" + localhost + RPL_WELCOME(clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
 							clt.at(fds[i].fd).setIsSettingsSetted(true);
@@ -150,10 +166,10 @@ bool HDE::SocketHde::Auth(std::vector<std::string> message, std::vector<std::pai
 				}
 				else if (message[0].compare("NICK") == 0)
 				{
-					if (CheckNICK(message, clt.at(fds[i].fd)))
+					if (CheckNICK(message, clt.at(fds[i].fd), i))
 					{
-						AllUsers.insert(std::pair<std::string , int>(clt.at(fds[i].fd).getNickname(), i));
-						if (clt.at(fds[i].fd).getNFlag() == true  && clt.at(fds[i].fd).getUFlag() == true  && clt.at(fds[i].fd).isSettingsSetted() == false)
+						AllUsers.insert(std::pair<std::string, int>(clt.at(fds[i].fd).getNickname(), i));
+						if (clt.at(fds[i].fd).getNFlag() == true && clt.at(fds[i].fd).getUFlag() == true && clt.at(fds[i].fd).isSettingsSetted() == false)
 						{
 							sendMessage(":" + localhost + RPL_WELCOME(clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
 							clt.at(fds[i].fd).setIsSettingsSetted(true);
@@ -165,7 +181,7 @@ bool HDE::SocketHde::Auth(std::vector<std::string> message, std::vector<std::pai
 				}
 				else
 				{
-					std::cout << "Please set user and nickname first" << std::endl;
+					sendMessage(":" + localhost + ERR_NOTREGISTERED(), clt.at(fds[i].fd).getClientId());
 					return false;
 				}
 			}
