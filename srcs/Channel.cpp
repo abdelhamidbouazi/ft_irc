@@ -1,5 +1,7 @@
 #include "../includes/Channel.hpp"
 #include "../includes/Client.hpp"
+#include "../includes/Replies.hpp"
+
 #include <iostream>
 #include <vector>
 
@@ -25,16 +27,19 @@ Channel::~Channel()
 {
 }
 
-void Channel::addInvitedUser(std::string name)
+bool Channel::addInvitedUser(std::string name)
 {
 	this->invitedUser.push_back(name);
+	return true;
 }
-void Channel::eraseInvitedUser(std::string name)
+bool Channel::eraseInvitedUser(std::string name)
 {
 	std::vector<std::string>::iterator it = find(invitedUser.begin(), invitedUser.end(), name);
-	if (it == invitedUser.end())
-		return;
+	if (it == invitedUser.end()) {
+		return false;
+	}
 	invitedUser.erase(it);
+	return true;
 }
 std::string Channel::getOwner()
 {
@@ -79,12 +84,10 @@ bool Channel::addOperators(Client c)
     // Check if client is already an operator
     for (std::vector<Client>::iterator op = operators.begin(); op != operators.end(); ++op) {
         if (op->getUsername() == c.getUsername()) {
-            std::cout << c.getUsername() << " is already an operator." << std::endl;
             return false;
         }
     }
 
-    std::cout << "client name : " << c.getNickname() << ", id is :" << c.getClientId() << std::endl;
     std::vector<Client>::iterator it;
     for (it = users.begin(); it != users.end(); ++it)
     {
@@ -95,34 +98,35 @@ bool Channel::addOperators(Client c)
     }
     if (it == users.end())
     {
-        std::cout << c.getUsername() << " is not a user in the channel, invite user first!" << std::endl;
         return false;
     }
     return false;
 }
 
-void Channel::eraseOperator(Client c)
+bool Channel::eraseOperator(Client c)
 {
 	for (std::vector<Client>::iterator it = operators.begin(); it != operators.end(); ++it)
 	{
 		if (it->getClientId() == c.getClientId())
 		{
 			operators.erase(it);
-			break;
+			return true;
 		}
 	}
+	return false;
 }
 
-void Channel::eraseUser(Client c)
+bool Channel::eraseUser(Client c)
 {
 	for (std::vector<Client>::iterator it = users.begin(); it != users.end(); ++it)
 	{
 		if (it->getClientId() == c.getClientId())
 		{
 			users.erase(it);
-			break;
+			return true;
 		}
 	}
+	return false;
 }
 
 std::string Channel::getChannelName()

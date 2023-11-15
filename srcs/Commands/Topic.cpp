@@ -12,7 +12,7 @@ void HDE::SocketHde::Topic(std::vector<std::string> message, int i)
     }
     else
     {
-        if(channelsMap.find(message[1]) != channelsMap.end())
+        if(channelsMap.find(message[1]) != channelsMap.end()  && message[1].at(0) == '#')
         {
             if(checkUserInChannel(channelsMap.at(message[1]), clt.at(fds[i].fd).getNickname()))
             {
@@ -49,7 +49,7 @@ void HDE::SocketHde::Topic(std::vector<std::string> message, int i)
                 {
                     if(message[2][0] == ':')
                     {
-                        sendMessage(":" + localhost + ERR_CHANOPRIVSNEEDED(message[1], clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
+                        sendMessage(":" + localhost + ERR_CHANOPRIVSNEEDED(clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
                         return;
                     }
                     sendMessage(":" + localhost + RPL_TOPIC(clt.at(fds[i].fd).getNickname(), message[1], channelsMap.at(message[1])->getTopic()), clt.at(fds[i].fd).getClientId());

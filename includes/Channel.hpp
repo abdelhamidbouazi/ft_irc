@@ -47,9 +47,9 @@ class Channel
 		void setInviteOnly(bool _val);
 		void setIsTopic(bool _val);
 		void setKey(std::string _key);
-		void eraseOperator(Client c);
-		void eraseUser(Client c);
-		void eraseInvitedUser(std::string name);
+		bool eraseOperator(Client c);
+		bool eraseUser(Client c);
+		bool eraseInvitedUser(std::string name);
 		void setOwner(std::string name);
 		void setTopic(std::string topic);
 
@@ -57,7 +57,7 @@ class Channel
 		void addUsers(Client c);
 		bool addOperators(Client c);
 		void addInvited(Client c);
-		void addInvitedUser(std::string name);
+		bool addInvitedUser(std::string name);
 
 
 };

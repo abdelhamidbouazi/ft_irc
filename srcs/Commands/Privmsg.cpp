@@ -19,13 +19,13 @@ std::vector<std::string> splitPrivmsgArgs(std::string message)
     return target;
 }
 
-int GetUserIdByName(std::map<std::string, int> &AllUsers, std::string name) 
+int GetUserIdByName(std::map<std::string, int> &AllUsers, std::string name)
 {
     std::map<std::string, int>::iterator it = AllUsers.find(name);
 
     if (it == AllUsers.end())
         return -1;
-    else 
+    else
     {
         int id = it->second;
         return id;
@@ -42,7 +42,7 @@ void HDE::SocketHde::Privmsg(std::vector<std::string> message, int i)
     if(message.size() == 1)
     {
         sendMessage((":" + localhost + ERR_NORECIPIENT(message[0])), clt.at(fds[i].fd).getClientId());
-        return;   
+        return;
     }
     else if(message.size() == 2)
     {
@@ -52,7 +52,7 @@ void HDE::SocketHde::Privmsg(std::vector<std::string> message, int i)
 
     if(message[1][0] == '#')
     {
-        if(channelsMap.find(message[1]) != channelsMap.end())
+        if(channelsMap.find(message[1]) != channelsMap.end() && message[1].at(0) == '#')
         {
             if(checkUserInChannel(channelsMap.at(message[1]), clt.at(fds[i].fd).getNickname()))
             {
@@ -63,14 +63,14 @@ void HDE::SocketHde::Privmsg(std::vector<std::string> message, int i)
             {
                 sendMessage(":" + localhost + ERR_NOTONCHANNEL(message[1]), clt.at(fds[i].fd).getClientId());
                 return;
-            }   
+            }
         }
         else
             sendMessage(":" + localhost + ERR_NOSUCHCHANNEL(message[1], clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
     }
     else
     {
-        if(GetUserIdByName(AllUsers, message[1]) != -1) 
+        if(GetUserIdByName(AllUsers, message[1]) != -1)
         {
             int k = GetUserIdByName(AllUsers, message[1]);
             std::string nick = clt.at(fds[k].fd).getNickname();
@@ -109,7 +109,7 @@ void HDE::SocketHde::sendMessageToAllForPrivmsg(int i, std::string channelname, 
 }
 
 // std::string reply = ":" + localhost + " 001 " + clt.at(fds[i].fd).getNickname();
-// reply += " :Welcome to the Internet Relay Network " +  clt.at(fds[i].fd).getNickname() + "\n"; 
+// reply += " :Welcome to the Internet Relay Network " +  clt.at(fds[i].fd).getNickname() + "\n";
 // reply += ":" + localhost + " 002 " + clt.at(fds[i].fd).getNickname();
 // reply += " :Your host is " + localhost + ", running version 1.0\n";
 // reply += ":" + localhost + " 003 " + clt.at(fds[i].fd).getNickname() + " :This server was created\n";
