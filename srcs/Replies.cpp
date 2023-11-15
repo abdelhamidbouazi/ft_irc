@@ -22,11 +22,11 @@ Replies::Replies()
 Replies::~Replies()
 {
 }
-void Replies::NOTENOUGHPARAMS(Client c)
-{
-    std::string message = ":" + getHostName() + " 461 " + c.getNickname() + " :Not enough parameters" + "\r\n";
-    send(c.getClientId(), message.c_str(), message.length(), 0);
-}
+// void Replies::NOTENOUGHPARAMS(Client c)
+// {
+//     std::string message = ":" + getHostName() + " 461 " + c.getNickname() + " :Not enough parameters" + "\r\n";
+//     send(c.getClientId(), message.c_str(), message.length(), 0);
+// }
 
 void Replies::WRONGPASSWORD(Client c)
 {

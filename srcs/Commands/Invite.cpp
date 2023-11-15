@@ -16,13 +16,13 @@ bool HDE::SocketHde::CheckINVITE(std::vector<std::string> message, int i)
 		std::cout << "INVITE: Empty list of channels" << std::endl;
 		return false;
 	}
-	std::string user = clt.at(fds[i].fd).getUsername();
+	std::string nickname = clt.at(fds[i].fd).getNickname();
 
-	
-	bool isOperator = checkUserInChannelOperator(channelsMap.at(message[2]), user);
+
+	bool isOperator = checkUserInChannelOperator(channelsMap.at(message[2]), nickname);
 	if (isOperator)
 	{
-		if (channelsMap.find(message[2]) != channelsMap.end())
+		if (channelsMap.find(message[2]) != channelsMap.end() && message[2].at(0) == '#')
 		{
 			int user;
 			std::cout << "debug 1\n";

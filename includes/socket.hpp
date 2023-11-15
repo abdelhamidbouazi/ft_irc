@@ -28,6 +28,7 @@
 #include "../includes/Commande.hpp"
 #include "../includes/Client.hpp"
 #include "../includes/Channel.hpp"
+#include "../includes/socket.hpp"
 
 #define MAX_TARGET 1
 
@@ -87,11 +88,11 @@ namespace HDE
 			bool CheckINVITE(std::vector<std::string> message, int i);
 
 			// mode tools
-			bool modeI(std::vector<std::string> message, int mode);
-			bool modeT(std::vector<std::string> message, int mode);
-			bool modeK(std::vector<std::string> message,int mode);
-			bool modeO(std::vector<std::string> message,int mode, int user);
-			bool modeL(std::vector<std::string> message,int mode);
+			bool modeI(std::vector<std::string> message, int mode, int i);
+			bool modeT(std::vector<std::string> message, int mode, int i);
+			bool modeK(std::vector<std::string> message,int mode, int i);
+			bool modeO(std::vector<std::string> message,int mode, int user, int i);
+			bool modeL(std::vector<std::string> message,int mode, int i);
 			bool checkUserInChannelOperator(Channel *chan, std::string name);
 			bool checkUserInChannel(Channel *chan, std::string name);
 
