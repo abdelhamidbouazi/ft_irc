@@ -97,8 +97,8 @@ namespace HDE
 
 			//auth
 			int		CheckPASS(std::vector<std::string> message, Client &c, std::string Pass, int i);
-			int		CheckUSER(std::vector<std::string> message, Client &c);
-			int		CheckNICK(std::vector<std::string> message, Client &c);
+			int		CheckUSER(std::vector<std::string> message, Client &c, int i);
+			int		CheckNICK(std::vector<std::string> message, Client &c, int i);
 			bool	isFound(const std::vector<std::string> &vec, const std::string &str);
 			//tools
 			void sendMessageToAll(int i, std::string channelname);

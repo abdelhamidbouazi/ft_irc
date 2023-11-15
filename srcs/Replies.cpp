@@ -46,11 +46,11 @@ void Replies::ERR_INVALIDNICKNAME (Client c)
     send(c.getClientId(),message.c_str(),message.length(),0);
 }
 
-void Replies::ERR_NICKNAMEINUSE (Client c)
-{
-    std::string message =   ":" + getHostName() + " 433 " + c.getNickname() + " :" + "Nickname is already in use" + "\r\n";
-    send(c.getClientId(),message.c_str(),message.length(),0);
-}
+// void Replies::ERR_NICKNAMEINUSE (Client c)
+// {
+//     std::string message =   ":" + getHostName() + " 433 " + c.getNickname() + " :" + "Nickname is already in use" + "\r\n";
+//     send(c.getClientId(),message.c_str(),message.length(),0);
+// }
 
 // void Replies::ERR_ALREADYREGISTRED(Client c)
 // {

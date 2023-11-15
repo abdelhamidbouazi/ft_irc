@@ -19,6 +19,9 @@ class Replies
 
 #define RPL_WELCOME(nick) " 001 " + nick + " :Welcome to the Internet Relay Network\r\n"
 #define ERR_ALREADYREGISTRED(nick) " 462 " + nick + " :Unauthorized command (already registered)\r\n"
+#define ERR_NICKNAMEINUSE(nick) " 433 " + nick + " :Nickname is already in use\r\n"
+#define ERR_NONICKNAMEGIVEN() " 431 " + ":No nickname given\r\n"
+#define ERR_ERRONEUSNICKNAME(nick) " 432 " + nick + " :Erroneous nickname\r\n"
 
 
 #define RPL_NOTOPIC(nick, param) " 331 " + nick + " " + param + " :No topic is set\r\n"
@@ -30,7 +33,6 @@ class Replies
 #define ERR_NORECIPIENT(param) " 411 :No recipient given " + param + "\r\n"
 #define ERR_NOTEXTTOSEND " 412 :No text to send\r\n"
 #define ERR_NOTONCHANNEL(param) " 442 " + param + " :You're not on that channel\r\n"
-#define ERR_NEEDMOREPARAMS(cmd, nick)    " 461 " + nick + " " + cmd + " :Not enough parameters\r\n"
 #define ERR_CHANNELISFULL(param, nick) " 471 " + nick + " " + param + " :Cannot join channel (+l)\r\n"
 #define ERR_INVITEONLYCHAN(param, nick) " 473 " + nick + " " + param + " :Cannot join channel (+i)\r\n"
 #define ERR_BADCHANNELKEY(param, nick) " 475 " + nick + " " + param + " :Cannot join channel (+k)\r\n"
@@ -38,5 +40,6 @@ class Replies
 #define ERR_NOCHANMODES(param, nick) " 477 " + nick + " " + param + " :Channel doesn't support modes\r\n"
 #define ERR_CHANOPRIVSNEEDED(param, nick) " 482 " + nick + " " + param + " :You're not channel operator\r\n"
 
+#define ERR_NEEDMOREPARAMS(cmd, nick)    " 461 " + nick + " " + cmd + " :Not enough parameters\r\n"
 
 # endif
