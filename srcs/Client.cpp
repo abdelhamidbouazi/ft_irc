@@ -146,7 +146,8 @@ void Client::setFullName(std::string fullName)
 void Client::addUser(std::string username, Client &c)
 {
 	if (username.length() == 0)
-		Replies::ERR_ALREADYREGISTRED(c);
+		return ;
+		// Replies::ERR_ALREADYREGISTRED(c);
 	if (username.length() > 1)
 	{
 		this->username = username;

@@ -12,14 +12,17 @@ class Replies
 		static void NOTENOUGHPARAMS(Client c);
 		static void WRONGPASSWORD(Client c);
 		static void ERR_EMPTYNICKNAME (Client c);
-		static void ERR_ALREADYREGISTRED(Client c);
+		// static void ERR_ALREADYREGISTRED(Client c);
 		static void ERR_NICKNAMEINUSE(Client c);
 		static void ERR_INVALIDNICKNAME(Client c);
 };
 
+#define RPL_WELCOME(nick) " 001 " + nick + " :Welcome to the Internet Relay Network\r\n"
+#define ERR_ALREADYREGISTRED(nick) " 462 " + nick + " :Unauthorized command (already registered)\r\n"
+
+
 #define RPL_NOTOPIC(nick, param) " 331 " + nick + " " + param + " :No topic is set\r\n"
 #define RPL_TOPIC(nick, param, topic) " 332 " + nick + " " + param + " :" + topic + "\r\n"
-#define RPL_WELCOME(nick) " 001 " + nick + " :Welcome to the Internet Relay Network\r\n"
 #define ERR_NOSUCHNICK(nick, user)  " 401 " + nick + " " + user + " :No such nick/channel\r\n"
 #define ERR_NOSUCHCHANNEL(param, nick) " 403 " + nick + " " + param + " :No such channel\r\n"
 #define ERR_TOOMANYCHANNELS(param, nick) " 405 " + nick + " " + param + " :You have joined too many channels\r\n"

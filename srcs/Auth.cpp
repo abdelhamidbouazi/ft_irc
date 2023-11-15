@@ -21,6 +21,12 @@ bool HDE::SocketHde::isFound(const std::vector<std::string> &vec, const std::str
 
 bool HDE::SocketHde::commands(std::vector<std::string> message, std::vector<std::pair<std::string, std::string > > joinVector, int i)
 {
+	if (message[0].compare("PASS") == 0){
+		sendMessage(":" + localhost + ERR_ALREADYREGISTRED(clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
+			clt.at(fds[i].fd).setIsSettingsSetted(true);
+		return false;
+	}
+
 	if (message[0].compare("USER") == 0)
 	{
 		if (CheckUSER(message, clt.at(fds[i].fd)))
@@ -119,7 +125,7 @@ bool HDE::SocketHde::Auth(std::vector<std::string> message, std::vector<std::pai
 		}
 		if (clt.at(fds[i].fd).getIsSignedIn() == false)
 		{
-			if (CheckPASS(message, clt.at(fds[i].fd), password))
+			if (CheckPASS(message, clt.at(fds[i].fd), password, i))
 			{
 				clt.at(fds[i].fd).setIsSignedIn(true);
 				return true;

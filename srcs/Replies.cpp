@@ -52,11 +52,11 @@ void Replies::ERR_NICKNAMEINUSE (Client c)
     send(c.getClientId(),message.c_str(),message.length(),0);
 }
 
-void Replies::ERR_ALREADYREGISTRED(Client c)
-{
-    std::string message = ":" + getHostName() + " 462 " + c.getNickname() + " :" + "You are registred" + "\r\n";
-    send(c.getClientId(), message.c_str(), message.length(), 0);
-}
+// void Replies::ERR_ALREADYREGISTRED(Client c)
+// {
+//     std::string message = ":" + getHostName() + " 462 " + c.getNickname() + " :" + "You are registred" + "\r\n";
+//     send(c.getClientId(), message.c_str(), message.length(), 0);
+// }
 
 // void Replies::ERR_NICKCOLLISION (Client c)
 // {
