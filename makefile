@@ -39,6 +39,9 @@ SRC =	./srcs/main2.cpp \
 		./srcs/Commands/Bot.cpp \
 		./srcs/Commands/Invite.cpp \
 		./srcs/Commands/Kick.cpp \
+		./srcs/Commands/User.cpp \
+		./srcs/Commands/Nick.cpp \
+		./srcs/Commands/Pass.cpp \
 		# ./srcs/main.cpp \
 
 OBJECTS = $(SRC:.cpp=.o)

@@ -18,7 +18,7 @@ bool checkModeArgs(std::vector<std::string> message)
 			return true;
 		return false;
 	}
-	else if (checker == 'k' || checker == 'l' || checker == 'o')
+	else if (checker == 'k' || checker == 'o')
 	{
 		if (message.size() == 5)
 			return true;
