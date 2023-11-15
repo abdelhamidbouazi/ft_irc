@@ -43,7 +43,7 @@ bool HDE::SocketHde::CheckINVITE(std::vector<std::string> message, int i)
 						return false;
 					}
 				}
-
+				
 				channelsMap.at(message[2])->addInvited(clt.at(user));
 				return true;
 			}

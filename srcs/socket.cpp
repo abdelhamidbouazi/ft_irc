@@ -83,6 +83,7 @@ void HDE::SocketHde::start_polling()
             }
 
             localhost = ClientIp(connection);
+            std::cout << "the machine localhost : " << localhost << std::endl;
             clt.insert(std::pair<int, Client>(connection, Client(connection)));
             fds[nfds].fd = connection;
             fds[nfds].events = POLLIN;

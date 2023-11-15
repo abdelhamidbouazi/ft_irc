@@ -22,6 +22,7 @@ class Client
 		std::string nickname;
 		std::string fullName;
 		std::string username;
+		std::string localhost;
 		int clientId;
 		int clientFd;
 		std::time_t startTime;

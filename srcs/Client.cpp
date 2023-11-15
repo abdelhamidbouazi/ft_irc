@@ -20,6 +20,7 @@ Client::Client(int clientId)
 	NFlag = false;
 	channelCount = 0;
 	startTime = std::time(nullptr);
+	// localhost = ClientIp(clientId);
 	// usersIds.insert(std::pair<std::string, int>("", 0));
 	// counter = 0;
 }

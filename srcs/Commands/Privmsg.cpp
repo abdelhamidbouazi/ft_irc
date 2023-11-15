@@ -101,7 +101,7 @@ void HDE::SocketHde::sendMessageToAllForPrivmsg(int i, std::string channelname, 
                     add.push_back(itt->getClientId());
             }
             std::string nick = clt.at(fds[i].fd).getNickname();
-            std::string selfStr = ":" + nick  + "!" + nick + "@" + localhost + " PRIVMSG " +  channelname + " " + message + "\r\n";
+            std::string selfStr = ":" + nick  + "!" + nick + "@" + localhost + " PRIVMSG " +  channelname + " :" + message + "\r\n";
             for(int index = 0; index < add.size() ; index++)
                 sendMessage(selfStr, add.at(index));
         }
