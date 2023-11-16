@@ -29,10 +29,7 @@ bool HDE::SocketHde::commands(std::vector<std::string> message, std::vector<std:
 
 	if (message[0].compare("USER") == 0)
 	{
-		if (CheckUSER(message, clt.at(fds[i].fd), i))
-		{
-			return true;
-		}
+		sendMessage(":" + localhost + ERR_ALREADYREGISTRED(clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
 		return false;
 	}
 	else if (message[0].compare("NICK") == 0)
