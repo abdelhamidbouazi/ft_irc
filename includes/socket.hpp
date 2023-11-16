@@ -41,13 +41,14 @@ namespace HDE
 			int sock;
 			int connection;
 			struct sockaddr_in address;
-			struct pollfd fds[200];
+			// struct pollfd fds[200];
+			// struct pollfd fds[200];
+			std::vector<pollfd> fds;
 			int timeout;
 			int rc;
 			int on;
 			int end_server;
 			int nfds;
-			std::string localhost;
 			int port;
 			std::string password;
 			std::map<std::string, int> AllUsers;
@@ -66,12 +67,10 @@ namespace HDE
 			std::string getHostAdresse();
 			int getPort();
 			std::string getPassword();
-			std::string getLocalhost();
 
 			void setPort(int port);
 			void setPassword(std::string password);
 			void set_connection(int connection);
-			void setLocalhost(std::string localhost);
 
 			std::string ClientIp(int sock);
 

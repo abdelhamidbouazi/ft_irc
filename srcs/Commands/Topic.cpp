@@ -7,7 +7,7 @@ void HDE::SocketHde::Topic(std::vector<std::string> message, int i)
 {
     if(message.size() == 1)
     {
-        sendMessage(":" + localhost + ERR_NEEDMOREPARAMS("TOPIC", clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
+        sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NEEDMOREPARAMS("TOPIC", clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
         return ;
     }
     else
@@ -18,14 +18,14 @@ void HDE::SocketHde::Topic(std::vector<std::string> message, int i)
             {
                 if(channelsMap.at(message[1])->getIsTopic() == false)
                 {
-                    sendMessage(":" + localhost +  ERR_NOCHANMODES(message[1], clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
+                    sendMessage(":" + clt.at(fds[i].fd).getLocalhost() +  ERR_NOCHANMODES(message[1], clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
                     return ;
                 }
                 if(checkUserInChannelOperator(channelsMap.at(message[1]), clt.at(fds[i].fd).getNickname()))
                 {
                     if(message[2].empty())
                     {
-                        sendMessage(":" + localhost + RPL_TOPIC(clt.at(fds[i].fd).getNickname(), message[1], channelsMap.at(message[1])->getTopic()), clt.at(fds[i].fd).getClientId());
+                        sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + RPL_TOPIC(clt.at(fds[i].fd).getNickname(), message[1], channelsMap.at(message[1])->getTopic()), clt.at(fds[i].fd).getClientId());
                     }
                     else
                     {
@@ -49,20 +49,20 @@ void HDE::SocketHde::Topic(std::vector<std::string> message, int i)
                 {
                     if(message[2][0] == ':')
                     {
-                        sendMessage(":" + localhost + ERR_CHANOPRIVSNEEDED(clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
+                        sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_CHANOPRIVSNEEDED(clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
                         return;
                     }
-                    sendMessage(":" + localhost + RPL_TOPIC(clt.at(fds[i].fd).getNickname(), message[1], channelsMap.at(message[1])->getTopic()), clt.at(fds[i].fd).getClientId());
+                    sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + RPL_TOPIC(clt.at(fds[i].fd).getNickname(), message[1], channelsMap.at(message[1])->getTopic()), clt.at(fds[i].fd).getClientId());
                 }
             }
             else
             {
-                sendMessage(":" + localhost + ERR_NOTONCHANNEL(message[1]), clt.at(fds[i].fd).getClientId());
+                sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NOTONCHANNEL(message[1]), clt.at(fds[i].fd).getClientId());
                 return;
             }
         }
         else
-            sendMessage(":" + localhost + ERR_NOSUCHCHANNEL(message[1], clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
+            sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NOSUCHCHANNEL(message[1], clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
     }
     return ;
 }
@@ -84,9 +84,9 @@ void HDE::SocketHde::sendMessageToAllForTopic(int i, std::string channelname, in
             std::string nick = clt.at(fds[i].fd).getNickname();
             std::string selfStr;
             if (flag == 1)
-                selfStr = ":" + localhost + RPL_TOPIC(clt.at(fds[i].fd).getNickname(), channelname, channelsMap.at(channelname)->getTopic());
+                selfStr = ":" + clt.at(fds[i].fd).getLocalhost() + RPL_TOPIC(clt.at(fds[i].fd).getNickname(), channelname, channelsMap.at(channelname)->getTopic());
             else
-                selfStr = ":" + localhost + RPL_NOTOPIC(clt.at(fds[i].fd).getNickname(), channelname);
+                selfStr = ":" + clt.at(fds[i].fd).getLocalhost() + RPL_NOTOPIC(clt.at(fds[i].fd).getNickname(), channelname);
             for(int index = 0; index < add.size() ; index++)
                 sendMessage(selfStr, add.at(index));
         }

@@ -23,7 +23,7 @@ bool HDE::SocketHde::commands(std::vector<std::string> message, std::vector<std:
 {
 	if (message[0].compare("PASS") == 0)
 	{
-		sendMessage(":" + localhost + ERR_ALREADYREGISTRED(clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
+		sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_ALREADYREGISTRED(clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
 		return false;
 	}
 
@@ -127,7 +127,7 @@ bool HDE::SocketHde::Auth(std::vector<std::string> message, std::vector<std::pai
 		{
 			if (message[0].compare("PASS") != 0)
 			{
-				sendMessage(":" + localhost + ERR_NOTREGISTERED(), clt.at(fds[i].fd).getClientId());
+				sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NOTREGISTERED(), clt.at(fds[i].fd).getClientId());
 				return false;
 			}
 			if (CheckPASS(message, clt.at(fds[i].fd), password, i))
@@ -158,7 +158,7 @@ bool HDE::SocketHde::Auth(std::vector<std::string> message, std::vector<std::pai
 					{
 						if (clt.at(fds[i].fd).getNFlag() == true && clt.at(fds[i].fd).getUFlag() == true && clt.at(fds[i].fd).isSettingsSetted() == false)
 						{
-							sendMessage(":" + localhost + RPL_WELCOME(clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
+							sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + RPL_WELCOME(clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
 							clt.at(fds[i].fd).setIsSettingsSetted(true);
 						}
 						return true;
@@ -171,7 +171,7 @@ bool HDE::SocketHde::Auth(std::vector<std::string> message, std::vector<std::pai
 						AllUsers.insert(std::pair<std::string, int>(clt.at(fds[i].fd).getNickname(), i));
 						if (clt.at(fds[i].fd).getNFlag() == true && clt.at(fds[i].fd).getUFlag() == true && clt.at(fds[i].fd).isSettingsSetted() == false)
 						{
-							sendMessage(":" + localhost + RPL_WELCOME(clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
+							sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + RPL_WELCOME(clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
 							clt.at(fds[i].fd).setIsSettingsSetted(true);
 						}
 						// std::cout << "Nickname is : " << clt.at(fds[i].fd).getNickname() << std::endl;
@@ -181,7 +181,7 @@ bool HDE::SocketHde::Auth(std::vector<std::string> message, std::vector<std::pai
 				}
 				else
 				{
-					sendMessage(":" + localhost + ERR_NOTREGISTERED(), clt.at(fds[i].fd).getClientId());
+					sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NOTREGISTERED(), clt.at(fds[i].fd).getClientId());
 					return false;
 				}
 			}

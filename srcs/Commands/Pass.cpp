@@ -6,7 +6,7 @@ int HDE::SocketHde::CheckPASS(std::vector<std::string> message, Client &c, std::
 	std::string commandPass = "PASS";
 	if (message[0] != commandPass || message.size() != 2)
 	{
-    	sendMessage(":" + localhost + ERR_NEEDMOREPARAMS("PASS", clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
+    	sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NEEDMOREPARAMS("PASS", clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
 		return 0;
 	}
 	if (message[1] != Pass)

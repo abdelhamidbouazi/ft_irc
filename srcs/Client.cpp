@@ -6,7 +6,7 @@ std::map<std::string, int> Client::usersIds;
 std::vector<std::string> Client::nicknames;
 
 Client::Client() {}
-Client::Client(int clientId)
+Client::Client(int connection)
 {
 	isIn = false;
 	mode = false;
@@ -15,14 +15,11 @@ Client::Client(int clientId)
 	nickname = "";
 	fullName = "";
 	username = "";
-	this->clientId = clientId;
+	this->clientId = connection;
 	UFlag = false;
 	NFlag = false;
 	channelCount = 0;
 	startTime = std::time(nullptr);
-	// localhost = ClientIp(clientId);
-	// usersIds.insert(std::pair<std::string, int>("", 0));
-	// counter = 0;
 }
 
 Client::~Client()
@@ -226,4 +223,14 @@ void Client::setChannelCount(int count)
 std::time_t Client::getStartTime() const
 {
 	return this->startTime;
+}
+
+std::string Client::getLocalhost() const
+{
+    return this->localhost;
+}
+
+void Client::setLocalhost(std::string localhost)
+{
+    this->localhost = localhost;
 }

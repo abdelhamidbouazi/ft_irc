@@ -10,13 +10,13 @@ int HDE::SocketHde::CheckUSER(std::vector<std::string> message, Client &c, int i
 		registred = true;
 	if (message.size() != 5)
 	{
-        sendMessage(":" + localhost + ERR_NEEDMOREPARAMS("USER", clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
+        sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NEEDMOREPARAMS("USER", clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
 		return 0;
 	}
 
 	if (message[1].length() == 0)
 	{
-        sendMessage(":" + localhost + ERR_NEEDMOREPARAMS("USER", clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
+        sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NEEDMOREPARAMS("USER", clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
 		return 0;
 	}
 
@@ -28,7 +28,7 @@ int HDE::SocketHde::CheckUSER(std::vector<std::string> message, Client &c, int i
 	}
 	if (registred == true)
 	{
-		sendMessage(":" + localhost + ERR_ALREADYREGISTRED(clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
+		sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_ALREADYREGISTRED(clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
 		return 0;
 	}
 	else
