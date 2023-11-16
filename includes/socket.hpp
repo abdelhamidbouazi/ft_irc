@@ -107,6 +107,9 @@ namespace HDE
 			void sendMessageToAllForTopic(int i, std::string channelname, int flag);
 			void sendMessageToAllForPrivmsg(int i, std::string channelname, std::string message);
 			void sendMessage(std::string message, int fd);
+
+			// checkers
+			bool	CheckChannelsMap(std::vector<std::string> message, int place);
 	};
 }
 

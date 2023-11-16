@@ -101,13 +101,13 @@ bool HDE::SocketHde::modeK(std::vector<std::string> message, int mode, int i)
 
 bool HDE::SocketHde::modeO(std::vector<std::string> message, int mode, int user, int i)
 {
-	if (channelsMap.find(message[1]) != channelsMap.end() && message[1].at(0) == '#')
+	if (channelsMap.find(message[1]) != channelsMap.end())
 	{
 		if (mode == 1)
 		{
 			if (channelsMap.at(message[1])->addOperators(clt.at(user)))
 			{
-				sendMessage(":@" + clt.at(fds[i].fd).getNickname() + "Added you operator to " + channelsMap.at(message[1])->getChannelName() + " " + clt.at(user).getNickname(), clt.at(user).getClientId());
+				sendMessage(":@" + clt.at(fds[i].fd).getNickname() + " Added you operator to " + channelsMap.at(message[1])->getChannelName() + " " + clt.at(user).getNickname()+ "\r\n", clt.at(user).getClientId());
 				return true;
 			}
 			else
@@ -118,7 +118,7 @@ bool HDE::SocketHde::modeO(std::vector<std::string> message, int mode, int user,
 		}
 		if (mode == 0)
 		{
-			sendMessage(":@" + clt.at(fds[i].fd).getNickname() + "Remove your operator mode from " + channelsMap.at(message[1])->getChannelName() + " " + clt.at(user).getNickname(), clt.at(user).getClientId());
+			sendMessage(":@" + clt.at(fds[i].fd).getNickname() + " Remove your operator mode from " + channelsMap.at(message[1])->getChannelName() + " " + clt.at(user).getNickname() + "\r\n", clt.at(user).getClientId());
 			channelsMap.at(message[1])->eraseOperator(clt.at(user));
 			return true;
 		}
@@ -163,16 +163,16 @@ bool isUserOperator(Client ctl, std::string user)
 bool HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i)
 {
 	int mode;
-	if (channelsMap.empty())
-	{
-        sendMessage(":" + localhost + ERR_NOSUCHCHANNEL(message[1], clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
-		return false;
-	}
 	if (checkModeArgs(message) == false)
 	{
 		sendMessage(":" + localhost + ERR_NEEDMOREPARAMS("MODE", clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
 		return false;
 	}
+	if (CheckChannelsMap(message, 1) == false || channelsMap.empty()) {
+        sendMessage(":" + localhost + ERR_NOSUCHCHANNEL(message[1], clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
+		return false;
+	}
+
 	if (message[2].compare("+") == 0)
 		mode = 1;
 	else if (message[2].compare("-") == 0)
@@ -208,9 +208,9 @@ bool HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i)
 		else if (message[3].compare("o") == 0)
 		{
 			int user;
-			if (Client::getIdByUsername(message[4]) == -1)
+			if (Client::CheckUser(message, 4) == false)
 			{
-            	sendMessage(":" + localhost + ERR_NOSUCHNICK(clt.at(fds[i].fd).getNickname() , message[4]), clt.at(fds[i].fd).getClientId());
+				sendMessage(":" + localhost + ERR_NOSUCHNICK(clt.at(fds[i].fd).getNickname(), message[4]), clt.at(fds[i].fd).getClientId());
 				return false;
 			}
 			else
@@ -235,7 +235,7 @@ bool HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i)
 		}
 		else
 		{
-			// sendMessage(":" + localhost + ERR_UNKNOWNMODE(message[3][0], channelsMap.at(message[1])->getChannelName()), clt.at(fds[i].fd).getClientId());
+			sendMessage(":" + localhost + ERR_UNKNOWNMODE(message[3][0], channelsMap.at(message[1])->getChannelName()), clt.at(fds[i].fd).getClientId());
 			return false;
 		}
 	}
