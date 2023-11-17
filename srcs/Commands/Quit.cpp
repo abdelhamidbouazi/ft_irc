@@ -1,10 +1,12 @@
 #include "../../includes/socket.hpp"
+#include "../../includes/Replies.hpp"
 
-bool HDE::SocketHde::CheckQUIT(std::vector<std::string> message, int i) {
-    if (message.size() != 1){
-        std::cout << "args error" <<std::endl;
-        return false;
-    }
+void HDE::SocketHde::CheckQUIT(std::vector<std::string> message, int i) {
+    if (message.size() != 3)
+	{
+		sendMessage(":" + localhost + ERR_NEEDMOREPARAMS("INVITE", clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
+		return false;
+	}
 
     User* user = identifyUser(fds[i].fd); // You need to implement this function
 
