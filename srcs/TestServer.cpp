@@ -2,12 +2,6 @@
 #include "../includes/Client.hpp"
 #include "../includes/Args.hpp"
 
-// HDE::TestServer::TestServer() : SimpleServer(AF_INET, SOCK_STREAM, 0, 9080, INADDR_ANY, 10)
-// {
-//     std::cout << "Starting server..." << std::endl;
-//     launch();
-// }
-
 HDE::TestServer::TestServer(int port, std::string password) : SimpleServer(AF_INET, SOCK_STREAM, 0, port, INADDR_ANY, 10, password)
 {
     std::cout << "Starting server..." << std::endl;
