@@ -105,6 +105,8 @@ class Client
 		// void incrementCounter();
 		void setUFlag();
 		void setNFlag();
+
+		static bool CheckUser(std::vector<std::string> message, int place);
 };
 
 // Define the static vector of strings outside the class definition

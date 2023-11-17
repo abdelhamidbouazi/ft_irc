@@ -70,7 +70,7 @@ void HDE::SocketHde::Join(std::vector<std::pair<std::string, std::string > > joi
                     sendMessage(":" + clt.at(fds[i].fd).getLocalhost() +  ERR_CHANNELISFULL(temp.first, clt.at(fds[i].fd).getNickname()),clt.at(fds[i].fd).getClientId());
                     return ;
                 }
-                else if(IsClientInVector(channelsMap.at(temp.first)->getUsers(), clt.at(fds[i].fd))) 
+                else if(IsClientInVector(channelsMap.at(temp.first)->getUsers(), clt.at(fds[i].fd)))
                 {
                     sendMessage(":" + clt.at(fds[i].fd).getLocalhost() +  ERR_CHANNELISFULL(temp.first, clt.at(fds[i].fd).getNickname()),clt.at(fds[i].fd).getClientId());
                     return ;
@@ -80,7 +80,7 @@ void HDE::SocketHde::Join(std::vector<std::pair<std::string, std::string > > joi
                     if(channelsMap.at(temp.first)->getKey().length() != 0)
                     {
                         if(channelsMap.at(temp.first)->getKey() == temp.second)
-                        { 
+                        {
                             bool invite_only = channelsMap.at(temp.first)->getInvite_only();
                             bool invited_user = IsInInvitedUser(channelsMap.at(temp.first)->getInvitedUser(), clt.at(fds[i].fd).getNickname());
                             if(invite_only && !invited_user)
@@ -135,11 +135,7 @@ void HDE::SocketHde::Join(std::vector<std::pair<std::string, std::string > > joi
             }
         }
     }
-    std::cout << "-----------------------\n";
-    std::map<std::string, Channel*>::iterator it;
-    for(it = channelsMap.begin(); it != channelsMap.end() ; ++it)
-        std::cout<< " name inside the channel : "<< it->second->getChannelName() <<std::endl;
-    // u should delete the addchannel to avoid the leaks 
+    // u should delete the addchannel to avoid the leaks
 }
 
 void HDE::SocketHde::sendMessageToAll(int i, std::string channelname)

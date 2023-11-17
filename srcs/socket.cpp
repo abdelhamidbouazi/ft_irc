@@ -15,15 +15,9 @@ HDE::SocketHde::SocketHde(int domain, int service, int protocol, int port, unsig
 
 	sock = socket(domain, service, protocol);
 	test_connection(sock);
-
-	// connection = connect_network(sock, address);
-	// test_connection(connection);
-
-	// adding this to allow socket discrptor to be reused
 	on = 1;
 	rc = setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, (char *)&on, sizeof(on));
 	test_connection_for_setsockopt(rc);
-	//using non blocking socket
 	if(fcntl(sock, F_SETFL, O_NONBLOCK) == -1)
 	{
 		perror("Failled to set socket to non blocking...");
@@ -36,14 +30,9 @@ HDE::SocketHde::SocketHde(int domain, int service, int protocol, int port, unsig
 
 void HDE::SocketHde::start_polling()
 {
-    // memset(fds, 0, sizeof(fds));
-    // fds[0].fd = sock;
-    // fds[0].events = POLLIN;
-    // timeout = (3 * 60 * 1000);
     timeout = -1;
     pollfd sfd ;
     end_server = false;
-    // nfds = 1;
     int current_size = 0;
     char buffer[800];
     int new_sd = -1;
@@ -87,14 +76,10 @@ void HDE::SocketHde::start_polling()
             }
             clt.insert(std::pair<int, Client>(connection, Client(connection)));
             clt.at(connection).setLocalhost(ClientIp(connection));
-            // fds[nfds].fd = connection;
-            // fds[nfds].events = POLLIN;
-            // nfds++;
             pollfd  clientfd;
             clientfd.fd = connection;
             clientfd.events = POLLIN;
             fds.push_back(clientfd);
-            std::cout << "still in the accept" << std::endl;
         }
         for (int i = 1; i < fds.size(); i++) 
         {
@@ -106,17 +91,15 @@ void HDE::SocketHde::start_polling()
                 {
                     if (rc == 0)
                     {
-                        close(fds[i].fd);
+                        // close(fds[i].fd);
+                        fds.erase(fds.begin() + i);
                         std::cout << "Connection closed" << std::endl;
-
                     }
                     else if (errno != EWOULDBLOCK)
                     {
                         perror("recv() failed");
                     }
-
                     close(fds[i].fd);
-                    fds[i].fd = -1;
                 }
                 else
                 {
@@ -129,15 +112,7 @@ void HDE::SocketHde::start_polling()
                     {
                         tmp_message = clt.at(fds[i].fd).commande_str.substr(0, pos);
                         obj.start_parssing(tmp_message);
-
-						// std::cout << "**** The Client ID is : " << clt.at(fds[i].fd).getClientId() << std::endl;
-						if(Auth(obj.getRequest(), obj.getJoinVector(), i)) {
-                            std::cout << "user name : " << clt.at(fds[i].fd).getUsername() <<  " nick name : " << clt.at(fds[i].fd).getNickname()<< " full name : " << clt.at(fds[i].fd).getUsername()<< std::endl;
-						// if(Auth(obj.getRequest(), clt.at(fds[i].fd), getPassword(), channelsMap, obj.getJoinVector())) {
-                            // std::string str = "wellcom to the irc server\n";
-							// send(clt.at(fds[i].fd).getClientId(), str.c_str(), str.length(), 0);
-						}
-
+						Auth(obj.getRequest(), obj.getJoinVector(), i);
                         tmp_message = clt.at(fds[i].fd).commande_str.erase(0, pos + 2);
                         pos = clt.at(fds[i].fd).commande_str.find_first_of("\r\n");
                     }
@@ -241,19 +216,7 @@ std::string HDE::SocketHde::getPassword()
 {
     return password;
 }
-
-// std::string HDE::SocketHde::getLocalhost()
-// {
-//     return this->localhost;
-// }
-
-// void HDE::SocketHde::setLocalhost(std::string localhost)
-// {
-//     this->localhost = localhost;
-// }
-
 void HDE::SocketHde::sendMessage(std::string message, int fd)
 {
-    // std::cout << "fd = " << fd << " message: " << message <<std::endl;
     send(fd, message.c_str(), message.length(), 0);
 }

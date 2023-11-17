@@ -24,8 +24,9 @@ class Replies
 #define ERR_NONICKNAMEGIVEN() " 431 " + ":No nickname given\r\n"
 #define ERR_ERRONEUSNICKNAME(nick) " 432 " + nick + " :Erroneous nickname\r\n"
 #define ERR_CHANOPRIVSNEEDED(channel) " 482 " + channel + " :You're not channel operator\r\n"
-#define ERR_UNKNOWNMODE(mode, channel) " 472 " + mode " :is unknown mode char to me for " + channel + " \r\n"
+#define ERR_UNKNOWNMODE(mode, channel) " 472 " + mode + " :is unknown mode char to me for " + channel + " \r\n"
 #define ERR_USERNOTINCHANNEL(nick, channel) " 441 " + nick + " " + channel + " :They aren't on that channel\r\n"
+#define ERR_USERONCHANNEL(nick, channel) " 443 " + nick + " " + channel + " :is already on channel\r\n"
 
 
 #define RPL_NOTOPIC(nick, param) " 331 " + nick + " " + param + " :No topic is set\r\n"

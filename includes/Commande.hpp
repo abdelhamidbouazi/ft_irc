@@ -12,7 +12,6 @@ namespace HDE
         private:
             std::vector<std::string> request;
             std::vector<std::pair<std::string , std::string > > joinVector;
-            std::string cmd;
             
         public:
             Commande();
