@@ -28,31 +28,32 @@ void HDE::Commande::start_parssing(std::string& msg)
 	std::string dl = " " ;
 	msg = trim(msg);
 	size_t pos = msg.find(dl);
+	std::string cmd;
 
 	if(pos != std::string::npos)
 	{
-		this->cmd = msg.substr(0, pos);
-		std::transform(this->cmd.begin(), this->cmd.end(), this->cmd.begin(), ::toupper);
-		if(this->cmd == "USER" || this->cmd == "PRIVMSG"
-			|| this->cmd == "PART" || this->cmd == "KICK")
+		cmd = msg.substr(0, pos);
+		std::transform(cmd.begin(), cmd.end(), cmd.begin(), ::toupper);
+		if(cmd == "USER" || cmd == "PRIVMSG"
+			|| cmd == "PART" || cmd == "KICK")
         {
 			pushToVector(this->request, msg);
 			join_strings_after_colon(this->request, 1);
 		}
-		else if(this->cmd == "TOPIC")
+		else if(cmd == "TOPIC")
 		{
 			pushToVector(this->request, msg);
 			join_strings_after_colon(this->request, 0);
 		}
-		else if(this->cmd == "INVITE" || this->cmd == "PASS" || this->cmd == "NICK")
+		else if(cmd == "INVITE" || cmd == "PASS" || cmd == "NICK")
         {
 			pushToVector(this->request, msg);
         }
-		else if(this->cmd == "MODE")
+		else if(cmd == "MODE")
 		{
 			pushToVectorForMode(this->request, msg);
 		}
-		else if(this->cmd == "JOIN")
+		else if(cmd == "JOIN")
         {
 			pushToVector(this->request, msg);
 			splitTheJoinPram();
@@ -60,7 +61,7 @@ void HDE::Commande::start_parssing(std::string& msg)
     }
 	else
 	{
-        this->cmd = msg;
+        cmd = msg;
 		this->request.push_back(msg);
 		std::transform(msg.begin(), msg.end(), msg.begin(), ::toupper);
 	}
@@ -97,8 +98,6 @@ void HDE::Commande::splitTheJoinPram()
 		}
 	}
 }
-
-
 
 void pushToVector(std::vector<std::string> &vec, std::string str)
 {
@@ -159,11 +158,6 @@ void	HDE::Commande::join_strings_after_colon(std::vector<std::string>& line, int
 		line.push_back(temp);
 }
 
-std::string HDE::Commande::getCmd()
-{
-    return this->cmd;
-}
-
 std::vector<std::string> HDE::Commande::getRequest()
 {
 	return this->request;
@@ -172,11 +166,6 @@ std::vector<std::string> HDE::Commande::getRequest()
 std::vector<std::pair<std::string, std::string> > HDE::Commande::getJoinVector()
 {
     return this->joinVector;
-}
-
-void HDE::Commande::setCmd(std::string cmd)
-{
-    this->cmd = cmd;
 }
 
 void HDE::Commande::setRequest(std::vector<std::string> request)
