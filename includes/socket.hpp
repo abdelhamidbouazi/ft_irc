@@ -74,25 +74,26 @@ namespace HDE
 			std::string ClientIp(int sock);
 
 			// commands
-			void Auth(std::vector<std::string> message, std::vector<std::pair<std::string , std::string > > joinVector,int i);
-			void commands(std::vector<std::string> message, std::vector<std::pair<std::string , std::string > > joinVector,int i);
-			void Join(std::vector<std::pair<std::string , std::string > > joinVector,int i);
-			void CheckMODE(std::vector<std::string> message, int i);
-			void Part(std::vector<std::string> message, int i);
-			void Topic(std::vector<std::string> message, int i);
-			void Privmsg(std::vector<std::string> message, int i);
-			void Bot(int i);
-			bool CheckKICK(std::vector<std::string> message, int i);
-			void CheckINVITE(std::vector<std::string> message, int i);
+			void	Auth(std::vector<std::string> message, std::vector<std::pair<std::string , std::string > > joinVector,int i);
+			void	commands(std::vector<std::string> message, std::vector<std::pair<std::string , std::string > > joinVector,int i);
+			void	Join(std::vector<std::pair<std::string , std::string > > joinVector,int i);
+			void	CheckMODE(std::vector<std::string> message, int i);
+			void	Part(std::vector<std::string> message, int i);
+			void	Topic(std::vector<std::string> message, int i);
+			void	Privmsg(std::vector<std::string> message, int i);
+			void	Bot(int i);
+			bool	CheckKICK(std::vector<std::string> message, int i);
+			void	CheckINVITE(std::vector<std::string> message, int i);
+			void	CheckQUIT(std::vector<std::string> message, int i);
 
 			// mode tools
-			void modeI(std::vector<std::string> message, int mode, int i);
-			void modeT(std::vector<std::string> message, int mode, int i);
-			void modeK(std::vector<std::string> message,int mode, int i);
-			void modeO(std::vector<std::string> message,int mode, int user, int i);
-			void modeL(std::vector<std::string> message,int mode, int i);
-			bool checkUserInChannelOperator(Channel *chan, std::string name);
-			bool checkUserInChannel(Channel *chan, std::string name);
+			void	modeT(std::vector<std::string> message, int mode, int i);
+			void	modeI(std::vector<std::string> message, int mode, int i);
+			void	modeK(std::vector<std::string> message,int mode, int i);
+			void	modeO(std::vector<std::string> message,int mode, int user, int i);
+			void	modeL(std::vector<std::string> message,int mode, int i);
+			bool	checkUserInChannelOperator(Channel *chan, std::string name);
+			bool	checkUserInChannel(Channel *chan, std::string name);
 
 			//auth
 			int		CheckPASS(std::vector<std::string> message, Client &c, std::string Pass, int i);
@@ -100,14 +101,16 @@ namespace HDE
 			int 	CheckNICK(std::vector<std::string> message, Client &c, int i);
 			bool	isFound(const std::vector<std::string> &vec, const std::string &str);
 			//tools
-			void sendMessageToAll(int i, std::string channelname);
-			void sendMessageToAllForPart(int i, std::string channelname);
-			void sendMessageToAllForTopic(int i, std::string channelname, int flag);
-			void sendMessageToAllForPrivmsg(int i, std::string channelname, std::string message);
-			void sendMessage(std::string message, int fd);
+			void	sendMessageToAll(int i, std::string channelname);
+			void	sendMessageToAllForPart(int i, std::string channelname);
+			void	sendMessageToAllForTopic(int i, std::string channelname, int flag);
+			void	sendMessageToAllForPrivmsg(int i, std::string channelname, std::string message);
+			void	sendMessage(std::string message, int fd);
 
 			// checkers
 			bool	CheckChannelsMap(std::vector<std::string> message, int place);
+
+			void	CleanQuit(std::string nickname, int i);
 	};
 }
 

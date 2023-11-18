@@ -41,6 +41,7 @@ SRC =	./srcs/main.cpp \
 		./srcs/Commands/User.cpp \
 		./srcs/Commands/Nick.cpp \
 		./srcs/Commands/Pass.cpp \
+		./srcs/Commands/Quit.cpp \
 
 OBJECTS = $(SRC:.cpp=.o)
 

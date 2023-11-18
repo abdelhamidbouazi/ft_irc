@@ -89,7 +89,7 @@ class Client
 		std::string getLocalhost() const;
 		// int getCounter();
 
-
+		void removeUserFromMap(std::string nickname);
 		void setIsIn(bool isIn);
 		void setMode(bool mode);
 		void setIsSignedIn(bool isSignedIn);
@@ -101,6 +101,7 @@ class Client
 		void setClientFd(int clientFd);
 		void setChannelCount(int count);
 		bool eraseNickname(Client &c);
+		bool eraseUser(Client &c);
 		void setLocalhost(std::string localhost);
 		// void incrementCounter();
 		void setUFlag();

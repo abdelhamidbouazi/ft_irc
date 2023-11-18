@@ -31,6 +31,8 @@ void HDE::SocketHde::commands(std::vector<std::string> message, std::vector<std:
 		sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_ALREADYREGISTRED(clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
 		return ;
 	}
+	else if (message[0].compare("QUIT") == 0)
+		CheckQUIT(message, i);
 	else if (message[0].compare("NICK") == 0)
 		CheckNICK(message, clt.at(fds[i].fd), i);
 	else if (message[0].compare("JOIN") == 0)
