@@ -51,6 +51,7 @@ namespace HDE
 			int port;
 			std::string password;
 			std::map<std::string, int> AllUsers;
+			int flagQuit ;
 		public:
 			std::map<int, Client> clt;
 			std::map<std::string, Channel*> channelsMap;
@@ -84,7 +85,7 @@ namespace HDE
 			void	Bot(int i);
 			bool	CheckKICK(std::vector<std::string> message, int i);
 			void	CheckINVITE(std::vector<std::string> message, int i);
-			void	CheckQUIT(std::vector<std::string> message, int i);
+			void	CheckQUIT(int i);
 
 			// mode tools
 			void	modeT(std::vector<std::string> message, int mode, int i);

@@ -3,7 +3,7 @@
 
 
 
-void HDE::SocketHde::CheckQUIT(std::vector<std::string> message, int i)
+void HDE::SocketHde::CheckQUIT(int i)
 {
 	bool isJoindToChannels = false;
 	std::string nickname = clt.at(fds[i].fd).getNickname();
@@ -22,20 +22,41 @@ void HDE::SocketHde::CheckQUIT(std::vector<std::string> message, int i)
 
 	if (channelsMap.empty() || isJoindToChannels == false)
 	{
-		std::cout << "NOTJOIN==============================\n";
 		clt.at(fds[i].fd).eraseNickname(clt.at(fds[i].fd));
 		clt.at(fds[i].fd).eraseUser(clt.at(fds[i].fd));
 		clt.at(fds[i].fd).removeUserFromMap(nickname);
 		CleanQuit(clt.at(fds[i].fd).getNickname(), i);
 		std::cout << "NOTJOIN==============================\n";
+		flagQuit = 1;
 	}
 	else
 	{
+		std::map<std::string, Channel*>::iterator it;
+		for (it = channelsMap.begin(); it != channelsMap.end(); it++){
+			if (checkUserInChannel(it->second, clt.at(fds[i].fd).getNickname())){
+				std::cout << it->second->getLimitUsers() << std::endl;
+				if(it->second->getHasOwner() &&  clt.at(fds[i].fd).getNickname() == it->second->getOwner())
+				{
+					it->second->setHasOwner(false);
+					it->second->setOwner("");
+				}
+				it->second->eraseUser(clt.at(fds[i].fd));
+				if (checkUserInChannelOperator(it->second, clt.at(fds[i].fd).getNickname())) {
+					it->second->eraseOperator(clt.at(fds[i].fd));
+				}
+				if(it->second->getLimitUsers() != -1)
+                        it->second->setlimitUsers(it->second->getLimitUsers() - 1 );
+				std::cout << it->second->getLimitUsers() << std::endl;
+				std::cout << "Removed from: " << it->second->getChannelName()<< std::endl;
+			}
+		}
+		clt.at(fds[i].fd).eraseNickname(clt.at(fds[i].fd));
+		clt.at(fds[i].fd).eraseUser(clt.at(fds[i].fd));
+		clt.at(fds[i].fd).removeUserFromMap(nickname);
+		CleanQuit(clt.at(fds[i].fd).getNickname(), i);
 		std::cout << "joined to channels and channels not empty\n";
+		flagQuit = 1;
 	}
-	std::cout << "Passed==============================\n";
-	// close(user);
-	std::cout << "Passed2==============================\n";
 }
 
 // User* user = identifyUser(fds[i].fd); // You need to implement this function
