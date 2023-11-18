@@ -81,6 +81,7 @@ void HDE::SocketHde::start_polling()
         }
         for (int i = 1; i < fds.size(); i++)
         {
+            flagQuit = 0;
             if (fds[i].revents & POLLIN)
             {
                 memset(buffer, 0, sizeof(buffer));
@@ -89,15 +90,14 @@ void HDE::SocketHde::start_polling()
                 {
                     if (rc == 0)
                     {
-                        // close(fds[i].fd);
-                        fds.erase(fds.begin() + i);
+                        CheckQUIT(i);
                         std::cout << "Connection closed" << std::endl;
                     }
                     else if (errno != EWOULDBLOCK)
                     {
                         perror("recv() failed");
+                        close(fds[i].fd);
                     }
-                    close(fds[i].fd);
                 }
                 else
                 {
@@ -110,18 +110,15 @@ void HDE::SocketHde::start_polling()
                     {
                         tmp_message = clt.at(fds[i].fd).commande_str.substr(0, pos);
                         obj.start_parssing(tmp_message);
-                        // if (obj.getRequest()[0].compare("QUIT") == 0)
-                        // {
-                        //     // close(fds[i].fd);
-                        //     fds.erase(fds.begin() + i);
-                        //     std::cout << "Connection closed" << std::endl;
-                        //     close(fds[i].fd);
-                        //     return ;
-                        // }
                         Auth(obj.getRequest(), obj.getJoinVector(), i);
+                        if(flagQuit == 1)
+                            break;
+                        std::cout << "in the auth after quit 2\n";
                         tmp_message = clt.at(fds[i].fd).commande_str.erase(0, pos + 2);
                         pos = clt.at(fds[i].fd).commande_str.find_first_of("\r\n");
                     }
+                    if(flagQuit == 1)
+                        break;
                 }
             }
         }

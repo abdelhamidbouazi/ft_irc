@@ -9,7 +9,7 @@ Channel::Channel() {}
 Channel::Channel(std::string name, Client owner, std::string key)
 {
 	channel = name;
-	limitUsers = -1;
+	limitUsers = 3;
 	inviteOnly = false;
 	isTopic = true;
 	hasOwner = true;

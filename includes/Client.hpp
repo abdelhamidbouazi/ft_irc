@@ -65,7 +65,6 @@ class Client
 		Client(int connection);
 		// Client(int clientId, std::string nickname);
 		~Client();
-
 		// i add this
 		std::string commande_str;
 
