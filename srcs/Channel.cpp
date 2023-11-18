@@ -186,6 +186,7 @@ void Channel::setChannel(std::string _channel)
 void Channel::setlimitUsers(int _limit)
 {
 	this->limitUsers = _limit;
+	std::cout << "limite setted to : " << this->limitUsers;
 }
 
 void Channel::setInviteOnly(bool _val)
