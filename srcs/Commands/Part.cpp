@@ -60,8 +60,6 @@ void HDE::SocketHde::Part(std::vector<std::string> message, int i)
                     channelsMap.at(channelToLeave[index])->eraseUser(clt.at(fds[i].fd));
                     if(checkUserInChannelOperator(channelsMap.at(channelToLeave[index]), clt.at(fds[i].fd).getNickname()))
                         channelsMap.at(channelToLeave[index])->eraseOperator(clt.at(fds[i].fd));
-                    if(channelsMap.at(channelToLeave[index])->getLimitUsers() != -1)
-                        channelsMap.at(channelToLeave[index])->setlimitUsers(channelsMap.at(channelToLeave[index])->getLimitUsers() - 1 );
                     clt.at(fds[i].fd).setChannelCount(clt.at(fds[i].fd).getChannelCount() - 1);
                     sendMessageToAllForPart(i, channelToLeave[index]);
                 }
