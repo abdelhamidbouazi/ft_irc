@@ -11,6 +11,7 @@ bool checkModeArgs(std::vector<std::string> message)
 	{
 		return false;
 	}
+
 	char checker = message[3][0];
 	if (checker == 'i' || checker == 't')
 	{

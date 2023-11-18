@@ -3,22 +3,20 @@ NAME = ircserv
 CC = c++
 
 Header =	./includes/socket.hpp \
-		./includes/connectingSocket.hpp \
-		./includes/BindingSocket.hpp \
-		./includes/ListeningSocket.hpp \
-		./includes/TestServer.hpp \
-		./includes/SimpleServer.hpp \
-		./includes/Commande.hpp \
-		./includes/Client.hpp \
-		./includes/Args.hpp \
-		./includes/Replies.hpp \
-		./includes/Channel.hpp \
+			./includes/connectingSocket.hpp \
+			./includes/BindingSocket.hpp \
+			./includes/ListeningSocket.hpp \
+			./includes/TestServer.hpp \
+			./includes/SimpleServer.hpp \
+			./includes/Commande.hpp \
+			./includes/Client.hpp \
+			./includes/Args.hpp \
+			./includes/Replies.hpp \
+			./includes/Channel.hpp \
 
 VERSION = -std=c++98 -Wall -Wextra -Werror  -fsanitize=address
 
-# VERSION = -std=c++98
-
-SRC =	./srcs/main2.cpp \
+SRC =	./srcs/main.cpp \
 		./srcs/socket.cpp \
 		./srcs/ConnectingSocket.cpp \
 		./srcs/BindingSocket.cpp \
@@ -44,7 +42,6 @@ SRC =	./srcs/main2.cpp \
 		./srcs/Commands/Nick.cpp \
 		./srcs/Commands/Pass.cpp \
 		./srcs/Commands/Quit.cpp \
-		# ./srcs/main.cpp \
 
 OBJECTS = $(SRC:.cpp=.o)
 
