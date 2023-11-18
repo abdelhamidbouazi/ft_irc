@@ -92,6 +92,7 @@ void HDE::SocketHde::sendMessageToAllForPart(int i, std::string channelname)
             }
             std::string nick = clt.at(fds[i].fd).getNickname();
             std::string selfStr = ":" + nick  + "!" + nick + "@" + clt.at(fds[i].fd).getLocalhost() + " PART " +  channelname + "\r\n";
+            sendMessage(selfStr, clt.at(fds[i].fd).getClientId());
             for(int index = 0; index < add.size() ; index++)
                 sendMessage(selfStr, add.at(index));
         }

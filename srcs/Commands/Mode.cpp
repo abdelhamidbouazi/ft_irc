@@ -110,7 +110,9 @@ void HDE::SocketHde::modeL(std::vector<std::string> message, int mode, int i)
 		if (mode == 1 && std::atoi(message[4].c_str()) > 0)
 			channelsMap.at(message[1])->setlimitUsers(std::atoi(message[4].c_str()));
 		else if (mode == 0)
+		{
 			channelsMap.at(message[1])->setlimitUsers(-1);
+		}
 	}
 	else
 		sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NOSUCHCHANNEL(message[1], clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());

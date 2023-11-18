@@ -113,7 +113,6 @@ void HDE::SocketHde::start_polling()
                         Auth(obj.getRequest(), obj.getJoinVector(), i);
                         if(flagQuit == 1)
                             break;
-                        std::cout << "in the auth after quit 2\n";
                         tmp_message = clt.at(fds[i].fd).commande_str.erase(0, pos + 2);
                         pos = clt.at(fds[i].fd).commande_str.find_first_of("\r\n");
                     }
