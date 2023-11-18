@@ -73,8 +73,9 @@ void HDE::SocketHde::Privmsg(std::vector<std::string> message, int i)
         if(GetUserIdByName(AllUsers, message[1]) != -1)
         {
             int k = GetUserIdByName(AllUsers, message[1]);
-            std::string nick = clt.at(fds[k].fd).getNickname();
-            std::string selfStr = ":" + nick + "!" + nick + "@" + clt.at(fds[i].fd).getLocalhost() + " PRIVMSG " + clt.at(fds[i].fd).getNickname() + " :"+ message[2] + "\r\n";
+            std::string nick = clt.at(fds[i].fd).getNickname();
+            std::string username = clt.at(fds[i].fd).getUsername();
+            std::string selfStr = ":" + nick + "!" + username + "@" + clt.at(fds[i].fd).getLocalhost() + " PRIVMSG " + clt.at(fds[k].fd).getNickname() + " :"+ message[2] + "\r\n";
             sendMessage(selfStr, clt.at(fds[k].fd).getClientId());
         }
         else

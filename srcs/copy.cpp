@@ -398,6 +398,10 @@ void irc_server::PRIVMSG(std::vector<std::string> request, Client& client) {
 	}
 }
 
+std::string irc_server::formatUserMessage(std::string nickname, std::string username, std::string hostname) {
+	return ":" + nickname + "!" + username + "@" + hostname + " ";
+}
+
 
 void	irc_server::KICK(std::vector<std::string> _request, Client& client) {
 	logger.log(INFO, "kick command for channel");
