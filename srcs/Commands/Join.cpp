@@ -75,7 +75,7 @@ void HDE::SocketHde::Join(std::vector<std::pair<std::string, std::string > > joi
                     sendMessage(":" + clt.at(fds[i].fd).getLocalhost() +  ERR_CHANNELISFULL(temp.first, clt.at(fds[i].fd).getNickname()),clt.at(fds[i].fd).getClientId());
                     return ;
                 }
-                else if(channelsMap.at(temp.first)->getLimitUsers() == -1)
+                else if(channelsMap.at(temp.first)->getLimitUsers() == -1 || channelsMap.at(temp.first)->getUsers().size() < channelsMap.at(temp.first)->getLimitUsers())
                 {
                     if(channelsMap.at(temp.first)->getKey().length() != 0)
                     {
