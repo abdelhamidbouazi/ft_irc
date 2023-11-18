@@ -14,35 +14,31 @@ class Channel;
 class Client
 {
 	private:
-		bool isIn;
-		bool isSignedIn;
-		bool settingsSetted;
-		bool mode;
-		std::string nickname;
-		std::string fullName;
-		std::string username;
-		std::string localhost;
-		int clientId;
-		int clientFd;
-		std::time_t startTime;
-		// int counter;
-		// Declare the static vector of strings as a private static member
-		static std::vector<std::string> users;
-		// static std::vector<std::string> operators;
-		static std::vector<std::string> nicknames;
-		static std::map<std::string, int> usersIds;
+		bool	isIn;
+		bool	isSignedIn;
+		bool	settingsSetted;
+		bool	mode;
 		bool	UFlag;
 		bool	NFlag;
-		int channelCount;
-
+		int	channelCount;
+		int	clientId;
+		int	clientFd;
+		std::string	nickname;
+		std::string	fullName;
+		std::string	username;
+		std::string	localhost;
+		std::time_t	startTime;
+		static	std::vector<std::string> users;
+		static	std::vector<std::string> nicknames;
+		static	std::map<std::string, int> usersIds;
 	public:
 		Client();
 		Client(int connection);
-		// Client(int clientId, std::string nickname);
 		~Client();
-		// i add this
-		std::string commande_str;
 
+		// i add this
+
+		std::string commande_str;
 		bool getIsIn();
 		bool getMode();
 		bool getIsSignedIn();
@@ -62,7 +58,6 @@ class Client
 		std::time_t getStartTime() const;
 		std::string getLocalhost() const;
 		// int getCounter();
-
 		void removeUserFromMap(std::string nickname);
 		void setIsIn(bool isIn);
 		void setMode(bool mode);

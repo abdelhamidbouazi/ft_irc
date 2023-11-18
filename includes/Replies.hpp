@@ -30,7 +30,6 @@ class Replies
 
 // Quit
 #define RPL_QUIT(param)  param + " :Client Quit\r\n"
-
 #define RPL_NOTOPIC(nick, param) " 331 " + nick + " " + param + " :No topic is set\r\n"
 #define RPL_TOPIC(nick, param, topic) " 332 " + nick + " " + param + " :" + topic + "\r\n"
 #define ERR_NOSUCHCHANNEL(param, nick) " 403 " + nick + " " + param + " :No such channel\r\n"
@@ -44,7 +43,6 @@ class Replies
 #define ERR_BADCHANNELKEY(param, nick) " 475 " + nick + " " + param + " :Cannot join channel (+k)\r\n"
 #define ERR_BADCHANMASK(param, nick) " 476 " + nick + " " + param + " :Bad Channel Mask\r\n"
 #define ERR_NOCHANMODES(param, nick) " 477 " + nick + " " + param + " :Channel doesn't support modes\r\n"
-// #define ERR_CHANOPRIVSNEEDED(param, nick) " 482 " + nick + " " + param + " :You're not channel operator\r\n"
 
 #define ERR_NOSUCHNICK(nick, user)  " 401 " + nick + " " + user + " :No such nick/channel\r\n"
 #define ERR_NEEDMOREPARAMS(cmd, nick)    " 461 " + nick + " " + cmd + " :Not enough parameters\r\n"
