@@ -40,7 +40,7 @@ void HDE::SocketHde::Part(std::vector<std::string> message, int i)
 {
     if(message.size() == 1)
     {
-        sendMessage(":" + localhost + ERR_NEEDMOREPARAMS("PART", clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
+        sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NEEDMOREPARAMS("PART", clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
         return ;
     }
     else
@@ -67,12 +67,12 @@ void HDE::SocketHde::Part(std::vector<std::string> message, int i)
                 }
                 else
                 {
-                    sendMessage(":" + localhost + ERR_NOTONCHANNEL(channelToLeave[index]), clt.at(fds[i].fd).getClientId());
+                    sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NOTONCHANNEL(channelToLeave[index]), clt.at(fds[i].fd).getClientId());
                     return;
                 }
             }
             else
-                sendMessage(":" + localhost + ERR_NOSUCHCHANNEL(channelToLeave[index], clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
+                sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NOSUCHCHANNEL(channelToLeave[index], clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
         }
     }
 }
@@ -93,7 +93,7 @@ void HDE::SocketHde::sendMessageToAllForPart(int i, std::string channelname)
                     add.push_back(itt->getClientId());
             }
             std::string nick = clt.at(fds[i].fd).getNickname();
-            std::string selfStr = ":" + nick  + "!" + nick + "@" + localhost + " PART " +  channelname + "\r\n";
+            std::string selfStr = ":" + nick  + "!" + nick + "@" + clt.at(fds[i].fd).getLocalhost() + " PART " +  channelname + "\r\n";
             for(int index = 0; index < add.size() ; index++)
                 sendMessage(selfStr, add.at(index));
         }

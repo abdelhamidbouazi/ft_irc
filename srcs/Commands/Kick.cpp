@@ -5,12 +5,12 @@ bool HDE::SocketHde::CheckKICK(std::vector<std::string> message, int i)
 {
 	if (message.size() < 3 || message.size() > 5)
 	{
-		sendMessage(":" + localhost + ERR_NEEDMOREPARAMS("KICK", clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
+		sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NEEDMOREPARAMS("KICK", clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
 		return false;
 	}
 	if (CheckChannelsMap(message, 1) == false || channelsMap.empty())
 	{
-		sendMessage(":" + localhost + ERR_NOSUCHCHANNEL(message[1], clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
+		sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NOSUCHCHANNEL(message[1], clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
 		return false;
 	}
 
@@ -19,7 +19,7 @@ bool HDE::SocketHde::CheckKICK(std::vector<std::string> message, int i)
 
 	if (Client::CheckUser(message, 2) == false)
 	{
-		sendMessage(":" + localhost + ERR_NOSUCHNICK(clt.at(fds[i].fd).getNickname(), message[2]), clt.at(fds[i].fd).getClientId());
+		sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NOSUCHNICK(clt.at(fds[i].fd).getNickname(), message[2]), clt.at(fds[i].fd).getClientId());
 		return false;
 	}
 
@@ -56,7 +56,7 @@ bool HDE::SocketHde::CheckKICK(std::vector<std::string> message, int i)
 	}
 	else
 	{
-		sendMessage(":" + localhost + ERR_CHANOPRIVSNEEDED(channelsMap.at(message[1])->getChannelName()), clt.at(fds[i].fd).getClientId());
+		sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_CHANOPRIVSNEEDED(channelsMap.at(message[1])->getChannelName()), clt.at(fds[i].fd).getClientId());
 		return false;
 	}
 	return false;

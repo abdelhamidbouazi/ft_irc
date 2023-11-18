@@ -2,11 +2,35 @@
 #define CLIENT_HPP
 
 #include "Args.hpp"
+#include "Channel.hpp"
 
+
+#include <string>
+#include <string.h>
+#include <cstring>
+#include <unistd.h>
+#include <fstream>
+#include <stdio.h>
+#include <iostream>
+#include <sys/time.h>
+#include <errno.h>
+#include <sys/types.h>
+#include <cstdlib>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <sys/poll.h>
+#include <sys/ioctl.h>
+#include <map>
+#include <algorithm>
+#include <arpa/inet.h>
+#include <sstream>
+#include <netdb.h>
+#include <fcntl.h>
+#include <chrono>
 #include <vector>
 #include <map>
-#include "Channel.hpp"
 #include <ctime>
+
 
 
 #define USER_MAX_CHANNEL 30
@@ -22,6 +46,7 @@ class Client
 		std::string nickname;
 		std::string fullName;
 		std::string username;
+		std::string localhost;
 		int clientId;
 		int clientFd;
 		std::time_t startTime;
@@ -37,7 +62,7 @@ class Client
 
 	public:
 		Client();
-		Client(int clientId);
+		Client(int connection);
 		// Client(int clientId, std::string nickname);
 		~Client();
 
@@ -61,9 +86,10 @@ class Client
 		int getChannelCount();
 		static int getIdByUsername(std::string username);
 		std::time_t getStartTime() const;
+		std::string getLocalhost() const;
 		// int getCounter();
 
-
+		void removeUserFromMap(std::string nickname);
 		void setIsIn(bool isIn);
 		void setMode(bool mode);
 		void setIsSignedIn(bool isSignedIn);
@@ -75,6 +101,8 @@ class Client
 		void setClientFd(int clientFd);
 		void setChannelCount(int count);
 		bool eraseNickname(Client &c);
+		bool eraseUser(Client &c);
+		void setLocalhost(std::string localhost);
 		// void incrementCounter();
 		void setUFlag();
 		void setNFlag();

@@ -12,5 +12,5 @@ void HDE::SocketHde::Bot(int i)
     int minutes = (elapsed_time % 3600) / 60;
     int seconds = elapsed_time % 60;
     std::string times =  " the time you spend in this server : " + std::to_string(hours) + " hours, " + std::to_string(minutes) + " minutes, " + std::to_string(seconds) + " seconds\n"; 
-    sendMessage(":" + localhost + times, clt.at(fds[i].fd).getClientId());
+    sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + times, clt.at(fds[i].fd).getClientId());
 }

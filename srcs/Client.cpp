@@ -6,7 +6,7 @@ std::map<std::string, int> Client::usersIds;
 std::vector<std::string> Client::nicknames;
 
 Client::Client() {}
-Client::Client(int clientId)
+Client::Client(int connection)
 {
 	isIn = false;
 	mode = false;
@@ -15,13 +15,11 @@ Client::Client(int clientId)
 	nickname = "";
 	fullName = "";
 	username = "";
-	this->clientId = clientId;
+	this->clientId = connection;
 	UFlag = false;
 	NFlag = false;
 	channelCount = 0;
 	startTime = std::time(nullptr);
-	// usersIds.insert(std::pair<std::string, int>("", 0));
-	// counter = 0;
 }
 
 Client::~Client()
@@ -89,6 +87,17 @@ bool Client::eraseNickname(Client &c)
 	}
 	return false;
 }
+bool Client::eraseUser(Client &c)
+{
+	std::vector<std::string>::iterator it;
+	it = std::find(users.begin(), users.end(), c.username);
+	if (it != users.end())
+	{
+		users.erase(it);
+		return true;
+	}
+	return false;
+}
 
 std::vector<std::string> Client::getAllUsers()
 {
@@ -112,6 +121,11 @@ int Client::getClientFd()
 // {
 // 	return counter;
 // }
+
+void Client::removeUserFromMap(std::string nickname)
+{
+    usersIds.erase(nickname);
+}
 
 void Client::setIsIn(bool isIn)
 {
@@ -152,11 +166,6 @@ void Client::addUser(std::string username, Client &c)
 	{
 		this->username = username;
 		users.push_back(username);
-		// std::cout << "Username from the map id is : " << usersIds.at(username) << std::endl;
-	}
-	else
-	{
-		std::cout << "Username is less than 2\n";
 	}
 }
 void Client::setClientId(int clientId)
@@ -225,4 +234,14 @@ void Client::setChannelCount(int count)
 std::time_t Client::getStartTime() const
 {
 	return this->startTime;
+}
+
+std::string Client::getLocalhost() const
+{
+    return this->localhost;
+}
+
+void Client::setLocalhost(std::string localhost)
+{
+    this->localhost = localhost;
 }
