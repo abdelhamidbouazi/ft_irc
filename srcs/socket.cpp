@@ -9,6 +9,9 @@ HDE::SocketHde::SocketHde(int domain, int service, int protocol, int port, unsig
     address.sin_family = domain;
     address.sin_port = htons(port);
     address.sin_addr.s_addr = htonl(interface);
+    int backlog = 10;
+    int binding;
+    int listening;
 
     setPort(port);
     setPassword(password);
@@ -24,6 +27,12 @@ HDE::SocketHde::SocketHde(int domain, int service, int protocol, int port, unsig
         close(sock);
         exit(EXIT_FAILURE);
     }
+    binding = bind(sock, (struct sockaddr *)&address, sizeof(address));
+    set_connection(binding);
+    test_connection(get_connection());
+    listening = listen(get_sock(), backlog);
+    test_connection(listening);
+    start_polling();
 }
 
 void HDE::SocketHde::start_polling()
@@ -31,9 +40,7 @@ void HDE::SocketHde::start_polling()
     timeout = -1;
     pollfd sfd;
     end_server = false;
-    int current_size = 0;
     char buffer[800];
-    int new_sd = -1;
     Client dataClient;
 
     sfd.fd = sock;
@@ -79,7 +86,7 @@ void HDE::SocketHde::start_polling()
             clientfd.events = POLLIN;
             fds.push_back(clientfd);
         }
-        for (int i = 1; i < fds.size(); i++)
+        for (size_t i = 1; i < fds.size(); i++)
         {
             flagQuit = 0;
             if (fds[i].revents & POLLIN)
@@ -113,7 +120,6 @@ void HDE::SocketHde::start_polling()
                         Auth(obj.getRequest(), obj.getJoinVector(), i);
                         if(flagQuit == 1)
                             break;
-                        std::cout << "in the auth after quit 2\n";
                         tmp_message = clt.at(fds[i].fd).commande_str.erase(0, pos + 2);
                         pos = clt.at(fds[i].fd).commande_str.find_first_of("\r\n");
                     }

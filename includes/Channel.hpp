@@ -2,7 +2,6 @@
 # define CHANNEL_HPP
 
 #include "Client.hpp"
-
 #include <map>
 #include <vector>
 
@@ -15,10 +14,12 @@ class Channel
 		std::vector<Client>	users;
 		std::vector<Client>	operators;
 		std::vector<std::string> invitedUser;
+
 		int			limitUsers;
 		bool		inviteOnly;
 		bool		isTopic;
 		bool		hasOwner;
+
 		std::string owner;
 		std::string	key;
 		std::string topic;
@@ -26,22 +27,22 @@ class Channel
 	public:
 		Channel();
 		Channel(std::string channel, Client owner, std::string key);
-		Channel(std::string name);
 		~Channel();
 
+		//getters
 		std::string getChannelName();
 		std::vector<Client>	getUsers();
 		std::vector<Client>	getOperators();
 		std::vector<std::string> getInvitedUser();
+		std::string getOwner();
+		std::string	getKey();
+		std::string getTopic();
 		int			getLimitUsers();
 		bool		getInvite_only();
 		bool		getIsTopic();
 		bool		getHasOwner();
-		std::string getOwner();
-		std::string	getKey();
-		std::string getTopic();
-		// Client& getUserByName(std::string username);
 
+		//setters
 		void setChannel(std::string _channel);
 		void setHasOwner(bool hasOwner);
 		void setlimitUsers(int _limit);
@@ -54,13 +55,10 @@ class Channel
 		void setOwner(std::string name);
 		void setTopic(std::string topic);
 
-
 		void addUsers(Client c);
 		bool addOperators(Client c);
 		void addInvited(Client c);
 		bool addInvitedUser(std::string name);
-
-
 };
 
 # endif
