@@ -28,6 +28,8 @@ class Replies
 #define ERR_USERNOTINCHANNEL(nick, channel) " 441 " + nick + " " + channel + " :They aren't on that channel\r\n"
 #define ERR_USERONCHANNEL(nick, channel) " 443 " + nick + " " + channel + " :is already on channel\r\n"
 
+// Quit
+#define RPL_QUIT(param)  param + " :Client Quit\r\n"
 
 #define RPL_NOTOPIC(nick, param) " 331 " + nick + " " + param + " :No topic is set\r\n"
 #define RPL_TOPIC(nick, param, topic) " 332 " + nick + " " + param + " :" + topic + "\r\n"

@@ -1,7 +1,28 @@
 #include "../../includes/socket.hpp"
 #include "../../includes/Replies.hpp"
 
-
+void HDE::SocketHde::sendMessageToAllForQuit(int i, std::string channelname)
+{
+    std::map<std::string, Channel*>::iterator it;
+    for(it = channelsMap.begin(); it != channelsMap.end() ; ++it)
+    {
+        if(it->first == channelname)
+        {
+            std::vector<Client> tmp = it->second->getUsers();
+            std::vector<int > add;
+            std::vector<Client>::iterator itt;
+            for(itt = tmp.begin(); itt != tmp.end(); itt++)
+            {
+                if(itt->getNickname() != clt.at(fds[i].fd).getNickname())
+                    add.push_back(itt->getClientId());
+            }
+            std::string nick = clt.at(fds[i].fd).getNickname();
+            std::string selfStr = ":" + nick  + "!" + nick + "@" + clt.at(fds[i].fd).getLocalhost() + " QUIT " +  channelname + "\r\n";
+            for(int index = 0; index < add.size() ; index++)
+                sendMessage(selfStr, add.at(index));
+        }
+    }
+}
 
 void HDE::SocketHde::CheckQUIT(int i)
 {
@@ -22,11 +43,11 @@ void HDE::SocketHde::CheckQUIT(int i)
 
 	if (channelsMap.empty() || isJoindToChannels == false)
 	{
+		sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + RPL_QUIT(" QUIT"), clt.at(fds[i].fd).getClientId());
 		clt.at(fds[i].fd).eraseNickname(clt.at(fds[i].fd));
 		clt.at(fds[i].fd).eraseUser(clt.at(fds[i].fd));
 		clt.at(fds[i].fd).removeUserFromMap(nickname);
 		CleanQuit(clt.at(fds[i].fd).getNickname(), i);
-		std::cout << "NOTJOIN==============================\n";
 		flagQuit = 1;
 	}
 	else
@@ -34,7 +55,7 @@ void HDE::SocketHde::CheckQUIT(int i)
 		std::map<std::string, Channel*>::iterator it;
 		for (it = channelsMap.begin(); it != channelsMap.end(); it++){
 			if (checkUserInChannel(it->second, clt.at(fds[i].fd).getNickname())){
-				std::cout << it->second->getLimitUsers() << std::endl;
+				sendMessageToAllForQuit(i, it->second->getChannelName());
 				if(it->second->getHasOwner() &&  clt.at(fds[i].fd).getNickname() == it->second->getOwner())
 				{
 					it->second->setHasOwner(false);

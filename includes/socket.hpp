@@ -112,6 +112,7 @@ namespace HDE
 			bool	CheckChannelsMap(std::vector<std::string> message, int place);
 
 			void	CleanQuit(std::string nickname, int i);
+			void	sendMessageToAllForQuit(int i, std::string channelname);
 	};
 }
 

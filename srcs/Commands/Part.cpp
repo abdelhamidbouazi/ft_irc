@@ -1,7 +1,7 @@
 #include "../../includes/Client.hpp"
 #include "../../includes/Channel.hpp"
 #include "../../includes/Replies.hpp"
-#include "../../includes/socket.hpp"  
+#include "../../includes/socket.hpp"
 
 std::vector<std::string> splitStringWithComma(std::string str)
 {
@@ -97,4 +97,5 @@ void HDE::SocketHde::sendMessageToAllForPart(int i, std::string channelname)
         }
     }
 }
+
 
