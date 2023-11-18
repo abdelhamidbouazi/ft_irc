@@ -50,7 +50,7 @@ void HDE::SocketHde::Join(std::vector<std::pair<std::string, std::string > > joi
         }
         return ;
     }
-    for(int index = 0; index < joinVector.size(); index++)
+    for(size_t index = 0; index < joinVector.size(); index++)
     {
         std::pair<std::string , std::string> temp = joinVector[index];
         if(temp.first[0] != '#')
@@ -59,14 +59,13 @@ void HDE::SocketHde::Join(std::vector<std::pair<std::string, std::string > > joi
         {
             if(channelsMap.find(temp.first) != channelsMap.end())
             {
-                std::cout << "the size of users in the channel in join : " << channelsMap.at(temp.first)->getUsers().size() << std::endl;
                 std::vector<Client> tmpVector = channelsMap.at(temp.first)->getUsers();
                 if(clt.at(fds[i].fd).getChannelCount() >= USER_MAX_CHANNEL)
                 {
                     sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_TOOMANYCHANNELS(temp.first, clt.at(fds[i].fd).getNickname()),clt.at(fds[i].fd).getClientId());
                     return;
                 }
-                if(channelsMap.at(temp.first)->getLimitUsers() != -1 && channelsMap.at(temp.first)->getUsers().size() >= channelsMap.at(temp.first)->getLimitUsers())
+                if(channelsMap.at(temp.first)->getLimitUsers() != -1 && channelsMap.at(temp.first)->getUsers().size() >= (size_t)channelsMap.at(temp.first)->getLimitUsers())
                 {
                     sendMessage(":" + clt.at(fds[i].fd).getLocalhost() +  ERR_CHANNELISFULL(temp.first, clt.at(fds[i].fd).getNickname()),clt.at(fds[i].fd).getClientId());
                     return ;
@@ -76,7 +75,7 @@ void HDE::SocketHde::Join(std::vector<std::pair<std::string, std::string > > joi
                     sendMessage(":" + clt.at(fds[i].fd).getLocalhost() +  ERR_CHANNELISFULL(temp.first, clt.at(fds[i].fd).getNickname()),clt.at(fds[i].fd).getClientId());
                     return ;
                 }
-                else if(channelsMap.at(temp.first)->getLimitUsers() == -1 || channelsMap.at(temp.first)->getUsers().size() < channelsMap.at(temp.first)->getLimitUsers())
+                else if(channelsMap.at(temp.first)->getLimitUsers() == -1 || channelsMap.at(temp.first)->getUsers().size() < (size_t)channelsMap.at(temp.first)->getLimitUsers())
                 {
                     if(channelsMap.at(temp.first)->getKey().length() != 0)
                     {
@@ -89,7 +88,7 @@ void HDE::SocketHde::Join(std::vector<std::pair<std::string, std::string > > joi
                                 sendMessage(":" + clt.at(fds[i].fd).getLocalhost() +  ERR_INVITEONLYCHAN(temp.first, clt.at(fds[i].fd).getNickname()),clt.at(fds[i].fd).getClientId());
                                 return ;
                             }
-                            if(invite_only && invited_user || !invite_only)
+                            if((invite_only && invited_user) || !invite_only)
                             {
                                 clt.at(fds[i].fd).setChannelCount(clt.at(fds[i].fd).getChannelCount() + 1);
                                 channelsMap.at(temp.first)->addUsers(clt.at(fds[i].fd));
@@ -111,7 +110,7 @@ void HDE::SocketHde::Join(std::vector<std::pair<std::string, std::string > > joi
                             sendMessage(":" + clt.at(fds[i].fd).getLocalhost() +  ERR_INVITEONLYCHAN(temp.first, clt.at(fds[i].fd).getNickname()),clt.at(fds[i].fd).getClientId());
                             return ;
                         }
-                        if(invite_only && invited_user || !invite_only)
+                        if((invite_only && invited_user) || !invite_only)
                         {
                             clt.at(fds[i].fd).setChannelCount(clt.at(fds[i].fd).getChannelCount() + 1);
                             channelsMap.at(temp.first)->addUsers(clt.at(fds[i].fd));
@@ -132,11 +131,10 @@ void HDE::SocketHde::Join(std::vector<std::pair<std::string, std::string > > joi
                 clt.at(fds[i].fd).setChannelCount(clt.at(fds[i].fd).getChannelCount() + 1);
                 Channel* addChannel = new Channel(temp.first, clt.at(fds[i].fd), temp.second);
                 channelsMap[temp.first] = addChannel;
-                sendMessageToAll(i, temp.first);\
+                sendMessageToAll(i, temp.first);
             }
         }
     }
-    // u should delete the addchannel to avoid the leaks
 }
 
 void HDE::SocketHde::sendMessageToAll(int i, std::string channelname)
@@ -168,7 +166,7 @@ void HDE::SocketHde::sendMessageToAll(int i, std::string channelname)
 			}
 			msjj += "\r\n:" + clt.at(fds[i].fd).getLocalhost() + " 366 " + clt.at(fds[i].fd).getNickname() + " " + channelname + " :End of /NAMES list.\r\n";
 			sendMessage(msjj, clt.at(fds[i].fd).getClientId());
-			for (int index = 0; index < add.size(); index++)
+			for (size_t index = 0; index < add.size(); index++)
 				sendMessage(selfStr, add.at(index));
 		}
 	}

@@ -171,7 +171,6 @@ void HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i)
 		}
 		else if (message[3].compare("o") == 0)
 		{
-			int user;
 			if (Client::CheckUser(message, 4) == false)
 				sendMessage(":" +  clt.at(fds[i].fd).getLocalhost()  + ERR_NOSUCHNICK(clt.at(fds[i].fd).getNickname(), message[4]), clt.at(fds[i].fd).getClientId());
 			else

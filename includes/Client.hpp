@@ -3,34 +3,9 @@
 
 #include "Args.hpp"
 #include "Channel.hpp"
+#include "socket.hpp"
 
-
-#include <string>
-#include <string.h>
-#include <cstring>
-#include <unistd.h>
-#include <fstream>
-#include <stdio.h>
-#include <iostream>
-#include <sys/time.h>
-#include <errno.h>
-#include <sys/types.h>
-#include <cstdlib>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <sys/poll.h>
-#include <sys/ioctl.h>
 #include <map>
-#include <algorithm>
-#include <arpa/inet.h>
-#include <sstream>
-#include <netdb.h>
-#include <fcntl.h>
-#include <chrono>
-#include <vector>
-#include <map>
-#include <ctime>
-
 
 
 #define USER_MAX_CHANNEL 30

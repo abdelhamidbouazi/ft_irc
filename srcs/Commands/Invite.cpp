@@ -29,8 +29,6 @@ void HDE::SocketHde::CheckINVITE(std::vector<std::string> message, int i)
 	bool isOperator = checkUserInChannelOperator(channelsMap.at(message[2]), nickname);
 	if (isOperator)
 	{
-		int user;
-		std::cout << "debug 1\n";
 		if (Client::getIdByUsername(message[1]) >= 3)
 		{
 			int user = Client::getIdByUsername(message[1]);

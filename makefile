@@ -3,11 +3,6 @@ NAME = ircserv
 CC = c++
 
 Header =	./includes/socket.hpp \
-			./includes/connectingSocket.hpp \
-			./includes/BindingSocket.hpp \
-			./includes/ListeningSocket.hpp \
-			./includes/TestServer.hpp \
-			./includes/SimpleServer.hpp \
 			./includes/Commande.hpp \
 			./includes/Client.hpp \
 			./includes/Args.hpp \
@@ -19,11 +14,6 @@ VERSION = -std=c++98 -Wall -Wextra -Werror
 
 SRC =	./srcs/main.cpp \
 		./srcs/socket.cpp \
-		./srcs/ConnectingSocket.cpp \
-		./srcs/BindingSocket.cpp \
-		./srcs/ListeningSocket.cpp \
-		./srcs/TestServer.cpp \
-		./srcs/SimpleServer.cpp \
 		./srcs/Commande.cpp \
 		./srcs/Client.cpp \
 		./srcs/Args.cpp \
@@ -42,7 +32,7 @@ SRC =	./srcs/main.cpp \
 		./srcs/Commands/User.cpp \
 		./srcs/Commands/Nick.cpp \
 		./srcs/Commands/Pass.cpp \
-		./srcs/Commands/Quit.cpp \
+		./srcs/Commands/Quit.cpp 
 
 OBJECTS = $(SRC:.cpp=.o)
 

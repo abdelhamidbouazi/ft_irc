@@ -87,7 +87,7 @@ void HDE::SocketHde::sendMessageToAllForTopic(int i, std::string channelname, in
                 selfStr = ":" + clt.at(fds[i].fd).getLocalhost() + RPL_TOPIC(clt.at(fds[i].fd).getNickname(), channelname, channelsMap.at(channelname)->getTopic());
             else
                 selfStr = ":" + clt.at(fds[i].fd).getLocalhost() + RPL_NOTOPIC(clt.at(fds[i].fd).getNickname(), channelname);
-            for(int index = 0; index < add.size() ; index++)
+            for(size_t index = 0; index < add.size() ; index++)
                 sendMessage(selfStr, add.at(index));
         }
     }

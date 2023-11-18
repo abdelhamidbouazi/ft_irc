@@ -18,7 +18,7 @@ void HDE::SocketHde::sendMessageToAllForQuit(int i, std::string channelname)
             }
             std::string nick = clt.at(fds[i].fd).getNickname();
             std::string selfStr = ":" + nick  + "!" + nick + "@" + clt.at(fds[i].fd).getLocalhost() + " QUIT " +  channelname + "\r\n";
-            for(int index = 0; index < add.size() ; index++)
+            for(size_t index = 0; index < add.size() ; index++)
                 sendMessage(selfStr, add.at(index));
         }
     }
@@ -28,13 +28,13 @@ void HDE::SocketHde::CheckQUIT(int i)
 {
 	bool isJoindToChannels = false;
 	std::string nickname = clt.at(fds[i].fd).getNickname();
-	int user = fds[i].fd;
+	// int user = fds[i].fd;
 	//check if he is member in any channel using users in channels;
 
 	std::map<std::string, Channel*>::iterator it;
 
 	for (it = channelsMap.begin(); it != channelsMap.end(); it++){
-		for (int j = 0; j < it->second->getUsers().size(); j++) {
+		for (size_t j = 0; j < it->second->getUsers().size(); j++) {
 			if (it->second->getUsers().at(j).getNickname() == clt.at(fds[i].fd).getNickname()){
 				isJoindToChannels = true;
 			}
