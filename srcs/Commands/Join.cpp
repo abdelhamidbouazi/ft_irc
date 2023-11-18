@@ -59,6 +59,7 @@ void HDE::SocketHde::Join(std::vector<std::pair<std::string, std::string > > joi
         {
             if(channelsMap.find(temp.first) != channelsMap.end())
             {
+                std::cout << "the size of users in the channel in join : " << channelsMap.at(temp.first)->getUsers().size() << std::endl;
                 std::vector<Client> tmpVector = channelsMap.at(temp.first)->getUsers();
                 if(clt.at(fds[i].fd).getChannelCount() >= USER_MAX_CHANNEL)
                 {
