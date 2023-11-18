@@ -160,12 +160,12 @@ void HDE::SocketHde::sendMessageToAll(int i, std::string channelname)
 				if (itt->getNickname() != clt.at(fds[i].fd).getNickname())
 					add.push_back(itt->getClientId());
 			}
-			std::string msjj = ":" + clt.at(fds[i].fd).getLocalhost() + " 353 " + clt.at(fds[i].fd).getNickname() + " = " + channelname + " :" + usersName;
+			std::string msjj = ":" + clt.at(fds[i].fd).getLocalhost() + " 353 " + clt.at(fds[i].fd).getNickname() + " @ " + channelname + " :" + usersName;
 			if (it->second->getHasOwner())
 			{
 				msjj += "@" + it->second->getOwner();
 			}
-			msjj += "\r\n:" + clt.at(fds[i].fd).getLocalhost() + " 366 " + clt.at(fds[i].fd).getNickname() + " " + channelname + " :End of /NAMES list\r\n";
+			msjj += "\r\n:" + clt.at(fds[i].fd).getLocalhost() + " 366 " + clt.at(fds[i].fd).getNickname() + " " + channelname + " :End of /NAMES list.\r\n";
 			sendMessage(msjj, clt.at(fds[i].fd).getClientId());
 			for (int index = 0; index < add.size(); index++)
 				sendMessage(selfStr, add.at(index));

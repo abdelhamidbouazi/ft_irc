@@ -11,6 +11,7 @@ bool checkModeArgs(std::vector<std::string> message)
 	{
 		return false;
 	}
+
 	char checker = message[3][0];
 	if (checker == 'i' || checker == 't')
 	{
@@ -127,6 +128,7 @@ void HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i)
 	int mode;
 	if (checkModeArgs(message) == false)
 	{
+		
 		sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NEEDMOREPARAMS("MODE", clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
 		return ;
 	}
