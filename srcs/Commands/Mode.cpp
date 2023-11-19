@@ -129,12 +129,13 @@ void HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i)
 {
 
 	int mode;
+	std::cout << "size of message : " << message.size() << std::endl;
 	if (checkModeArgs(message) == false)
 	{
-		if (message[3].compare("i") != 0 || message[3].compare("t") != 0 \
-				|| message[3].compare("l") != 0 || message[3].compare("k") != 0
-					|| message[3].compare("o") != 0)
-					return ;
+		// if (message[3].compare("i") != 0 || message[3].compare("t") != 0 \
+		// 		|| message[3].compare("l") != 0 || message[3].compare("k") != 0
+		// 			|| message[3].compare("o") != 0)
+		// 			return ;
 		sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NEEDMOREPARAMS("MODE", clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
 		return ;
 	}
