@@ -65,8 +65,6 @@ void HDE::SocketHde::CheckQUIT(int i)
 				if (checkUserInChannelOperator(it->second, clt.at(fds[i].fd).getNickname())) {
 					it->second->eraseOperator(clt.at(fds[i].fd));
 				}
-				std::cout << it->second->getLimitUsers() << std::endl;
-				std::cout << "Removed from: " << it->second->getChannelName()<< std::endl;
 			}
 		}
 		clt.at(fds[i].fd).eraseNickname(clt.at(fds[i].fd));

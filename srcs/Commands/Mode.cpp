@@ -47,10 +47,14 @@ void HDE::SocketHde::modeI(std::vector<std::string> message, int mode, int i)
 {
 	if (channelsMap.find(message[1]) != channelsMap.end())
 	{
-		if (mode == 1)
+		if (mode == 1){
 			channelsMap.at(message[1])->setInviteOnly(true);
-		else if (mode == 0)
+			sendMessageToAllForInvite(i, message[1], "+i");
+		}
+		else if (mode == 0){
 			channelsMap.at(message[1])->setInviteOnly(false);
+			sendMessageToAllForInvite(i, message[1], "-i");
+		}
 	}
 	else
 		sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NOSUCHCHANNEL(message[1], clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());

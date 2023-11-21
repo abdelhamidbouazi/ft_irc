@@ -113,6 +113,7 @@ namespace HDE
 
 			void	CleanQuit(std::string nickname, int i);
 			void	sendMessageToAllForQuit(int i, std::string channelname);
+			void	sendMessageToAllForInvite(int i, std::string channelname, std::string message);
 	};
 }
 

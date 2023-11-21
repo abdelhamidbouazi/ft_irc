@@ -30,6 +30,8 @@ class Replies
 
 // Quit
 #define RPL_QUIT(param)  param + " :Client Quit\r\n"
+#define RPL_PLUSINVITE(nick, channel) nick + " " + "MODE " + channel + " +i" + "\r\n"
+#define RPL_MINSINVITE(nick, channel) nick + " " + "MODE " + channel + " -i" + "\r\n"
 
 #define RPL_NOTOPIC(nick, param) " 331 " + nick + " " + param + " :No topic is set\r\n"
 #define RPL_TOPIC(nick, param, topic) " 332 " + nick + " " + param + " :" + topic + "\r\n"

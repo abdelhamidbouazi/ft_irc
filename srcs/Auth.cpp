@@ -53,7 +53,6 @@ void HDE::SocketHde::commands(std::vector<std::string> message, std::vector<std:
 
 void HDE::SocketHde::Auth(std::vector<std::string> message, std::vector<std::pair<std::string, std::string > > joinVector, int i)
 {
-
 	if (!message.empty())
 	{
 		std::string &secondElement = message[0];

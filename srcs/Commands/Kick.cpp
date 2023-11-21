@@ -38,11 +38,13 @@ bool HDE::SocketHde::CheckKICK(std::vector<std::string> message, int i)
 					channelsMap.at(message[1])->eraseOperator(clt.at(user));
 					if (!message[3].empty())
 					{
-						sendMessage(":" + clt.at(fds[i].fd).getNickname() + " KICK " + clt.at(user).getNickname() + " " + channelsMap.at(message[1])->getChannelName() + " :" + message[3] + "\r\n", clt.at(user).getClientId());
+						std::string rep = ":" + clt.at(fds[i].fd).getNickname()  + "!" + clt.at(fds[i].fd).getNickname() + "@" + clt.at(fds[i].fd).getLocalhost() + " KICK " +  message[1] + " " + message[2] + " "  + message[3] + "\r\n";
+						sendMessage(rep, clt.at(user).getClientId());
 					}
 					else
 					{
-						sendMessage(":" + clt.at(fds[i].fd).getNickname() + " KICK " + clt.at(user).getNickname() + " " + channelsMap.at(message[1])->getChannelName() + "\r\n", clt.at(user).getClientId());
+						std::string rep = ":" + clt.at(fds[i].fd).getNickname()  + "!" + clt.at(fds[i].fd).getNickname() + "@" + clt.at(fds[i].fd).getLocalhost() + " KICK " +  message[1] + " " + message[2] + "\r\n";
+						sendMessage(rep, clt.at(user).getClientId());
 					}
 					return true;
 				}
