@@ -32,6 +32,7 @@ void HDE::SocketHde::sendMessageToAllForKick(int i, std::string channelname, std
 
 bool HDE::SocketHde::CheckKICK(std::vector<std::string> message, int i)
 {
+	// std::cout 
 	if (message.size() < 3 || message.size() > 5)
 	{
 		// sendMessageToAllForKick(i, );
