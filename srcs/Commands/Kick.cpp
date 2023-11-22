@@ -1,10 +1,40 @@
 #include "../../includes/socket.hpp"
 #include "../../includes/Replies.hpp"
 
+void HDE::SocketHde::sendMessageToAllForKick(int i, std::string channelname, std::string message, std::string _nickname)
+{
+    std::map<std::string, Channel*>::iterator it;
+    for(it = channelsMap.begin(); it != channelsMap.end() ; ++it)
+    {
+        if(it->first == channelname)
+        {
+            std::vector<Client> tmp = it->second->getUsers();
+            std::vector<int > add;
+            std::vector<Client>::iterator itt;
+            for(itt = tmp.begin(); itt != tmp.end(); itt++)
+            {
+                if(itt->getNickname() != clt.at(fds[i].fd).getNickname())
+                    add.push_back(itt->getClientId());
+            }
+            std::string nick = clt.at(fds[i].fd).getNickname();
+			std::string selfStr;
+			if (message.length() > 0) {
+            	selfStr = ":" + nick  + "!" + nick + "@" + clt.at(fds[i].fd).getLocalhost() + " KICK " +  channelname + " " + _nickname + " :" + message + "\r\n";
+			}
+			else {
+            	selfStr = ":" + nick  + "!" + nick + "@" + clt.at(fds[i].fd).getLocalhost() + " KICK " +  channelname + " " + _nickname + " :Kicked from the channel" + "\r\n";
+			}
+            for(int index = 0; index < add.size() ; index++)
+                sendMessage(selfStr, add.at(index));
+        }
+    }
+}
+
 bool HDE::SocketHde::CheckKICK(std::vector<std::string> message, int i)
 {
 	if (message.size() < 3 || message.size() > 5)
 	{
+		// sendMessageToAllForKick(i, );
 		sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NEEDMOREPARAMS("KICK", clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
 		return false;
 	}
@@ -39,11 +69,13 @@ bool HDE::SocketHde::CheckKICK(std::vector<std::string> message, int i)
 					if (!message[3].empty())
 					{
 						std::string rep = ":" + clt.at(fds[i].fd).getNickname()  + "!" + clt.at(fds[i].fd).getNickname() + "@" + clt.at(fds[i].fd).getLocalhost() + " KICK " +  message[1] + " " + message[2] + " "  + message[3] + "\r\n";
+						sendMessageToAllForKick(i, message[1], message[3], clt.at(user).getNickname());
 						sendMessage(rep, clt.at(user).getClientId());
 					}
 					else
 					{
 						std::string rep = ":" + clt.at(fds[i].fd).getNickname()  + "!" + clt.at(fds[i].fd).getNickname() + "@" + clt.at(fds[i].fd).getLocalhost() + " KICK " +  message[1] + " " + message[2] + "\r\n";
+						sendMessageToAllForKick(i, message[1], "", clt.at(user).getNickname());
 						sendMessage(rep, clt.at(user).getClientId());
 					}
 					return true;
