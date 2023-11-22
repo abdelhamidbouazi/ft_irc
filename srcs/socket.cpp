@@ -40,7 +40,7 @@ void HDE::SocketHde::start_polling()
     timeout = -1;
     pollfd sfd;
     end_server = false;
-    char buffer[800];
+    char buffer[1024];
     Client dataClient;
 
     sfd.fd = sock;
