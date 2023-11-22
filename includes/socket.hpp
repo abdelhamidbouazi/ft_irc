@@ -25,54 +25,59 @@
 #include <chrono>
 #include <vector>
 
-#include "../includes/Commande.hpp"
-#include "../includes/Client.hpp"
-#include "../includes/Channel.hpp"
-#include "../includes/socket.hpp"
+
+#include "./Commande.hpp"
+#include "./Client.hpp"
+#include "./Channel.hpp"
 
 #define MAX_TARGET 1
 
-
+class Client;
+class Channel;
 namespace HDE
 {
 	class SocketHde
 	{
 		private:
+			struct sockaddr_in address;
+			std::map<std::string, int> AllUsers;
+			std::vector<pollfd> fds;
+
 			int sock;
 			int connection;
-			struct sockaddr_in address;
-			// struct pollfd fds[200];
-			// struct pollfd fds[200];
-			std::vector<pollfd> fds;
 			int timeout;
 			int rc;
 			int on;
 			int end_server;
 			int port;
+			int flagQuit;
+
 			std::string password;
-			std::map<std::string, int> AllUsers;
-			int flagQuit ;
 		public:
 			std::map<int, Client> clt;
 			std::map<std::string, Channel*> channelsMap;
+			// socket tools
 			SocketHde(int domain, int service, int protocol, int port, unsigned long interface, std::string password);
-			virtual int connect_network( int sock, struct sockaddr_in address) = 0;
+			void start_polling();
+			std::string ClientIp(int sock);
+
+			// test tools
 			void test_connection(int item_to_test);
 			void test_connection_for_setsockopt(int item_to_test);
-			void start_polling();
-
+			
+			// getters
 			struct sockaddr_in get_address();
-			int get_sock();
-			int get_connection();
-			std::string getHostAdresse();
-			int getPort();
 			std::string getPassword();
+			std::string getHostAdresse();
+			int get_sock();
+			int getPort();
+			int get_connection();
 
+			//setters
 			void setPort(int port);
 			void setPassword(std::string password);
 			void set_connection(int connection);
 
-			std::string ClientIp(int sock);
 
 			// commands
 			void	Auth(std::vector<std::string> message, std::vector<std::pair<std::string , std::string > > joinVector,int i);
@@ -92,7 +97,7 @@ namespace HDE
 			void	modeI(std::vector<std::string> message, int mode, int i);
 			void	modeK(std::vector<std::string> message,int mode, int i);
 			void	modeO(std::vector<std::string> message,int mode, int user, int i);
-			void	modeL(std::vector<std::string> message,int mode, int i);
+			void	modeL(std::vector<std::string> message,int mode);
 			bool	checkUserInChannelOperator(Channel *chan, std::string name);
 			bool	checkUserInChannel(Channel *chan, std::string name);
 
@@ -101,7 +106,8 @@ namespace HDE
 			int		CheckUSER(std::vector<std::string> message, Client &c, int i);
 			int 	CheckNICK(std::vector<std::string> message, Client &c, int i);
 			bool	isFound(const std::vector<std::string> &vec, const std::string &str);
-			//tools
+
+			//send the repply message
 			void	sendMessageToAll(int i, std::string channelname);
 			void	sendMessageToAllForPart(int i, std::string channelname);
 			void	sendMessageToAllForTopic(int i, std::string channelname, int flag);
@@ -110,7 +116,6 @@ namespace HDE
 
 			// checkers
 			bool	CheckChannelsMap(std::vector<std::string> message, int place);
-
 			void	CleanQuit(std::string nickname, int i);
 			void	sendMessageToAllForQuit(int i, std::string channelname);
 			void	sendMessageToAllForInvite(int i, std::string channelname, std::string message);

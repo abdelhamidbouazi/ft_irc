@@ -108,7 +108,7 @@ void HDE::SocketHde::modeO(std::vector<std::string> message, int mode, int user,
 		sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NOSUCHCHANNEL(message[1], clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
 }
 
-void HDE::SocketHde::modeL(std::vector<std::string> message, int mode, int i)
+void HDE::SocketHde::modeL(std::vector<std::string> message, int mode)
 {
 
 	if (mode == 1 && std::atoi(message[4].c_str()) > 0) {
@@ -132,6 +132,7 @@ void HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i)
 {
 
 	int mode;
+	std::cout << "size of message : " << message.size() << std::endl;
 	if (checkModeArgs(message) == false)
 	{
 		if (message[3].compare("i") != 0 || message[3].compare("t") != 0 || message[3].compare("l") != 0 || message[3].compare("k") != 0 || message[3].compare("o") != 0)
@@ -173,7 +174,6 @@ void HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i)
 		}
 		else if (message[3].compare("o") == 0)
 		{
-			int user;
 			if (Client::CheckUser(message, 4) == false)
 				sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NOSUCHNICK(clt.at(fds[i].fd).getNickname(), message[4]), clt.at(fds[i].fd).getClientId());
 			else
@@ -185,7 +185,7 @@ void HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i)
 		else if (message[3].compare("l") == 0)
 		{
 			std::cout << "Entred the modeL function" << std::endl;
-			modeL(message, mode, i);
+			modeL(message, mode);
 			std::cout << "Exited the modeL function" << std::endl;
 		}
 		else

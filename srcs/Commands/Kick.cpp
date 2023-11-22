@@ -24,7 +24,7 @@ void HDE::SocketHde::sendMessageToAllForKick(int i, std::string channelname, std
 			else {
             	selfStr = ":" + nick  + "!" + nick + "@" + clt.at(fds[i].fd).getLocalhost() + " KICK " +  channelname + " " + _nickname + " :Kicked from the channel" + "\r\n";
 			}
-            for(int index = 0; index < add.size() ; index++)
+            for(size_t index = 0; index < add.size() ; index++)
                 sendMessage(selfStr, add.at(index));
         }
     }
@@ -32,6 +32,7 @@ void HDE::SocketHde::sendMessageToAllForKick(int i, std::string channelname, std
 
 bool HDE::SocketHde::CheckKICK(std::vector<std::string> message, int i)
 {
+	// std::cout 
 	if (message.size() < 3 || message.size() > 5)
 	{
 		// sendMessageToAllForKick(i, );

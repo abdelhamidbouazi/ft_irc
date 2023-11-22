@@ -23,7 +23,7 @@ void HDE::SocketHde::sendMessageToAllForInvite(int i, std::string channelname, s
             }
             std::string nick = clt.at(fds[i].fd).getNickname();
             std::string selfStr = ":" + nick  + "!" + nick + "@" + clt.at(fds[i].fd).getLocalhost() + " MODE " +  channelname + " " + message + "\r\n";
-            for(int index = 0; index < add.size() ; index++)
+            for(size_t index = 0; index < add.size() ; index++)
                 sendMessage(selfStr, add.at(index));
         }
     }
@@ -52,7 +52,6 @@ void HDE::SocketHde::CheckINVITE(std::vector<std::string> message, int i)
 	bool isOperator = checkUserInChannelOperator(channelsMap.at(message[2]), nickname);
 	if (isOperator)
 	{
-		int user;
 		if (Client::getIdByUsername(message[1]) >= 3)
 		{
 			int user = Client::getIdByUsername(message[1]);

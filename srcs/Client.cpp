@@ -117,12 +117,7 @@ int Client::getClientFd()
 	return clientFd;
 }
 
-// int Client::getCounter()
-// {
-// 	return counter;
-// }
-
-void Client::removeUserFromMap(std::string nickname)
+void Client::removeUserFromMap(std::string nickname) 
 {
     usersIds.erase(nickname);
 }
@@ -159,6 +154,7 @@ void Client::setFullName(std::string fullName)
 
 void Client::addUser(std::string username, Client &c)
 {
+	(void)c;
 	if (username.length() == 0)
 		return ;
 		// Replies::ERR_ALREADYREGISTRED(c);

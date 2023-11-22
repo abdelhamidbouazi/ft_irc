@@ -19,10 +19,6 @@ Channel::Channel(std::string name, Client owner, std::string key)
 	operators.push_back(owner);
 }
 
-Channel::Channel(std::string name)
-{
-}
-
 Channel::~Channel()
 {
 }
