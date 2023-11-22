@@ -6,6 +6,29 @@
 // 	return ctl.getUsername() == user;
 // }
 
+void HDE::SocketHde::sendMessageToAllForInvite(int i, std::string channelname, std::string message)
+{
+    std::map<std::string, Channel*>::iterator it;
+    for(it = channelsMap.begin(); it != channelsMap.end() ; ++it)
+    {
+        if(it->first == channelname)
+        {
+            std::vector<Client> tmp = it->second->getUsers();
+            std::vector<int > add;
+            std::vector<Client>::iterator itt;
+            for(itt = tmp.begin(); itt != tmp.end(); itt++)
+            {
+                if(itt->getNickname() != clt.at(fds[i].fd).getNickname())
+                    add.push_back(itt->getClientId());
+            }
+            std::string nick = clt.at(fds[i].fd).getNickname();
+            std::string selfStr = ":" + nick  + "!" + nick + "@" + clt.at(fds[i].fd).getLocalhost() + " MODE " +  channelname + " " + message + "\r\n";
+            for(size_t index = 0; index < add.size() ; index++)
+                sendMessage(selfStr, add.at(index));
+        }
+    }
+}
+
 void HDE::SocketHde::CheckINVITE(std::vector<std::string> message, int i)
 {
 	if (message.size() != 3)
