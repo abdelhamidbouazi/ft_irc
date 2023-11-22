@@ -18,7 +18,7 @@ bool HDE::SocketHde::CheckChannelsMap(std::vector<std::string> message, int plac
 
 bool	Client::CheckUser(std::vector<std::string> message, int place)
 {
-	for (std::vector<std::string>::iterator it = users.begin(); it != users.end(); it++) {
+	for (std::vector<std::string>::iterator it = nicknames.begin(); it != nicknames.end(); it++) {
 		if (*it == message[place])
 		{
 			return true;
