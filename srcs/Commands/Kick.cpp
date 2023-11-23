@@ -18,14 +18,16 @@ void HDE::SocketHde::sendMessageToAllForKick(int i, std::string channelname, std
             }
             std::string nick = clt.at(fds[i].fd).getNickname();
 			std::string selfStr;
-			if (message.length() > 0) {
-            	selfStr = ":" + nick  + "!" + nick + "@" + clt.at(fds[i].fd).getLocalhost() + " KICK " +  channelname + " " + _nickname + " :" + message + "\r\n";
+			if (message == "") {
+            	selfStr = ":" + nick  + "!" + nick + "@" + clt.at(fds[i].fd).getLocalhost() + " KICK " +  channelname + " " + _nickname + " :KICKED" + "\r\n";
+            	for(size_t index = 0; index < add.size() ; index++)
+                	sendMessage(selfStr, add.at(index));
 			}
 			else {
-            	selfStr = ":" + nick  + "!" + nick + "@" + clt.at(fds[i].fd).getLocalhost() + " KICK " +  channelname + " " + _nickname + " :Kicked from the channel" + "\r\n";
+            	selfStr = ":" + nick  + "!" + nick + "@" + clt.at(fds[i].fd).getLocalhost() + " KICK " +  channelname + " " + _nickname + " :" + message + "\r\n";
+            	for(size_t index = 0; index < add.size() ; index++)
+                	sendMessage(selfStr, add.at(index));
 			}
-            for(size_t index = 0; index < add.size() ; index++)
-                sendMessage(selfStr, add.at(index));
         }
     }
 }
@@ -64,6 +66,11 @@ bool HDE::SocketHde::CheckKICK(std::vector<std::string> message, int i)
 			{
 				if (it->getNickname() == message[2])
 				{
+					if(channelsMap.at(message[1])->getHasOwner() &&  clt.at(fds[i].fd).getNickname() == channelsMap.at(message[1])->getOwner())
+                    {
+                        channelsMap.at(message[1])->setHasOwner(false);
+                        channelsMap.at(message[1])->setOwner("");
+                    }
 					// check if the user is that we want to delete is an operator, if operator delete from the vector of operators and users
 					channelsMap.at(message[1])->eraseUser(clt.at(user));
 					channelsMap.at(message[1])->eraseOperator(clt.at(user));

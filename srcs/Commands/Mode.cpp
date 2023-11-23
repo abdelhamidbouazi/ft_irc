@@ -149,12 +149,11 @@ void HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i)
 	int mode;
 	if (checkModeArgs(message) == false)
 	{
-		// j
-		if (message[3].compare("s") == 0 || message[3].compare("n") == 0 || message[3].compare("+sn") == 0)
+		for (size_t j = 0; j < message.size(); j++){
+			std::cout << "**" << message[j] << "**" << std::endl;
+		}
+		if ((message[2] == "+" && message[3] == "sn") || message[2].empty() || message[3].empty())
 			return ;
-		// std::string str = "itlko";
-		// if(message[3].find(str) == std::string::npos)
-		// 	return;
 		sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NEEDMOREPARAMS("MODE", clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
 		return ;
 	}
