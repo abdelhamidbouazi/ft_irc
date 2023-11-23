@@ -18,7 +18,16 @@ void HDE::SocketHde::sendMessageToAllForMODE(int i, std::string channelname, std
                     add.push_back(itt->getClientId());
             }
             std::string nick = clt.at(fds[i].fd).getNickname();
-			std::string selfStr = ":" + clt.at(fds[i].fd).getNickname()  + "!" + clt.at(fds[i].fd).getNickname() + "@" + clt.at(fds[i].fd).getLocalhost() + " MODE " +  channelname + " " + param + " " + message + "\r\n";
+            std::string selfStr;
+            // if (param.compare("-k") == 0) {
+			//     selfStr = ":" + clt.at(fds[i].fd).getNickname()  + "!" + clt.at(fds[i].fd).getNickname() + "@" + clt.at(fds[i].fd).getLocalhost() + " MODE " +  channelname + " " + param + "\r\n";
+            // }
+            if (message.length() > 1) {
+			    selfStr = ":" + clt.at(fds[i].fd).getNickname()  + "!" + clt.at(fds[i].fd).getNickname() + "@" + clt.at(fds[i].fd).getLocalhost() + " MODE " +  channelname + " " + param + " " + message + "\r\n";
+            }
+            else {
+			    selfStr = ":" + clt.at(fds[i].fd).getNickname()  + "!" + clt.at(fds[i].fd).getNickname() + "@" + clt.at(fds[i].fd).getLocalhost() + " MODE " +  channelname + " " + param + "\r\n";
+            }
             for(size_t index = 0; index < add.size() ; index++)
                 sendMessage(selfStr, add.at(index));
         }

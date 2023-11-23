@@ -18,13 +18,13 @@ bool checkModeArgs(std::vector<std::string> message)
 			return true;
 		return false;
 	}
-	else if (checker == 'k' || checker == 'o')
+	else if (checker == 'o')
 	{
 		if (message.size() == 5)
 			return true;
 		return false;
 	}
-	else if (checker == 'l')
+	else if (checker == 'l' || checker == 'k' )
 	{
 		if (message[2].compare("+") == 0) {
 			if (message.size() != 5)
@@ -63,10 +63,14 @@ void HDE::SocketHde::modeT(std::vector<std::string> message, int mode, int i)
 {
 	if (channelsMap.find(message[1]) != channelsMap.end())
 	{
-		if (mode == 1)
+		if (mode == 1) {
 			channelsMap.at(message[1])->setIsTopic(false);
-		else if (mode == 0)
+			sendMessageToAllForMODE(i, message[1], "+t", "");
+		}
+		else if (mode == 0){
 			channelsMap.at(message[1])->setIsTopic(true);
+			sendMessageToAllForMODE(i, message[1], "-t", "");
+		}
 	}
 	else
 		sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NOSUCHCHANNEL(message[1], clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
@@ -77,10 +81,16 @@ void HDE::SocketHde::modeK(std::vector<std::string> message, int mode, int i)
 {
 	if (channelsMap.find(message[1]) != channelsMap.end())
 	{
-		if (mode == 1)
+		if (mode == 1) {
 			channelsMap.at(message[1])->setKey(message[4]);
-		else if (mode == 0)
+			sendMessageToAllForMODE(i, message[1], message[4], "+k");
+		}
+		else if (mode == 0){
+			std::cout << "DEBUG" << std::endl;
 			channelsMap.at(message[1])->setKey("");
+			std::cout << "DEBUG 2: " << channelsMap.at(message[1])->getKey() << std::endl;
+			sendMessageToAllForMODE(i, message[1], "-k", "");
+		}
 	}
 	else
 		sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NOSUCHCHANNEL(message[1], clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
@@ -139,8 +149,12 @@ void HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i)
 	int mode;
 	if (checkModeArgs(message) == false)
 	{
-		if (message[3].compare("i") != 0 || message[3].compare("t") != 0 || message[3].compare("l") != 0 || message[3].compare("k") != 0 || message[3].compare("o") != 0)
-			return ;
+		// j
+		// if (message[3].compare("i") != 0 || message[3].compare("t") != 0 || message[3].compare("l") != 0 || message[3].compare("k") != 0 || message[3].compare("o") != 0)
+		// 	return ;
+		std::string str = "itlko";
+		if(message[3].find(str) == std::string::npos)
+			return; 
 		sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NEEDMOREPARAMS("MODE", clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
 		return ;
 	}
