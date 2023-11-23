@@ -93,14 +93,22 @@ void HDE::SocketHde::modeO(std::vector<std::string> message, int mode, int user,
 	{
 		if (mode == 1)
 		{
-			if (channelsMap.at(message[1])->addOperators(clt.at(user)))
-				sendMessage(":@" + clt.at(fds[i].fd).getNickname() + " Added you operator to " + channelsMap.at(message[1])->getChannelName() + " " + clt.at(user).getNickname() + "\r\n", clt.at(user).getClientId());
-			else
+			if (channelsMap.at(message[1])->addOperators(clt.at(user))) {
+				sendMessageToAllForMODEO(i, message[1], message[4], "+o");
+				// std::string selfStr = ":" + clt.at(fds[i].fd).getNickname()  + "!" + clt.at(fds[i].fd).getNickname() + "@" + clt.at(fds[i].fd).getLocalhost() + " MODE " +  channelsMap.at(message[1])->getChannelName() + " +o " + message[4] + "\r\n";
+				// sendMessage(selfStr, clt.at(user).getClientId());
+				// sendMessage(selfStr, clt.at(fds[i].fd).getClientId());
+			}
+			else {
 				sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_USERNOTINCHANNEL(clt.at(fds[i].fd).getNickname(), channelsMap.at(message[1])->getChannelName()), clt.at(fds[i].fd).getClientId());
+			}
 		}
 		else if (mode == 0)
 		{
-			sendMessage(":@" + clt.at(fds[i].fd).getNickname() + " Remove your operator mode from " + channelsMap.at(message[1])->getChannelName() + " " + clt.at(user).getNickname() + "\r\n", clt.at(user).getClientId());
+			sendMessageToAllForMODEO(i, message[1], message[4], "-o");
+			// std::string selfStr = ":" + clt.at(fds[i].fd).getNickname()  + "!" + clt.at(fds[i].fd).getNickname() + "@" + clt.at(fds[i].fd).getLocalhost() + " MODE " +  channelsMap.at(message[1])->getChannelName() + " -o " + message[4] + "\r\n";
+			// sendMessage(selfStr, clt.at(user).getClientId());
+			// sendMessage(selfStr, clt.at(fds[i].fd).getClientId());
 			channelsMap.at(message[1])->eraseOperator(clt.at(user));
 		}
 	}

@@ -18,7 +18,7 @@ void HDE::SocketHde::sendMessageToAllForInvite(int i, std::string channelname, s
             std::vector<Client>::iterator itt;
             for(itt = tmp.begin(); itt != tmp.end(); itt++)
             {
-                if(itt->getNickname() != clt.at(fds[i].fd).getNickname())
+                // if(itt->getNickname() != clt.at(fds[i].fd).getNickname())
                     add.push_back(itt->getClientId());
             }
             std::string nick = clt.at(fds[i].fd).getNickname();

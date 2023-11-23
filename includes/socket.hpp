@@ -64,7 +64,7 @@ namespace HDE
 			// test tools
 			void test_connection(int item_to_test);
 			void test_connection_for_setsockopt(int item_to_test);
-			
+
 			// getters
 			struct sockaddr_in get_address();
 			std::string getPassword();
@@ -120,6 +120,7 @@ namespace HDE
 			void	sendMessageToAllForQuit(int i, std::string channelname);
 			void	sendMessageToAllForInvite(int i, std::string channelname, std::string message);
 			void	sendMessageToAllForKick(int i, std::string channelname, std::string message, std::string _nickname);
+			void	sendMessageToAllForMODEO(int i, std::string channelname, std::string message, std::string param);
 	};
 }
 
