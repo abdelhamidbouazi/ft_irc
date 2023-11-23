@@ -3,7 +3,6 @@
 #include "../../includes/Replies.hpp"
 #include "../../includes/socket.hpp"  
 
-
 void HDE::SocketHde::Bot(int i)
 {
    std::time_t now = std::time(nullptr);

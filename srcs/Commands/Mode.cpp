@@ -149,12 +149,13 @@ void HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i)
 	int mode;
 	if (checkModeArgs(message) == false)
 	{
-		for (size_t j = 0; j < message.size(); j++){
-			std::cout << "**" << message[j] << "**" << std::endl;
-		}
-		if ((message[2] == "+" && message[3] == "sn") || message[2].empty() || message[3].empty())
-			return ;
-		sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NEEDMOREPARAMS("MODE", clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
+		// for (size_t j = 0; j < message.size(); j++){
+		// 	std::cout << "**" << message[j] << "**" << std::endl;
+		// }
+		// if ((message[2] == "+" && message[3] == "sn") || message[2].empty() || message[3].empty())
+		// 	return ;
+		if(message[3][0] == 'l' ||  message[3][0] == 'i'  || message[3][0] == 'o'  || message[3][0] == 'k'  || message[3][0] == 't' )
+			sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NEEDMOREPARAMS("MODE", clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
 		return ;
 	}
 	if (CheckChannelsMap(message, 1) == false || channelsMap.empty())
