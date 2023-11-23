@@ -64,6 +64,11 @@ bool HDE::SocketHde::CheckKICK(std::vector<std::string> message, int i)
 			{
 				if (it->getNickname() == message[2])
 				{
+					if(channelsMap.at(message[1])->getHasOwner() &&  clt.at(fds[i].fd).getNickname() == channelsMap.at(message[1])->getOwner())
+                    {
+                        channelsMap.at(message[1])->setHasOwner(false);
+                        channelsMap.at(message[1])->setOwner("");
+                    }
 					// check if the user is that we want to delete is an operator, if operator delete from the vector of operators and users
 					channelsMap.at(message[1])->eraseUser(clt.at(user));
 					channelsMap.at(message[1])->eraseOperator(clt.at(user));
