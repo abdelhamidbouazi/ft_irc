@@ -125,6 +125,19 @@ bool Channel::eraseUser(Client c)
 	return false;
 }
 
+bool Channel::eraseUser(std::string nickname)
+{
+	for (std::vector<Client>::iterator it = users.begin(); it != users.end(); ++it)
+	{
+		if (it->getNickname() == nickname)
+		{
+			users.erase(it);
+			return true;
+		}
+	}
+	return false;
+}
+
 std::string Channel::getChannelName()
 {
 	return channel;
@@ -182,7 +195,6 @@ void Channel::setChannel(std::string _channel)
 void Channel::setlimitUsers(int _limit)
 {
 	this->limitUsers = _limit;
-	std::cout << "limite setted to : " << this->limitUsers;
 }
 
 void Channel::setInviteOnly(bool _val)

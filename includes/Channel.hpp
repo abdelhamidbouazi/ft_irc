@@ -51,6 +51,7 @@ class Channel
 		void setKey(std::string _key);
 		bool eraseOperator(Client c);
 		bool eraseUser(Client c);
+		bool eraseUser(std::string nickname);
 		bool eraseInvitedUser(std::string name);
 		void setOwner(std::string name);
 		void setTopic(std::string topic);

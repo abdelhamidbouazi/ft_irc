@@ -240,5 +240,4 @@ void HDE::SocketHde::CleanQuit(std::string nickname, int i)
     clt.erase(fds[i].fd);
     close(fds[i].fd);
     fds.erase(fds.begin() + i);
-    std::cout << "Erased\n";
 }

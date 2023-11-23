@@ -28,8 +28,18 @@ void HDE::SocketHde::commands(std::vector<std::string> message, std::vector<std:
 	}
 	else if (message[0].compare("QUIT") == 0)
 		CheckQUIT(i);
-	else if (message[0].compare("NICK") == 0)
+	else if (message[0].compare("NICK") == 0){
+		std::string oldNick = clt.at(fds[i].fd).getNickname();
 		CheckNICK(message, clt.at(fds[i].fd), i);
+		std::map<std::string, Channel*>::iterator it;
+		for (it = channelsMap.begin(); it != channelsMap.end(); it++){
+			if (checkUserInChannel(it->second, oldNick) == true) {
+				it->second->eraseUser(oldNick);
+				it->second->addUsers(clt.at(fds[i].fd));
+				sendMessageToAllForNICK(i, it->second->getChannelName(), clt.at(fds[i].fd).getNickname(), oldNick);
+			}
+		}
+	}
 	else if (message[0].compare("JOIN") == 0)
 		Join(joinVector, i);
 	else if (message[0].compare("PART") == 0)
