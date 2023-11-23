@@ -71,13 +71,14 @@ void HDE::SocketHde::start_polling()
             if (connection == -1)
             {
                 std::cerr << "accept: " << std::strerror(errno) << std::endl;
-                exit(EXIT_FAILURE);
-                // if (errno != EWOULDBLOCK)
-                // {
-                //     perror("accept() failed");
-                //     close(sock);
-                //     end_server = true;
-                // }
+                // CheckQUIT(0);
+                // exit(EXIT_FAILURE);
+                if (errno != EWOULDBLOCK)
+                {
+                    perror("accept() failed");
+                    close(sock);
+                    end_server = true;
+                }
             }
             clt.insert(std::pair<int, Client>(connection, Client(connection)));
             clt.at(connection).setLocalhost(ClientIp(connection));
@@ -239,5 +240,4 @@ void HDE::SocketHde::CleanQuit(std::string nickname, int i)
     clt.erase(fds[i].fd);
     close(fds[i].fd);
     fds.erase(fds.begin() + i);
-    std::cout << "Erased\n";
 }

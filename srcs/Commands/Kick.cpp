@@ -13,7 +13,7 @@ void HDE::SocketHde::sendMessageToAllForKick(int i, std::string channelname, std
             std::vector<Client>::iterator itt;
             for(itt = tmp.begin(); itt != tmp.end(); itt++)
             {
-                if(itt->getNickname() != clt.at(fds[i].fd).getNickname())
+                // if(itt->getNickname() != clt.at(fds[i].fd).getNickname())
                     add.push_back(itt->getClientId());
             }
             std::string nick = clt.at(fds[i].fd).getNickname();
@@ -32,7 +32,7 @@ void HDE::SocketHde::sendMessageToAllForKick(int i, std::string channelname, std
 
 bool HDE::SocketHde::CheckKICK(std::vector<std::string> message, int i)
 {
-	// std::cout 
+	// std::cout
 	if (message.size() < 3 || message.size() > 5)
 	{
 		// sendMessageToAllForKick(i, );

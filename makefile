@@ -10,7 +10,7 @@ Header =	./includes/socket.hpp \
 			./includes/Channel.hpp \
 
 # VERSION = -std=c++98 -Wall -Wextra -Werror  -fsanitize=address
-VERSION = -std=c++98 -Wall -Wextra -Werror  
+VERSION = -std=c++98 -Wall -Wextra -Werror
 
 SRC =	./srcs/main.cpp \
 		./srcs/socket.cpp \
@@ -21,6 +21,7 @@ SRC =	./srcs/main.cpp \
 		./srcs/Replies.cpp \
 		./srcs/Channel.cpp \
 		./srcs/Check.cpp \
+		./srcs/SendMessage.cpp \
 		./srcs/Commands/Mode.cpp \
 		./srcs/Commands/Join.cpp \
 		./srcs/Commands/Part.cpp \
@@ -32,7 +33,7 @@ SRC =	./srcs/main.cpp \
 		./srcs/Commands/User.cpp \
 		./srcs/Commands/Nick.cpp \
 		./srcs/Commands/Pass.cpp \
-		./srcs/Commands/Quit.cpp 
+		./srcs/Commands/Quit.cpp
 
 OBJECTS = $(SRC:.cpp=.o)
 

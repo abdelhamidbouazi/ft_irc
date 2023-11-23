@@ -71,7 +71,6 @@ void HDE::SocketHde::CheckQUIT(int i)
 		clt.at(fds[i].fd).eraseUser(clt.at(fds[i].fd));
 		clt.at(fds[i].fd).removeUserFromMap(nickname);
 		CleanQuit(clt.at(fds[i].fd).getNickname(), i);
-		std::cout << "joined to channels and channels not empty\n";
 		flagQuit = 1;
 	}
 }

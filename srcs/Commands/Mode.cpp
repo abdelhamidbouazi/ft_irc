@@ -6,7 +6,6 @@
 
 bool checkModeArgs(std::vector<std::string> message)
 {
-	// std::cout << "The message size is : " << message.size() << std::endl;
 	if (message[3].length() > 2)
 	{
 		return false;
@@ -93,14 +92,22 @@ void HDE::SocketHde::modeO(std::vector<std::string> message, int mode, int user,
 	{
 		if (mode == 1)
 		{
-			if (channelsMap.at(message[1])->addOperators(clt.at(user)))
-				sendMessage(":@" + clt.at(fds[i].fd).getNickname() + " Added you operator to " + channelsMap.at(message[1])->getChannelName() + " " + clt.at(user).getNickname() + "\r\n", clt.at(user).getClientId());
-			else
+			if (channelsMap.at(message[1])->addOperators(clt.at(user))) {
+				sendMessageToAllForMODEO(i, message[1], message[4], "+o");
+				// std::string selfStr = ":" + clt.at(fds[i].fd).getNickname()  + "!" + clt.at(fds[i].fd).getNickname() + "@" + clt.at(fds[i].fd).getLocalhost() + " MODE " +  channelsMap.at(message[1])->getChannelName() + " +o " + message[4] + "\r\n";
+				// sendMessage(selfStr, clt.at(user).getClientId());
+				// sendMessage(selfStr, clt.at(fds[i].fd).getClientId());
+			}
+			else {
 				sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_USERNOTINCHANNEL(clt.at(fds[i].fd).getNickname(), channelsMap.at(message[1])->getChannelName()), clt.at(fds[i].fd).getClientId());
+			}
 		}
 		else if (mode == 0)
 		{
-			sendMessage(":@" + clt.at(fds[i].fd).getNickname() + " Remove your operator mode from " + channelsMap.at(message[1])->getChannelName() + " " + clt.at(user).getNickname() + "\r\n", clt.at(user).getClientId());
+			sendMessageToAllForMODEO(i, message[1], message[4], "-o");
+			// std::string selfStr = ":" + clt.at(fds[i].fd).getNickname()  + "!" + clt.at(fds[i].fd).getNickname() + "@" + clt.at(fds[i].fd).getLocalhost() + " MODE " +  channelsMap.at(message[1])->getChannelName() + " -o " + message[4] + "\r\n";
+			// sendMessage(selfStr, clt.at(user).getClientId());
+			// sendMessage(selfStr, clt.at(fds[i].fd).getClientId());
 			channelsMap.at(message[1])->eraseOperator(clt.at(user));
 		}
 	}
@@ -112,14 +119,10 @@ void HDE::SocketHde::modeL(std::vector<std::string> message, int mode)
 {
 
 	if (mode == 1 && std::atoi(message[4].c_str()) > 0) {
-		std::cout << "Entred ModeL and inside mode1: " << std::atoi(message[4].c_str()) << std::endl;
 		channelsMap.at(message[1])->setlimitUsers(std::atoi(message[4].c_str()));
-		std::cout << "exited ModeL and inside mode1: " << std::endl;
 	}
 	else if (mode == 0) {
-		std::cout << "Entred ModeL and inside mode0" << std::endl;
 		channelsMap.at(message[1])->setlimitUsers(-1);
-		std::cout << "exited ModeL and inside mode0" << std::endl;
 	}
 }
 
@@ -132,7 +135,6 @@ void HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i)
 {
 
 	int mode;
-	std::cout << "size of message : " << message.size() << std::endl;
 	if (checkModeArgs(message) == false)
 	{
 		if (message[3].compare("i") != 0 || message[3].compare("t") != 0 || message[3].compare("l") != 0 || message[3].compare("k") != 0 || message[3].compare("o") != 0)
@@ -184,9 +186,7 @@ void HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i)
 		}
 		else if (message[3].compare("l") == 0)
 		{
-			std::cout << "Entred the modeL function" << std::endl;
 			modeL(message, mode);
-			std::cout << "Exited the modeL function" << std::endl;
 		}
 		else
 			sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_UNKNOWNMODE(message[3][0], channelsMap.at(message[1])->getChannelName()), clt.at(fds[i].fd).getClientId());
