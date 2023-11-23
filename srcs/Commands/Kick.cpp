@@ -55,7 +55,6 @@ bool HDE::SocketHde::CheckKICK(std::vector<std::string> message, int i)
 		sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NOSUCHNICK(clt.at(fds[i].fd).getNickname(), message[2]), clt.at(fds[i].fd).getClientId());
 		return false;
 	}
-
 	if (isOperator)
 	{
 		int user = Client::getIdByUsername(message[2]);
@@ -66,7 +65,7 @@ bool HDE::SocketHde::CheckKICK(std::vector<std::string> message, int i)
 			{
 				if (it->getNickname() == message[2])
 				{
-					if(channelsMap.at(message[1])->getHasOwner() &&  clt.at(fds[i].fd).getNickname() == channelsMap.at(message[1])->getOwner())
+					if(channelsMap.at(message[1])->getHasOwner() &&  clt.at(user).getNickname() == channelsMap.at(message[1])->getOwner())
                     {
                         channelsMap.at(message[1])->setHasOwner(false);
                         channelsMap.at(message[1])->setOwner("");
