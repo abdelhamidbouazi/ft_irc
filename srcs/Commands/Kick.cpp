@@ -18,14 +18,16 @@ void HDE::SocketHde::sendMessageToAllForKick(int i, std::string channelname, std
             }
             std::string nick = clt.at(fds[i].fd).getNickname();
 			std::string selfStr;
-			if (message.length() > 0) {
-            	selfStr = ":" + nick  + "!" + nick + "@" + clt.at(fds[i].fd).getLocalhost() + " KICK " +  channelname + " " + _nickname + " :" + message + "\r\n";
+			if (message == "") {
+            	selfStr = ":" + nick  + "!" + nick + "@" + clt.at(fds[i].fd).getLocalhost() + " KICK " +  channelname + " " + _nickname + " :Kicked from the channel" + "\r\n";
+            	for(size_t index = 0; index < add.size() ; index++)
+                	sendMessage(selfStr, add.at(index));
 			}
 			else {
-            	selfStr = ":" + nick  + "!" + nick + "@" + clt.at(fds[i].fd).getLocalhost() + " KICK " +  channelname + " " + _nickname + " :Kicked from the channel" + "\r\n";
+            	selfStr = ":" + nick  + "!" + nick + "@" + clt.at(fds[i].fd).getLocalhost() + " KICK " +  channelname + " " + _nickname + " :" + message + "\r\n";
+            	for(size_t index = 0; index < add.size() ; index++)
+                	sendMessage(selfStr, add.at(index));
 			}
-            for(size_t index = 0; index < add.size() ; index++)
-                sendMessage(selfStr, add.at(index));
         }
     }
 }
