@@ -93,7 +93,7 @@ void HDE::SocketHde::modeO(std::vector<std::string> message, int mode, int user,
 		if (mode == 1)
 		{
 			if (channelsMap.at(message[1])->addOperators(clt.at(user))) {
-				sendMessageToAllForMODEO(i, message[1], message[4], "+o");
+				sendMessageToAllForMODE(i, message[1], message[4], "+o");
 				// std::string selfStr = ":" + clt.at(fds[i].fd).getNickname()  + "!" + clt.at(fds[i].fd).getNickname() + "@" + clt.at(fds[i].fd).getLocalhost() + " MODE " +  channelsMap.at(message[1])->getChannelName() + " +o " + message[4] + "\r\n";
 				// sendMessage(selfStr, clt.at(user).getClientId());
 				// sendMessage(selfStr, clt.at(fds[i].fd).getClientId());
@@ -104,7 +104,7 @@ void HDE::SocketHde::modeO(std::vector<std::string> message, int mode, int user,
 		}
 		else if (mode == 0)
 		{
-			sendMessageToAllForMODEO(i, message[1], message[4], "-o");
+			sendMessageToAllForMODE(i, message[1], message[4], "-o");
 			// std::string selfStr = ":" + clt.at(fds[i].fd).getNickname()  + "!" + clt.at(fds[i].fd).getNickname() + "@" + clt.at(fds[i].fd).getLocalhost() + " MODE " +  channelsMap.at(message[1])->getChannelName() + " -o " + message[4] + "\r\n";
 			// sendMessage(selfStr, clt.at(user).getClientId());
 			// sendMessage(selfStr, clt.at(fds[i].fd).getClientId());
@@ -115,13 +115,15 @@ void HDE::SocketHde::modeO(std::vector<std::string> message, int mode, int user,
 		sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NOSUCHCHANNEL(message[1], clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
 }
 
-void HDE::SocketHde::modeL(std::vector<std::string> message, int mode)
+void HDE::SocketHde::modeL(std::vector<std::string> message, int mode, int i)
 {
 
 	if (mode == 1 && std::atoi(message[4].c_str()) > 0) {
+		sendMessageToAllForMODE(i, message[1], "+l", message[4]);
 		channelsMap.at(message[1])->setlimitUsers(std::atoi(message[4].c_str()));
 	}
 	else if (mode == 0) {
+		sendMessageToAllForMODE(i, message[1], "-l", "");
 		channelsMap.at(message[1])->setlimitUsers(-1);
 	}
 }
@@ -186,7 +188,7 @@ void HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i)
 		}
 		else if (message[3].compare("l") == 0)
 		{
-			modeL(message, mode);
+			modeL(message, mode, i);
 		}
 		else
 			sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_UNKNOWNMODE(message[3][0], channelsMap.at(message[1])->getChannelName()), clt.at(fds[i].fd).getClientId());

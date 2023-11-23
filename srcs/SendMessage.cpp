@@ -2,7 +2,7 @@
 #include "../includes/Replies.hpp"
 
 // this can be usefull for all mode
-void HDE::SocketHde::sendMessageToAllForMODEO(int i, std::string channelname, std::string message, std::string param)
+void HDE::SocketHde::sendMessageToAllForMODE(int i, std::string channelname, std::string message, std::string param)
 {
     std::map<std::string, Channel*>::iterator it;
     for(it = channelsMap.begin(); it != channelsMap.end() ; ++it)
@@ -24,6 +24,7 @@ void HDE::SocketHde::sendMessageToAllForMODEO(int i, std::string channelname, st
         }
     }
 }
+
 
 
 void HDE::SocketHde::sendMessageToAllForNICK(int i, std::string channelname, std::string newNick, std::string oldNick)
