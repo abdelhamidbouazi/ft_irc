@@ -2,7 +2,7 @@
 #include "../includes/Replies.hpp"
 
 // this can be usefull for all mode
-void HDE::SocketHde::sendMessageToAllForMODEO(int i, std::string channelname, std::string message, std::string param)
+void HDE::SocketHde::sendMessageToAllForMODE(int i, std::string channelname, std::string message, std::string param)
 {
     std::map<std::string, Channel*>::iterator it;
     for(it = channelsMap.begin(); it != channelsMap.end() ; ++it)
@@ -18,12 +18,22 @@ void HDE::SocketHde::sendMessageToAllForMODEO(int i, std::string channelname, st
                     add.push_back(itt->getClientId());
             }
             std::string nick = clt.at(fds[i].fd).getNickname();
-			std::string selfStr = ":" + clt.at(fds[i].fd).getNickname()  + "!" + clt.at(fds[i].fd).getNickname() + "@" + clt.at(fds[i].fd).getLocalhost() + " MODE " +  channelname + " " + param + " " + message + "\r\n";
+            std::string selfStr;
+            // if (param.compare("-k") == 0) {
+			//     selfStr = ":" + clt.at(fds[i].fd).getNickname()  + "!" + clt.at(fds[i].fd).getNickname() + "@" + clt.at(fds[i].fd).getLocalhost() + " MODE " +  channelname + " " + param + "\r\n";
+            // }
+            if (message.length() > 1) {
+			    selfStr = ":" + clt.at(fds[i].fd).getNickname()  + "!" + clt.at(fds[i].fd).getNickname() + "@" + clt.at(fds[i].fd).getLocalhost() + " MODE " +  channelname + " " + param + " " + message + "\r\n";
+            }
+            else {
+			    selfStr = ":" + clt.at(fds[i].fd).getNickname()  + "!" + clt.at(fds[i].fd).getNickname() + "@" + clt.at(fds[i].fd).getLocalhost() + " MODE " +  channelname + " " + param + "\r\n";
+            }
             for(size_t index = 0; index < add.size() ; index++)
                 sendMessage(selfStr, add.at(index));
         }
     }
 }
+
 
 
 void HDE::SocketHde::sendMessageToAllForNICK(int i, std::string channelname, std::string newNick, std::string oldNick)

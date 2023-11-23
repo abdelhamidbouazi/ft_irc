@@ -97,7 +97,7 @@ namespace HDE
 			void	modeI(std::vector<std::string> message, int mode, int i);
 			void	modeK(std::vector<std::string> message,int mode, int i);
 			void	modeO(std::vector<std::string> message,int mode, int user, int i);
-			void	modeL(std::vector<std::string> message,int mode);
+			void	modeL(std::vector<std::string> message,int mode, int i);
 			bool	checkUserInChannelOperator(Channel *chan, std::string name);
 			bool	checkUserInChannel(Channel *chan, std::string name);
 
@@ -120,7 +120,8 @@ namespace HDE
 			void	sendMessageToAllForQuit(int i, std::string channelname);
 			void	sendMessageToAllForInvite(int i, std::string channelname, std::string message);
 			void	sendMessageToAllForKick(int i, std::string channelname, std::string message, std::string _nickname);
-			void	sendMessageToAllForMODEO(int i, std::string channelname, std::string message, std::string param);
+			void	sendMessageToAllForMODE(int i, std::string channelname, std::string message, std::string param);
+			// void	sendMessageToAllForMODEL(int i, std::string channelname, std::string message, std::string param);
 			void	sendMessageToAllForNICK(int i, std::string channelname, std::string newNick, std::string oldNick);
 	};
 }
