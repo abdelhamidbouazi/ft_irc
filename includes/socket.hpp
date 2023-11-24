@@ -63,7 +63,6 @@ namespace HDE
 
 			// test tools
 			void test_connection(int item_to_test);
-			void test_connection_for_setsockopt(int item_to_test);
 
 			// getters
 			struct sockaddr_in get_address();

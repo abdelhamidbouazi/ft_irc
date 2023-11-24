@@ -18,15 +18,15 @@ HDE::SocketHde::SocketHde(int domain, int service, int protocol, int port, unsig
 
     sock = socket(domain, service, protocol);
     test_connection(sock);
-    on = 1;
-    rc = setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, (char *)&on, sizeof(on));
-    test_connection_for_setsockopt(rc);
     if (fcntl(sock, F_SETFL, O_NONBLOCK) == -1)
     {
         perror("Failled to set socket to non blocking...");
         close(sock);
         exit(EXIT_FAILURE);
     }
+    on = 1;
+    rc = setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, (char *)&on, sizeof(on));
+    test_connection(rc);
     binding = bind(sock, (struct sockaddr *)&address, sizeof(address));
     set_connection(binding);
     test_connection(get_connection());
@@ -49,36 +49,22 @@ void HDE::SocketHde::start_polling()
     while (!end_server)
     {
         int rc = poll(&fds[0], fds.size(), timeout);
-
-        if (rc < 0)
+        if (rc == -1)
         {
-            perror("poll() failed");
+            std::cerr << "poll() failed" << std::endl;
             close(sock);
-            break;
-        }
-        else if (rc == 0)
-        {
-            std::cout << "poll() timed out. End program." << std::endl;
-            break;
+            exit(EXIT_FAILURE);
         }
         else if (fds[0].revents & POLLIN)
         {
             std::cout << "Listening socket is readable" << std::endl;
-
             struct sockaddr_in client_addr;
             socklen_t client_len = sizeof(client_addr);
             int connection = accept(sock, (struct sockaddr *)&client_addr, &client_len);
             if (connection == -1)
             {
-                std::cerr << "accept: " << std::strerror(errno) << std::endl;
-                // CheckQUIT(0);
-                // exit(EXIT_FAILURE);
-                if (errno != EWOULDBLOCK)
-                {
-                    perror("accept() failed");
-                    close(sock);
-                    end_server = true;
-                }
+                std::cerr << "accept() failed" << std::endl;
+                exit(EXIT_FAILURE);
             }
             clt.insert(std::pair<int, Client>(connection, Client(connection)));
             clt.at(connection).setLocalhost(ClientIp(connection));
@@ -101,9 +87,9 @@ void HDE::SocketHde::start_polling()
                         CheckQUIT(i);
                         std::cout << "Connection closed" << std::endl;
                     }
-                    else if (errno != EWOULDBLOCK)
+                    else 
                     {
-                        perror("recv() failed");
+                        std::cerr << "recv() failed" << std::endl;
                         close(fds[i].fd);
                     }
                 }
@@ -137,15 +123,6 @@ void HDE::SocketHde::test_connection(int item_to_test)
     if (item_to_test < 0)
     {
         perror("Failed to connect...");
-        exit(EXIT_FAILURE);
-    }
-}
-
-void HDE::SocketHde::test_connection_for_setsockopt(int item_to_test)
-{
-    if (item_to_test < 0)
-    {
-        perror("Failled to set socket option...");
         close(sock);
         exit(EXIT_FAILURE);
     }
@@ -174,6 +151,8 @@ std::string HDE::SocketHde::ClientIp(int socket)
             localhost = buffer;
             if (localhost == "127.0.0.1")
                 localhost = getHostAdresse();
+            // std::cout << "Client IP is : " << localhost << std::endl;
+            // std::cout << "Client port is : " << ntohs(clientAddress.sin_port) << std::endl;
             return localhost;
         }
         else

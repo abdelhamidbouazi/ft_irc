@@ -93,6 +93,8 @@ void HDE::SocketHde::Join(std::vector<std::pair<std::string, std::string > > joi
                                 clt.at(fds[i].fd).setChannelCount(clt.at(fds[i].fd).getChannelCount() + 1);
                                 channelsMap.at(temp.first)->addUsers(clt.at(fds[i].fd));
                                 sendMessageToAll(i, temp.first);
+                                if(invite_only && invited_user)
+                                    channelsMap.at(temp.first)->eraseInvitedUser(clt.at(fds[i].fd).getNickname());
                             }
                         }
                         else
