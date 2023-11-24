@@ -19,50 +19,16 @@ void HDE::SocketHde::sendMessageToAllForKick(int i, std::string channelname, std
             	selfStr = ":" + nick  + "!" + nick + "@" + clt.at(fds[i].fd).getLocalhost() + " KICK " +  channelname + " " + _nickname + " :" + message +   "\r\n";
 			else
             	selfStr = ":" + nick  + "!" + nick + "@" + clt.at(fds[i].fd).getLocalhost() + " KICK " +  channelname + " " + _nickname +   "\r\n";
-            // sendMessage(selfStr, clt.at(fds[i].fd).getClientId());
             for(size_t index = 0; index < add.size() ; index++)
                 sendMessage(selfStr, add.at(index));
         }
     }
 }
 
-// void HDE::SocketHde::sendMessageToAllForKick(int i, std::string channelname, std::string message, std::string _nickname)
-// {
-//     std::map<std::string, Channel*>::iterator it;
-//     for(it = channelsMap.begin(); it != channelsMap.end() ; ++it)
-//     {
-//         if(it->first == channelname)
-//         {
-//             std::vector<Client> tmp = it->second->getUsers();
-//             std::vector<int > add;
-//             std::vector<Client>::iterator itt;
-//             for(itt = tmp.begin(); itt != tmp.end(); itt++)
-//             {
-//                 // if(itt->getNickname() != clt.at(fds[i].fd).getNickname())
-//                     add.push_back(itt->getClientId());
-//             }
-//             std::string nick = clt.at(fds[i].fd).getNickname();
-// 			std::string selfStr;
-// 			if (message == "") {
-//             	selfStr = ":" + nick  + "!" + nick + "@" + clt.at(fds[i].fd).getLocalhost() + " KICK " +  channelname + " " + _nickname + " :KICKED" + "\r\n";
-//             	for(size_t index = 0; index < add.size() ; index++)
-//                 	sendMessage(selfStr, add.at(index));
-// 			}
-// 			else {
-//             	selfStr = ":" + nick  + "!" + nick + "@" + clt.at(fds[i].fd).getLocalhost() + " KICK " +  channelname + " " + _nickname + " :" + message + "\r\n";
-//             	for(size_t index = 0; index < add.size() ; index++)
-//                 	sendMessage(selfStr, add.at(index));
-// 			}
-//         }
-//     }
-// }
-
 bool HDE::SocketHde::CheckKICK(std::vector<std::string> message, int i)
 {
-	// std::cout
 	if (message.size() < 3 || message.size() > 5)
 	{
-		// sendMessageToAllForKick(i, );
 		sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NEEDMOREPARAMS("KICK", clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
 		return false;
 	}
@@ -95,25 +61,15 @@ bool HDE::SocketHde::CheckKICK(std::vector<std::string> message, int i)
 				if (channelsMap.at(message[1])->getUsers().at(index).getNickname() == message[2])
 				{
 					if (!message[3].empty())
-					{
-						// std::string rep = ":" + clt.at(fds[i].fd).getNickname()  + "!" + clt.at(fds[i].fd).getNickname() + "@" + clt.at(fds[i].fd).getLocalhost() + " KICK " +  message[1] + " " + message[2] + " "  + message[3] + "\r\n";
-						// sendMessageToAllForPart(user, message[1]);
 						sendMessageToAllForKick(i, message[1], message[3], clt.at(user).getNickname());
-						// sendMessage(rep, clt.at(user).getClientId());
-					}
 					else
-					{
-						// sendMessageToAllForPart(user, message[1]);
-						// std::string rep = ":" + clt.at(fds[i].fd).getNickname()  + "!" + clt.at(fds[i].fd).getNickname() + "@" + clt.at(fds[i].fd).getLocalhost() + " KICK " +  message[1] + " " + message[2] + "\r\n";
 						sendMessageToAllForKick(i, message[1], "", clt.at(user).getNickname());
-						// sendMessage(rep, clt.at(user).getClientId());
-					}
+						
 					if(channelsMap.at(message[1])->getHasOwner() &&  clt.at(user).getNickname() == channelsMap.at(message[1])->getOwner())
                     {
                         channelsMap.at(message[1])->setHasOwner(false);
                         channelsMap.at(message[1])->setOwner("");
                     }
-					// check if the user is that we want to delete is an operator, if operator delete from the vector of operators and users
 					channelsMap.at(message[1])->eraseUser(clt.at(user));
 					channelsMap.at(message[1])->eraseOperator(clt.at(user));
 					return true;

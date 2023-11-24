@@ -37,14 +37,14 @@ void HDE::SocketHde::Join(std::vector<std::pair<std::string, std::string > > joi
         {
             if(IsClientInVector(it->second->getUsers(), clt.at(fds[i].fd)))
             {
-                it->second->eraseUser(clt.at(fds[i].fd));
                 if(it->second->getHasOwner() &&  clt.at(fds[i].fd).getNickname() == it->second->getOwner())
                 {
                     it->second->setHasOwner(false);
                     it->second->setOwner("");
                 }
-                if(it->second->getLimitUsers() != -1)
-                    it->second->setlimitUsers(it->second->getLimitUsers() - 1 );
+                it->second->eraseUser(clt.at(fds[i].fd));
+                if(checkUserInChannelOperator(it->second, clt.at(fds[i].fd).getNickname()))
+                    it->second->eraseOperator(clt.at(fds[i].fd));
                 sendMessageToAllForPart(i, it->second->getChannelName());
             }
         }
@@ -63,17 +63,17 @@ void HDE::SocketHde::Join(std::vector<std::pair<std::string, std::string > > joi
                 if(clt.at(fds[i].fd).getChannelCount() >= USER_MAX_CHANNEL)
                 {
                     sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_TOOMANYCHANNELS(temp.first, clt.at(fds[i].fd).getNickname()),clt.at(fds[i].fd).getClientId());
-                    return;
+                    continue;
                 }
                 if(channelsMap.at(temp.first)->getLimitUsers() != -1 && channelsMap.at(temp.first)->getUsers().size() >= (size_t)channelsMap.at(temp.first)->getLimitUsers())
                 {
                     sendMessage(":" + clt.at(fds[i].fd).getLocalhost() +  ERR_CHANNELISFULL(temp.first, clt.at(fds[i].fd).getNickname()),clt.at(fds[i].fd).getClientId());
-                    return ;
+                    continue ;
                 }
                 else if(IsClientInVector(channelsMap.at(temp.first)->getUsers(), clt.at(fds[i].fd)))
                 {
                     sendMessage(":" + clt.at(fds[i].fd).getLocalhost() +  ERR_CHANNELISFULL(temp.first, clt.at(fds[i].fd).getNickname()),clt.at(fds[i].fd).getClientId());
-                    return ;
+                    continue ;
                 }
                 else if(channelsMap.at(temp.first)->getLimitUsers() == -1 || channelsMap.at(temp.first)->getUsers().size() < (size_t)channelsMap.at(temp.first)->getLimitUsers())
                 {
@@ -86,7 +86,7 @@ void HDE::SocketHde::Join(std::vector<std::pair<std::string, std::string > > joi
                             if(invite_only && !invited_user)
                             {
                                 sendMessage(":" + clt.at(fds[i].fd).getLocalhost() +  ERR_INVITEONLYCHAN(temp.first, clt.at(fds[i].fd).getNickname()),clt.at(fds[i].fd).getClientId());
-                                return ;
+                                continue ;
                             }
                             if((invite_only && invited_user) || !invite_only)
                             {
@@ -98,7 +98,7 @@ void HDE::SocketHde::Join(std::vector<std::pair<std::string, std::string > > joi
                         else
                         {
                             sendMessage(":" + clt.at(fds[i].fd).getLocalhost() +  ERR_BADCHANNELKEY(temp.first, clt.at(fds[i].fd).getNickname()),clt.at(fds[i].fd).getClientId());
-                            return ;
+                            continue ;
                         }
                     }
                     else
@@ -108,7 +108,7 @@ void HDE::SocketHde::Join(std::vector<std::pair<std::string, std::string > > joi
                         if(invite_only && !invited_user)
                         {
                             sendMessage(":" + clt.at(fds[i].fd).getLocalhost() +  ERR_INVITEONLYCHAN(temp.first, clt.at(fds[i].fd).getNickname()),clt.at(fds[i].fd).getClientId());
-                            return ;
+                            continue ;
                         }
                         if((invite_only && invited_user) || !invite_only)
                         {
