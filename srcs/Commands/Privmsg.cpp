@@ -109,11 +109,3 @@ void HDE::SocketHde::sendMessageToAllForPrivmsg(int i, std::string channelname, 
     }
 }
 
-// std::string reply = ":" + clt.at(fds[i].fd).getLocalhost() + " 001 " + clt.at(fds[i].fd).getNickname();
-// reply += " :Welcome to the Internet Relay Network " +  clt.at(fds[i].fd).getNickname() + "\n";
-// reply += ":" + clt.at(fds[i].fd).getLocalhost() + " 002 " + clt.at(fds[i].fd).getNickname();
-// reply += " :Your host is " + clt.at(fds[i].fd).getLocalhost() + ", running version 1.0\n";
-// reply += ":" + clt.at(fds[i].fd).getLocalhost() + " 003 " + clt.at(fds[i].fd).getNickname() + " :This server was created\n";
-// reply += ":" + clt.at(fds[i].fd).getLocalhost() + " 004 " + clt.at(fds[i].fd).getNickname();
-// reply += " " + clt.at(fds[i].fd).getLocalhost() + " 1.0\n";
-// sendMessage(reply, clt.at(fds[i].fd).getClientId());

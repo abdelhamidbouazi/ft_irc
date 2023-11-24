@@ -1,10 +1,6 @@
 #include "../../includes/socket.hpp"
 #include "../../includes/Replies.hpp"
 
-// bool isUserOperator(Client ctl, std::string user)
-// {
-// 	return ctl.getUsername() == user;
-// }
 
 void HDE::SocketHde::sendMessageToAllForInvite(int i, std::string channelname, std::string message)
 {
@@ -18,8 +14,7 @@ void HDE::SocketHde::sendMessageToAllForInvite(int i, std::string channelname, s
             std::vector<Client>::iterator itt;
             for(itt = tmp.begin(); itt != tmp.end(); itt++)
             {
-                // if(itt->getNickname() != clt.at(fds[i].fd).getNickname())
-                    add.push_back(itt->getClientId());
+                add.push_back(itt->getClientId());
             }
             std::string nick = clt.at(fds[i].fd).getNickname();
             std::string selfStr = ":" + nick  + "!" + nick + "@" + clt.at(fds[i].fd).getLocalhost() + " MODE " +  channelname + " " + message + "\r\n";

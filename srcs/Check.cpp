@@ -5,7 +5,6 @@
 
 bool HDE::SocketHde::CheckChannelsMap(std::vector<std::string> message, int place)
 {
-	// Check if the channel exists in the map
 	if (channelsMap.find(message[place]) != channelsMap.end())
 	{
 		return true;

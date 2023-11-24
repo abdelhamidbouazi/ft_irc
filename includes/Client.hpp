@@ -36,8 +36,6 @@ class Client
 		Client(int connection);
 		~Client();
 
-		// i add this
-
 		std::string commande_str;
 		bool getIsIn();
 		bool getMode();
@@ -57,7 +55,6 @@ class Client
 		static int getIdByUsername(std::string username);
 		std::time_t getStartTime() const;
 		std::string getLocalhost() const;
-		// int getCounter();
 		void removeUserFromMap(std::string nickname);
 		void setIsIn(bool isIn);
 		void setMode(bool mode);
@@ -72,14 +69,11 @@ class Client
 		bool eraseNickname(Client &c);
 		bool eraseUser(Client &c);
 		void setLocalhost(std::string localhost);
-		// void incrementCounter();
 		void setUFlag();
 		void setNFlag();
 
 		static bool CheckUser(std::vector<std::string> message, int place);
 };
-
-// Define the static vector of strings outside the class definition
 
 
 bool	Auth(std::vector<std::string> message, Client &c, std::string Password, std::map<std::string, Channel&> channelsMap, std::vector<std::pair<std::string , std::string > > joinVector);

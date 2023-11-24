@@ -121,7 +121,6 @@ namespace HDE
 			void	sendMessageToAllForInvite(int i, std::string channelname, std::string message);
 			void	sendMessageToAllForKick(int i, std::string channelname, std::string message, std::string _nickname);
 			void	sendMessageToAllForMODE(int i, std::string channelname, std::string message, std::string param);
-			// void	sendMessageToAllForMODEL(int i, std::string channelname, std::string message, std::string param);
 			void	sendMessageToAllForNICK(int i, std::string channelname, std::string newNick, std::string oldNick);
 	};
 }

@@ -71,8 +71,6 @@ void HDE::SocketHde::start_polling()
             if (connection == -1)
             {
                 std::cerr << "accept: " << std::strerror(errno) << std::endl;
-                // CheckQUIT(0);
-                // exit(EXIT_FAILURE);
                 if (errno != EWOULDBLOCK)
                 {
                     perror("accept() failed");

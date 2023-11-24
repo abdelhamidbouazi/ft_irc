@@ -117,7 +117,7 @@ int Client::getClientFd()
 	return clientFd;
 }
 
-void Client::removeUserFromMap(std::string nickname) 
+void Client::removeUserFromMap(std::string nickname)
 {
     usersIds.erase(nickname);
 }
@@ -144,7 +144,7 @@ void Client::setNickname(std::string nickname)
 {
 	this->nicknames.push_back(nickname);
 	this->nickname = nickname;
-	usersIds.insert(std::pair<std::string, int>(nickname, clientId)); // Add username and id to the map
+	usersIds.insert(std::pair<std::string, int>(nickname, clientId));
 }
 
 void Client::setFullName(std::string fullName)
@@ -157,7 +157,6 @@ void Client::addUser(std::string username, Client &c)
 	(void)c;
 	if (username.length() == 0)
 		return ;
-		// Replies::ERR_ALREADYREGISTRED(c);
 	if (username.length() > 1)
 	{
 		this->username = username;
@@ -182,11 +181,6 @@ void Client::setNFlag()
 	this->NFlag = true;
 }
 
-// void Client::incrementCounter()
-// {
-// 	this->counter++;
-// }
-
 int Client::getChannelCount()
 {
 	return this->channelCount;
@@ -194,33 +188,16 @@ int Client::getChannelCount()
 
 int Client::getIdByUsername(std::string username)
 {
-
-	// for(std::map<std::string, int>::iterator it = usersIds.begin(); it != usersIds.end() ; it++)
-	// 	std::cout << "client name is : " << it->first << " client id is : " << it->second << std::endl;
 	std::map<std::string, int>::iterator it = usersIds.find(username);
 	if (it != usersIds.end())
 	{
-		// std::cout << "function getIdByUsername: return : " << it->second<< std::endl;
-		// The username was found. Return the associated id.
 		return it->second;
 	}
 	else
 	{
-		std::cout << "User not found!!!" << std::endl;
-		// The username was not found. Return a sentinel value to indicate this.
-		// -1 is often used for this purpose, but you should choose a value that makes sense for your application.
 		return -1;
 	}
 }
-
-// Client& getUserById(int id) {
-//     std::map<int, Client&>::iterator it = users.find(id);
-//     if (it != users.end()) {
-//         return it->second;
-//     } else {
-//         throw std::runtime_error("User not found");
-//     }
-// }
 
 void Client::setChannelCount(int count)
 {

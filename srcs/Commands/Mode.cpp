@@ -86,9 +86,7 @@ void HDE::SocketHde::modeK(std::vector<std::string> message, int mode, int i)
 			sendMessageToAllForMODE(i, message[1], message[4], "+k");
 		}
 		else if (mode == 0){
-			std::cout << "DEBUG" << std::endl;
 			channelsMap.at(message[1])->setKey("");
-			std::cout << "DEBUG 2: " << channelsMap.at(message[1])->getKey() << std::endl;
 			sendMessageToAllForMODE(i, message[1], "-k", "");
 		}
 	}
@@ -104,9 +102,6 @@ void HDE::SocketHde::modeO(std::vector<std::string> message, int mode, int user,
 		{
 			if (channelsMap.at(message[1])->addOperators(clt.at(user))) {
 				sendMessageToAllForMODE(i, message[1], message[4], "+o");
-				// std::string selfStr = ":" + clt.at(fds[i].fd).getNickname()  + "!" + clt.at(fds[i].fd).getNickname() + "@" + clt.at(fds[i].fd).getLocalhost() + " MODE " +  channelsMap.at(message[1])->getChannelName() + " +o " + message[4] + "\r\n";
-				// sendMessage(selfStr, clt.at(user).getClientId());
-				// sendMessage(selfStr, clt.at(fds[i].fd).getClientId());
 			}
 			else {
 				sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_USERNOTINCHANNEL(clt.at(fds[i].fd).getNickname(), channelsMap.at(message[1])->getChannelName()), clt.at(fds[i].fd).getClientId());
@@ -115,9 +110,6 @@ void HDE::SocketHde::modeO(std::vector<std::string> message, int mode, int user,
 		else if (mode == 0)
 		{
 			sendMessageToAllForMODE(i, message[1], message[4], "-o");
-			// std::string selfStr = ":" + clt.at(fds[i].fd).getNickname()  + "!" + clt.at(fds[i].fd).getNickname() + "@" + clt.at(fds[i].fd).getLocalhost() + " MODE " +  channelsMap.at(message[1])->getChannelName() + " -o " + message[4] + "\r\n";
-			// sendMessage(selfStr, clt.at(user).getClientId());
-			// sendMessage(selfStr, clt.at(fds[i].fd).getClientId());
 			channelsMap.at(message[1])->eraseOperator(clt.at(user));
 		}
 	}
@@ -149,11 +141,6 @@ void HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i)
 	int mode;
 	if (checkModeArgs(message) == false)
 	{
-		// for (size_t j = 0; j < message.size(); j++){
-		// 	std::cout << "**" << message[j] << "**" << std::endl;
-		// }
-		// if ((message[2] == "+" && message[3] == "sn") || message[2].empty() || message[3].empty())
-		// 	return ;
 		if(message[3][0] == 'l' ||  message[3][0] == 'i'  || message[3][0] == 'o'  || message[3][0] == 'k'  || message[3][0] == 't' )
 			sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NEEDMOREPARAMS("MODE", clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
 		return ;
