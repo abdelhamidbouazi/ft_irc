@@ -1,6 +1,5 @@
 #include "../includes/Commande.hpp"
 
-
 HDE::Commande::Commande()
 {
 }
@@ -21,7 +20,6 @@ std::string& trim(std::string& s, const char* t = " \t\n\r\f\v")
 {
     return ltrim(rtrim(s, t), t);
 }
-
 
 void HDE::Commande::start_parssing(std::string& msg)
 {
@@ -66,7 +64,6 @@ void HDE::Commande::start_parssing(std::string& msg)
 		std::transform(msg.begin(), msg.end(), msg.begin(), ::toupper);
 	}
 }
-
 
 void HDE::Commande::splitTheJoinPram()
 {

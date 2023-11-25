@@ -12,11 +12,9 @@ bool HDE::SocketHde::isFound(const std::vector<std::string> &vec, const std::str
 	for (std::vector<std::string>::const_iterator it = vec.begin(); it != vec.end(); ++it)
 	{
 		if (*it == str)
-		{
-			return true; // The string exists in the vector
-		}
+			return true;
 	}
-	return false; // The string does not exist in the vector
+	return false;
 }
 
 void HDE::SocketHde::commands(std::vector<std::string> message, std::vector<std::pair<std::string, std::string  > > joinVector, int i)
@@ -53,9 +51,7 @@ void HDE::SocketHde::commands(std::vector<std::string> message, std::vector<std:
 	else if (message[0].compare("MODE") == 0)
 		CheckMODE(message, i);
 	else if (message[0].compare("KICK") == 0) {
-		if(CheckKICK(message, i))
-		{
-		}
+		if(CheckKICK(message, i)){}
 	}
 	else if (message[0].compare("INVITE") == 0)
 		CheckINVITE(message, i);
@@ -93,10 +89,7 @@ void HDE::SocketHde::Auth(std::vector<std::string> message, std::vector<std::pai
 			if (clt.at(fds[i].fd).isSettingsSetted() == false)
 			{
 				if (message[0].compare("PASS") == 0)
-				{
-					// sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_ALREADYREGISTRED(clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
 					return ;
-				}
 				std::string reply = ":" + clt.at(fds[i].fd).getLocalhost() + " 001 " + clt.at(fds[i].fd).getNickname();
 				reply += " :Welcome to the Internet Relay Network " +  clt.at(fds[i].fd).getNickname() + "\n";
 				reply += ":" + clt.at(fds[i].fd).getLocalhost() + " 002 " + clt.at(fds[i].fd).getNickname();
@@ -111,7 +104,6 @@ void HDE::SocketHde::Auth(std::vector<std::string> message, std::vector<std::pai
 						if (clt.at(fds[i].fd).getNFlag() == true && clt.at(fds[i].fd).getUFlag() == true && clt.at(fds[i].fd).isSettingsSetted() == false)
 						{
 							sendMessage(reply, clt.at(fds[i].fd).getClientId());
-							// sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + RPL_WELCOME(clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
 							clt.at(fds[i].fd).setIsSettingsSetted(true);
 						}
 						return ;
@@ -125,11 +117,8 @@ void HDE::SocketHde::Auth(std::vector<std::string> message, std::vector<std::pai
 						if (clt.at(fds[i].fd).getNFlag() == true && clt.at(fds[i].fd).getUFlag() == true && clt.at(fds[i].fd).isSettingsSetted() == false)
 						{
 							sendMessage(reply, clt.at(fds[i].fd).getClientId());
-							// sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + RPL_WELCOME(clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
 							clt.at(fds[i].fd).setIsSettingsSetted(true);
 						}
-						// std::cout << "Nickname is : " << clt.at(fds[i].fd).getNickname() << std::endl;
-						// return ;
 					}
 					return ;
 				}

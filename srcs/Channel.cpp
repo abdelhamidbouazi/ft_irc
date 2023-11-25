@@ -6,6 +6,7 @@
 #include <vector>
 
 Channel::Channel() {}
+
 Channel::Channel(std::string name, Client owner, std::string key)
 {
 	channel = name;
@@ -28,6 +29,7 @@ bool Channel::addInvitedUser(std::string name)
 	this->invitedUser.push_back(name);
 	return true;
 }
+
 bool Channel::eraseInvitedUser(std::string name)
 {
 	std::vector<std::string>::iterator it = find(invitedUser.begin(), invitedUser.end(), name);
@@ -37,10 +39,12 @@ bool Channel::eraseInvitedUser(std::string name)
 	invitedUser.erase(it);
 	return true;
 }
+
 std::string Channel::getOwner()
 {
 	return this->owner;
 }
+
 void Channel::setOwner(std::string name)
 {
 	this->owner = name;
@@ -70,6 +74,7 @@ void Channel::addUsers(Client c)
 {
 	users.push_back(c);
 }
+
 void Channel::addInvited(Client c)
 {
 	invitedUser.push_back(c.getNickname());
@@ -77,7 +82,6 @@ void Channel::addInvited(Client c)
 
 bool Channel::addOperators(Client c)
 {
-    // Check if client is already an operator
     for (std::vector<Client>::iterator op = operators.begin(); op != operators.end(); ++op) {
         if (op->getUsername() == c.getUsername()) {
             return false;
@@ -175,17 +179,6 @@ std::string Channel::getKey()
 {
 	return this->key;
 }
-
-// Client& Channel::getUserByName(std::string username) {
-//     for (std::vector<Client>::iterator it = users.begin(); it != users.end(); ++it) {
-//         if (it->getUsername() == username) {
-//             return *it;
-//         }
-//     }
-//     std::cout << "User not found" << std::endl;
-//     Client invalidUser(-1); // Create a special "invalid" user
-//     return invalidUser; // Return a reference to the "invalid" user
-// }
 
 void Channel::setChannel(std::string _channel)
 {

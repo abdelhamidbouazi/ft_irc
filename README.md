@@ -16,5 +16,5 @@ Welcome to the `ft_irc` project at 1337kh (42 network)! This README provides an 
 - **IRC Client**: Develop an IRC client that can connect to the server, join channels, and send/receive messages.
 - **Multi-Channel Support**: Users can create and join multiple chat channels for group communication.
 - **User Authentication**: Implement user authentication and access control for secure communication.
-- **Command Handling**: Support various IRC commands, such as JOIN, PRIVMSG, MODE, etc.
+- **Command Handling**: Support various IRC commands, such as JOIN, PReIVMSG, MODE, etc.
 - **Message History**: Store and retrieve message history for channels and private messages.

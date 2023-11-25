@@ -31,6 +31,7 @@ int GetUserIdByName(std::map<std::string, int> &AllUsers, std::string name)
         return id;
     }
 }
+
 void HDE::SocketHde::Privmsg(std::vector<std::string> message, int i)
 {
     std::vector<std:: string> target = splitPrivmsgArgs(message[1]);
@@ -84,8 +85,6 @@ void HDE::SocketHde::Privmsg(std::vector<std::string> message, int i)
     }
 }
 
-
-
 void HDE::SocketHde::sendMessageToAllForPrivmsg(int i, std::string channelname, std::string message)
 {
     std::map<std::string, Channel*>::iterator it;
@@ -108,12 +107,3 @@ void HDE::SocketHde::sendMessageToAllForPrivmsg(int i, std::string channelname, 
         }
     }
 }
-
-// std::string reply = ":" + clt.at(fds[i].fd).getLocalhost() + " 001 " + clt.at(fds[i].fd).getNickname();
-// reply += " :Welcome to the Internet Relay Network " +  clt.at(fds[i].fd).getNickname() + "\n";
-// reply += ":" + clt.at(fds[i].fd).getLocalhost() + " 002 " + clt.at(fds[i].fd).getNickname();
-// reply += " :Your host is " + clt.at(fds[i].fd).getLocalhost() + ", running version 1.0\n";
-// reply += ":" + clt.at(fds[i].fd).getLocalhost() + " 003 " + clt.at(fds[i].fd).getNickname() + " :This server was created\n";
-// reply += ":" + clt.at(fds[i].fd).getLocalhost() + " 004 " + clt.at(fds[i].fd).getNickname();
-// reply += " " + clt.at(fds[i].fd).getLocalhost() + " 1.0\n";
-// sendMessage(reply, clt.at(fds[i].fd).getClientId());

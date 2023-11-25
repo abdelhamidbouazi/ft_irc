@@ -151,8 +151,6 @@ std::string HDE::SocketHde::ClientIp(int socket)
             localhost = buffer;
             if (localhost == "127.0.0.1")
                 localhost = getHostAdresse();
-            // std::cout << "Client IP is : " << localhost << std::endl;
-            // std::cout << "Client port is : " << ntohs(clientAddress.sin_port) << std::endl;
             return localhost;
         }
         else
@@ -208,6 +206,7 @@ std::string HDE::SocketHde::getPassword()
 {
     return password;
 }
+
 void HDE::SocketHde::sendMessage(std::string message, int fd)
 {
     send(fd, message.c_str(), message.length(), 0);

@@ -4,9 +4,7 @@
 #include "Args.hpp"
 #include "Channel.hpp"
 #include "socket.hpp"
-
 #include <map>
-
 
 #define USER_MAX_CHANNEL 30
 
@@ -35,8 +33,6 @@ class Client
 		Client();
 		Client(int connection);
 		~Client();
-
-		// i add this
 
 		std::string commande_str;
 		bool getIsIn();
