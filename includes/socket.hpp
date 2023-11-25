@@ -25,7 +25,6 @@
 #include <chrono>
 #include <vector>
 
-
 #include "./Commande.hpp"
 #include "./Client.hpp"
 #include "./Channel.hpp"
@@ -118,9 +117,8 @@ namespace HDE
 			void	CleanQuit(std::string nickname, int i);
 			void	sendMessageToAllForQuit(int i, std::string channelname);
 			void	sendMessageToAllForInvite(int i, std::string channelname, std::string message);
-			void	sendMessageToAllForKick(int i, std::string channelname, std::string message, std::string _nickname);
+			void	sendMessageToAllForKick(std::vector<std::string> message, int i);
 			void	sendMessageToAllForMODE(int i, std::string channelname, std::string message, std::string param);
-			// void	sendMessageToAllForMODEL(int i, std::string channelname, std::string message, std::string param);
 			void	sendMessageToAllForNICK(int i, std::string channelname, std::string newNick, std::string oldNick);
 	};
 }

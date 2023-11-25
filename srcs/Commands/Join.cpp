@@ -29,7 +29,7 @@ void HDE::SocketHde::Join(std::vector<std::pair<std::string, std::string > > joi
         sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NEEDMOREPARAMS("JOIN", clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
         return;
     }
-    if(joinVector.size() == 1 && joinVector[0].first == "0")
+    if(joinVector.size() == 1 && (joinVector[0].first == "0" || joinVector[0].first == "#0"))
     {
         clt.at(fds[i].fd).setChannelCount(0);
         std::map<std::string, Channel*>::iterator it;

@@ -1,12 +1,12 @@
 #include "../../includes/socket.hpp"
 #include "../../includes/Replies.hpp"
 
-void HDE::SocketHde::sendMessageToAllForKick(int i, std::string channelname, std::string message, std::string _nickname)
+void HDE::SocketHde::sendMessageToAllForKick(std::vector<std::string> message, int i)
 {
     std::map<std::string, Channel*>::iterator it;
     for(it = channelsMap.begin(); it != channelsMap.end() ; ++it)
     {
-        if(it->first == channelname)
+        if(it->first == message[1])
         {
             std::vector<Client> tmp = it->second->getUsers();
             std::vector<int > add;
@@ -15,10 +15,10 @@ void HDE::SocketHde::sendMessageToAllForKick(int i, std::string channelname, std
 				add.push_back(itt->getClientId());
             std::string nick = clt.at(fds[i].fd).getNickname();
 			std::string selfStr;
-			if(message.length() != 0)
-            	selfStr = ":" + nick  + "!" + nick + "@" + clt.at(fds[i].fd).getLocalhost() + " KICK " +  channelname + " " + _nickname + " :" + message +   "\r\n";
+			if(message.size() == 4)
+            	selfStr = ":" + nick  + "!" + nick + "@" + clt.at(fds[i].fd).getLocalhost() + " KICK " +  message[1] + " " + message[2] + " :" + message[3] +   "\r\n";
 			else
-            	selfStr = ":" + nick  + "!" + nick + "@" + clt.at(fds[i].fd).getLocalhost() + " KICK " +  channelname + " " + _nickname +   "\r\n";
+            	selfStr = ":" + nick  + "!" + nick + "@" + clt.at(fds[i].fd).getLocalhost() + " KICK " +  message[1] + " " + message[2] +   "\r\n";
             for(size_t index = 0; index < add.size() ; index++)
                 sendMessage(selfStr, add.at(index));
         }
@@ -51,20 +51,11 @@ bool HDE::SocketHde::CheckKICK(std::vector<std::string> message, int i)
 		int user = Client::getIdByUsername(message[2]);
 		if (user >= 3)
 		{
-			// std::vector<Client>::iterator it;
-			// std::vector<Client> vect = ;
 			for(size_t index = 0; index < channelsMap.at(message[1])->getUsers().size() ; index++)
 			{
-			// for (it = channelsMap.at(message[1])->getUsers().begin(); it != channelsMap.at(message[1])->getUsers().end(); ++it)
-			// {
-				// if (it->getNickname() == message[2])
 				if (channelsMap.at(message[1])->getUsers().at(index).getNickname() == message[2])
 				{
-					if (!message[3].empty())
-						sendMessageToAllForKick(i, message[1], message[3], clt.at(user).getNickname());
-					else
-						sendMessageToAllForKick(i, message[1], "", clt.at(user).getNickname());
-						
+					sendMessageToAllForKick(message, i);
 					if(channelsMap.at(message[1])->getHasOwner() &&  clt.at(user).getNickname() == channelsMap.at(message[1])->getOwner())
                     {
                         channelsMap.at(message[1])->setHasOwner(false);

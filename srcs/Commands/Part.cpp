@@ -26,6 +26,7 @@ bool HDE::SocketHde::checkUserInChannel(Channel *chan, std::string name)
     }
     return false;
 }
+
 bool HDE::SocketHde::checkUserInChannelOperator(Channel *chan, std::string name)
 {
     std::vector<Client> vec = chan->getOperators();
@@ -36,6 +37,7 @@ bool HDE::SocketHde::checkUserInChannelOperator(Channel *chan, std::string name)
     }
     return false;
 }
+
 void HDE::SocketHde::Part(std::vector<std::string> message, int i)
 {
     if(message.size() == 1)
@@ -86,10 +88,7 @@ void HDE::SocketHde::sendMessageToAllForPart(int i, std::string channelname)
             std::vector<int > add;
             std::vector<Client>::iterator itt;
             for(itt = tmp.begin(); itt != tmp.end(); itt++)
-            {
-                // if(itt->getNickname() != clt.at(fds[i].fd).getNickname())
-                    add.push_back(itt->getClientId());
-            }
+                add.push_back(itt->getClientId());
             std::string nick = clt.at(fds[i].fd).getNickname();
             std::string selfStr = ":" + nick  + "!" + nick + "@" + clt.at(fds[i].fd).getLocalhost() + " PART " +  channelname + "\r\n";
             sendMessage(selfStr, clt.at(fds[i].fd).getClientId());

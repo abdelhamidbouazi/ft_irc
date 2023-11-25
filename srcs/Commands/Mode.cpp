@@ -6,7 +6,9 @@
 
 bool checkModeArgs(std::vector<std::string> message)
 {
-	if (message[3].length() > 2)
+	if (message.size() < 4)
+		return false;
+	if (message[3].length() >= 2)
 	{
 		return false;
 	}
@@ -102,22 +104,14 @@ void HDE::SocketHde::modeO(std::vector<std::string> message, int mode, int user,
 	{
 		if (mode == 1)
 		{
-			if (channelsMap.at(message[1])->addOperators(clt.at(user))) {
+			if (channelsMap.at(message[1])->addOperators(clt.at(user)))
 				sendMessageToAllForMODE(i, message[1], message[4], "+o");
-				// std::string selfStr = ":" + clt.at(fds[i].fd).getNickname()  + "!" + clt.at(fds[i].fd).getNickname() + "@" + clt.at(fds[i].fd).getLocalhost() + " MODE " +  channelsMap.at(message[1])->getChannelName() + " +o " + message[4] + "\r\n";
-				// sendMessage(selfStr, clt.at(user).getClientId());
-				// sendMessage(selfStr, clt.at(fds[i].fd).getClientId());
-			}
-			else {
+			else
 				sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_USERNOTINCHANNEL(clt.at(fds[i].fd).getNickname(), channelsMap.at(message[1])->getChannelName()), clt.at(fds[i].fd).getClientId());
-			}
 		}
 		else if (mode == 0)
 		{
 			sendMessageToAllForMODE(i, message[1], message[4], "-o");
-			// std::string selfStr = ":" + clt.at(fds[i].fd).getNickname()  + "!" + clt.at(fds[i].fd).getNickname() + "@" + clt.at(fds[i].fd).getLocalhost() + " MODE " +  channelsMap.at(message[1])->getChannelName() + " -o " + message[4] + "\r\n";
-			// sendMessage(selfStr, clt.at(user).getClientId());
-			// sendMessage(selfStr, clt.at(fds[i].fd).getClientId());
 			channelsMap.at(message[1])->eraseOperator(clt.at(user));
 		}
 	}
@@ -149,12 +143,7 @@ void HDE::SocketHde::CheckMODE(std::vector<std::string> message, int i)
 	int mode;
 	if (checkModeArgs(message) == false)
 	{
-		// for (size_t j = 0; j < message.size(); j++){
-		// 	std::cout << "**" << message[j] << "**" << std::endl;
-		// }
-		// if ((message[2] == "+" && message[3] == "sn") || message[2].empty() || message[3].empty())
-		// 	return ;
-		if(message[3][0] == 'l' ||  message[3][0] == 'i'  || message[3][0] == 'o'  || message[3][0] == 'k'  || message[3][0] == 't' )
+		if( message.size() > 3 && (message[3][0] == 'l' ||  message[3][0] == 'i'  || message[3][0] == 'o'  || message[3][0] == 'k'  || message[3][0] == 't' ))
 			sendMessage(":" + clt.at(fds[i].fd).getLocalhost() + ERR_NEEDMOREPARAMS("MODE", clt.at(fds[i].fd).getNickname()), clt.at(fds[i].fd).getClientId());
 		return ;
 	}
